@@ -1,5 +1,6 @@
 # Very helpful links!
 [https://www.elastic.co/fr/blog/establish-robust-threat-intelligence-with-elastic-security]
+
 [https://www.elastic.co/guide/en/beats/winlogbeat/current/configuration-winlogbeat-options.html]
 
 # 1- INSTALL Ubuntu to host ELK and Filebeat to send IOC to ELK
@@ -45,7 +46,7 @@ sudo docker-compose up
 ## LOGON TO ELK
 Link here: [http://localhost:5601/app/home#/]
 
-elastic / changeme
+> elastic / yourpassword
 
 
 # 2- FILEBEAT INSTALLATION ON UBUNTU (TO SEND IOC)
@@ -109,10 +110,8 @@ sudo filebeat -e
 ```
 
 ## Sanitized error is
-```
-Elasticsearch is too old. Please upgrade the instance. 
-If you would like to connect to older instances set output.elasticsearch.allow_older_versions to true. ES=8.5.3, Beat=8.6.1","service.name":"filebeat","ecs.version":"1.6.0"}
-```
+> Elasticsearch is too old. Please upgrade the instance. 
+> If you would like to connect to older instances set output.elasticsearch.allow_older_versions to true. ES=8.5.3, Beat=8.6.1","service.name":"filebeat","ecs.version":"1.6.0"}
 
 ## The solution is to add allow_older_versions : "true" in the output.elasticsearch section
 ```
@@ -150,7 +149,7 @@ You need to activate some modules as specified in my threatintel.yml section up 
 
 ## Error will occur
 API integration key required
-A new encryption key is generated for saved objects each time you start Kibana. Without a persistent key, you cannot delete or modify rules after Kibana restarts. To set a persistent key, add the xpack.encryptedSavedObjects.encryptionKey setting with any text value of 32 or more characters to the kibana.yml file.
+> A new encryption key is generated for saved objects each time you start Kibana. Without a persistent key, you cannot delete or modify rules after Kibana restarts. To set a persistent key, add the xpack.encryptedSavedObjects.encryptionKey setting with any text value of 32 or more characters to the kibana.yml file.
 
 ## Edit 
 ```
@@ -169,11 +168,9 @@ Reference: [https://www.elastic.co/guide/en/kibana/current/using-kibana-with-sec
 xpack.security.encryptionKey: "something_at_least_32_characters"
 ```
 
-## 2 goal with the current setup you are installing
-```
-- Threat Matched Detected: This section is solely reserved for threat indicator matches identified by an indicator match rule. Threat indicator matches are produced whenever event data matches a threat indicator field value in your indicator index. If indicator threat matches are not discovered, the section displays a message that none are available.
-- Enriched with Threat Intelligence: This section shows indicator matches that Elastic Security found when querying the alert for fields with threat intelligence. You can use the date time picker to modify the query time frame, which looks at the past 30 days by default. Click the Inspect button, located on the far right of the threat label, to view more information on the query. If threat matches are not discovered within the selected time frame, the section displays a message that none are available.
-```
+## 2 goals with the current setup you are installing
+> - Threat Matched Detected: This section is solely reserved for threat indicator matches identified by an indicator match rule. Threat indicator matches are produced whenever event data matches a threat indicator field value in your indicator index. If indicator threat matches are not discovered, the section displays a message that none are available.
+> - Enriched with Threat Intelligence: This section shows indicator matches that Elastic Security found when querying the alert for fields with threat intelligence. You can use the date time picker to modify the query time frame, which looks at the past 30 days by default. Click the Inspect button, located on the far right of the threat label, to view more information on the query. If threat matches are not discovered within the selected time frame, the section displays a message that none are available.
 
 # 5- FILEBEAT *** UBUNTU *** SYSLOG TO MAKE SOME RULES DETECTION
 
@@ -224,12 +221,10 @@ kern.log instead of iptables.log
 # 6- WINLOGBEAT ON *** WINDOWS *** TO GENERATE EVENTS
 
 ## If you have this error
-```
-{"log.level":"error","@timestamp":"2023-01-27T23:21:48.261-0500","log.logger":"publisher_pipeline_output","log.origin":
-{"file.name":"pipeline/client_worker.go","file.line":150},"message":"Failed to connect to backoff(elasticsearch(http://192.168.206.131:9200)): 
-Connection marked as failed because the onConnect callback failed: Elasticsearch is too old. Please upgrade the instance. 
-If you would like to connect to older instances set output.elasticsearch.allow_older_versions to true. ES=8.5.3, Beat=8.6.1","service.name":"winlogbeat","ecs.version":"1.6.0"}
-```
+> {"log.level":"error","@timestamp":"2023-01-27T23:21:48.261-0500","log.logger":"publisher_pipeline_output","log.origin":
+> {"file.name":"pipeline/client_worker.go","file.line":150},"message":"Failed to connect to backoff(elasticsearch(http://192.168.206.131:9200)): 
+> Connection marked as failed because the onConnect callback failed: Elasticsearch is too old. Please upgrade the instance. 
+> If you would like to connect to older instances set output.elasticsearch.allow_older_versions to true. ES=8.5.3, Beat=8.6.1","service.name":"winlogbeat","ecs.version":"1.6.0"}
 
 ## Solution
 ```
@@ -294,7 +289,7 @@ Rule = Threat Intel Filebeat Module (v8.x) Indicator Match
 
 ## Way to test
 Test the IOC with MSEDGE or TELNET on the port
-Ping or Tracert do no generate tcp/udp traffic (yeah was an easy way, not working)
+Ping or Tracert do no generate tcp/udp traffic (was a simple not working)
 
 ## Filebeat config
 ```
@@ -322,6 +317,7 @@ threat.indicator.ip: * -> come from abuse.ch, not alienvault
 
 ## Test one IOC
 Use Powershell to simulate a c2 connection (for fun)
+
 x.x.x.x = pick one from alienvault, but be careful...
 ```
 Invoke-WebRequest x.x.x.x -OutFile out.txt
