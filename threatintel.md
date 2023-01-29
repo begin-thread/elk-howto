@@ -44,6 +44,7 @@ sudo docker-compose up
 
 ## LOGON TO ELK
 Link here: [http://localhost:5601/app/home#/]
+
 elastic / changeme
 
 
@@ -303,14 +304,12 @@ Update the securitySolution:defaultThreatIndex advanced setting by adding the ap
 
 ## It is important to read the rules, and make sure it match your tests
 Make sure the index is the right one
-	
 ```
 For this rule : Threat Intel Indicator Match
 The dataset "event.dataset: ti_*" does not match the filebeat one
 ```
 
 ## Now we have a rule that match
-
 ```
 For this rule : Threat Intel Filebeat Module (v8.x) Indicator Match
 ```
@@ -323,9 +322,9 @@ threat.indicator.ip: * -> come from abuse.ch, not alienvault
 
 ## Test one IOC
 Use Powershell to simulate a c2 connection (for fun)
-
+x.x.x.x = pick one from alienvault, but be careful...
 ```
-Invoke-WebRequest 2.14.82.210 -OutFile blog.txt
+Invoke-WebRequest x.x.x.x -OutFile out.txt
 ```
 
 ## The rule is working ;)
