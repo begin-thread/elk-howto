@@ -40,13 +40,12 @@ sudo docker-compose up
 ```
 
 ## LOGON TO ELK
-[http://localhost:5601/app/home#/]
+Link here: [http://localhost:5601/app/home#/]
 elastic / changeme
 
 
 # FILEBEAT INSTALLATION ON UBUNTU (TO SEND IOC)
-
-## Reference https://www.elastic.co/fr/security-labs/ingesting-threat-data-with-the-threat-intel-filebeat-module
+Reference [https://www.elastic.co/fr/security-labs/ingesting-threat-data-with-the-threat-intel-filebeat-module]
 ```
 curl -L -O https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-8.6.1-amd64.deb
 sudo dpkg -i filebeat-8.6.1-amd64.deb
