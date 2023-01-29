@@ -1,5 +1,8 @@
-# INSTALL Ubuntu to host ELK and Filebeat to send IOC to ELK
+# Very helpful links!
+[https://www.elastic.co/fr/blog/establish-robust-threat-intelligence-with-elastic-security]
+[https://www.elastic.co/guide/en/beats/winlogbeat/current/configuration-winlogbeat-options.html]
 
+# 1- INSTALL Ubuntu to host ELK and Filebeat to send IOC to ELK
 Download link here: [https://ubuntu.com/download/desktop]
 
 ## INSTALL DOCKER-DESKTOP ON UBUNTU
@@ -44,7 +47,7 @@ Link here: [http://localhost:5601/app/home#/]
 elastic / changeme
 
 
-# FILEBEAT INSTALLATION ON UBUNTU (TO SEND IOC)
+# 2- FILEBEAT INSTALLATION ON UBUNTU (TO SEND IOC)
 Reference [https://www.elastic.co/fr/security-labs/ingesting-threat-data-with-the-threat-intel-filebeat-module]
 ```
 curl -L -O https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-8.6.1-amd64.deb
@@ -61,7 +64,7 @@ sudo vi /etc/filebeat/filebeat.yml
 sudo filebeat setup -e
 ```
 
-# FILEBEAT THREATINTEL MODULE ACTIVATION
+# 3- FILEBEAT THREATINTEL MODULE ACTIVATION
 
 ## Activate the threatintel module
 ```
@@ -129,7 +132,7 @@ output.elasticsearch:
 ## If you have this error "no enable fileset error"
 You need to activate some modules as specified in my threatintel.yml section up here
 
-# KIBANA INDICATORS
+# 3- KIBANA INDICATORS
 
 ## Add the threatintel integration
 ```
@@ -142,7 +145,7 @@ You need to activate some modules as specified in my threatintel.yml section up 
 ```
 
 
-# KIBANA SECURITY PANEL
+# 4- KIBANA SECURITY PANEL
 
 ## Error will occur
 API integration key required
@@ -171,7 +174,7 @@ xpack.security.encryptionKey: "something_at_least_32_characters"
 - Enriched with Threat Intelligence: This section shows indicator matches that Elastic Security found when querying the alert for fields with threat intelligence. You can use the date time picker to modify the query time frame, which looks at the past 30 days by default. Click the Inspect button, located on the far right of the threat label, to view more information on the query. If threat matches are not discovered within the selected time frame, the section displays a message that none are available.
 ```
 
-# FILEBEAT *** UBUNTU *** SYSLOG TO MAKE SOME RULES DETECTION
+# 5- FILEBEAT *** UBUNTU *** SYSLOG TO MAKE SOME RULES DETECTION
 
 ## SYSTEM
 ```
@@ -217,7 +220,7 @@ sudo service ufw enable
 kern.log instead of iptables.log
 
 
-# WINLOGBEAT ON *** WINDOWS *** TO GENERATE EVENTS
+# 6- WINLOGBEAT ON *** WINDOWS *** TO GENERATE EVENTS
 
 ## If you have this error
 ```
@@ -257,17 +260,17 @@ setup.kibana:
 winlogbeat.exe setup -e
 ```
 
-# Test
+## Test
 ```
 winlogbeat.exe test output
 ```
 
-# Run winlogbeat in a privileged cmd.exe windows (to allow registry access, sysmon is a good example)
+## Run winlogbeat in a privileged cmd.exe windows (to allow registry access, sysmon is a good example)
 ```
 winlogbeat run -e
 ```
 
-# Download sysmon
+## Download sysmon
 Link here: [https://learn.microsoft.com/en-us/sysinternals/downloads/sysmon]
 
 ## Activate sysmon network connection
@@ -280,7 +283,7 @@ sysmon -i -n -accepteula
 ```
 
 
-# TEST A DETECTION BY A KIBANA RULE
+# 7- TEST A DETECTION BY A KIBANA RULE
 
 ## Rule to activate, by default not all rules are activated
 ```
@@ -292,16 +295,10 @@ Rule = Threat Intel Filebeat Module (v8.x) Indicator Match
 Test the IOC with MSEDGE or TELNET on the port
 Ping or Tracert do no generate tcp/udp traffic (yeah was an easy way, not working)
 
-# Filebeat config
+## Filebeat config
 ```
 Update the securitySolution:defaultThreatIndex advanced setting by adding the appropriate index pattern name after the default Fleet threat intelligence index pattern (logs-ti*):
 ```
-
-## THE ONE
-[https://www.elastic.co/fr/blog/establish-robust-threat-intelligence-with-elastic-security]
-
-## Provider TCP/IP
-[https://www.elastic.co/guide/en/beats/winlogbeat/current/configuration-winlogbeat-options.html]
 
 
 ## It is important to read the rules, and make sure it match your tests
