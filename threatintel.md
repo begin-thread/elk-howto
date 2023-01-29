@@ -1,7 +1,6 @@
-###############################################################################
-## INSTALL Ubuntu to host ELK and Filebeat to send IOC to ELK
-###############################################################################
-https://ubuntu.com/download/desktop
+# INSTALL Ubuntu to host ELK and Filebeat to send IOC to ELK
+
+DOwnload link here : [https://ubuntu.com/download/desktop]
 
 ## INSTALL DOCKER-DESKTOP ON UBUNTU
 
@@ -45,9 +44,7 @@ http://localhost:5601/app/home#/
 elastic / changeme
 
 
-###############################################################################
-## FILEBEAT INSTALLATION ON UBUNTU (TO SEND IOC)
-###############################################################################
+# FILEBEAT INSTALLATION ON UBUNTU (TO SEND IOC)
 
 ## Reference https://www.elastic.co/fr/security-labs/ingesting-threat-data-with-the-threat-intel-filebeat-module
 ```
@@ -65,9 +62,7 @@ sudo vi /etc/filebeat/filebeat.yml
 sudo filebeat setup -e
 ```
 
-###############################################################################
-## FILEBEAT THREATINTEL MODULE ACTIVATION
-###############################################################################
+# FILEBEAT THREATINTEL MODULE ACTIVATION
 
 ## Activate the threatintel module
 ```
@@ -135,9 +130,7 @@ output.elasticsearch:
 ## If you have this error "no enable fileset error"
 You need to activate some modules as specified in my threatintel.yml section up here
 
-###############################################################################
-## KIBANA INDICATORS
-###############################################################################
+# KIBANA INDICATORS
 
 ## Add the threatintel integration
 ```
@@ -150,9 +143,7 @@ http://localhost:5601/app/security/threat_intelligence/indicators
 ```
 
 
-###############################################################################
-## KIBANA SECURITY PANEL
-###############################################################################
+# KIBANA SECURITY PANEL
 
 ## Error will occur
 API integration key required
@@ -181,9 +172,7 @@ xpack.security.encryptionKey: "something_at_least_32_characters"
 - Enriched with Threat Intelligence: This section shows indicator matches that Elastic Security found when querying the alert for fields with threat intelligence. You can use the date time picker to modify the query time frame, which looks at the past 30 days by default. Click the Inspect button, located on the far right of the threat label, to view more information on the query. If threat matches are not discovered within the selected time frame, the section displays a message that none are available.
 ```
 
-###############################################################################
 # FILEBEAT *** UBUNTU *** SYSLOG TO MAKE SOME RULES DETECTION
-###############################################################################
 
 ## SYSTEM
 ```
@@ -229,9 +218,7 @@ sudo service ufw enable
 kern.log instead of iptables.log
 
 
-###############################################################################
 # WINLOGBEAT ON *** WINDOWS *** TO GENERATE EVENTS
-###############################################################################
 
 ## If you have this error
 ```
@@ -296,9 +283,7 @@ sysmon -i -n -accepteula
 ```
 
 
-###############################################################################
 # TEST A DETECTION BY A KIBANA RULE
-###############################################################################
 
 ## Rule to activate, by default not all rules are activated
 ```
