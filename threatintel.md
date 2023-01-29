@@ -1,10 +1,10 @@
 # INSTALL Ubuntu to host ELK and Filebeat to send IOC to ELK
 
-DOwnload link here : [https://ubuntu.com/download/desktop]
+Download link here: [https://ubuntu.com/download/desktop]
 
 ## INSTALL DOCKER-DESKTOP ON UBUNTU
 
-Reference : [https://docs.docker.com/engine/install/ubuntu/]
+Reference: [https://docs.docker.com/engine/install/ubuntu/]
 
 ```
 sudo apt-get remove docker docker-engine docker.io containerd runc
@@ -40,7 +40,7 @@ sudo docker-compose up
 ```
 
 ## LOGON TO ELK
-http://localhost:5601/app/home#/
+[http://localhost:5601/app/home#/]
 elastic / changeme
 
 
@@ -82,7 +82,7 @@ Example :
 		enabled: true
 
 ## For AlienVault, get your API key here and add it to threatintel.yml
-https://otx.alienvault.com/api
+Link here: [https://otx.alienvault.com/api]
 
 ## The authentication token used to contact the OTX API, can be found on the OTX UI.
 ```
@@ -134,12 +134,12 @@ You need to activate some modules as specified in my threatintel.yml section up 
 
 ## Add the threatintel integration
 ```
-http://localhost:5601/app/integrations/detail/ti_util-1.1.0/overview
+[http://localhost:5601/app/integrations/detail/ti_util-1.1.0/overview]
 ```
 
 ## Validate the ingestion here
 ```
-http://localhost:5601/app/security/threat_intelligence/indicators
+[http://localhost:5601/app/security/threat_intelligence/indicators]
 ```
 
 
@@ -161,8 +161,8 @@ xpack.encryptedSavedObjects:
 ```
 
 ## Also add
+Reference: [https://www.elastic.co/guide/en/kibana/current/using-kibana-with-security.html#security-configure-settings]
 ```
-# Ref.: https://www.elastic.co/guide/en/kibana/current/using-kibana-with-security.html#security-configure-settings
 xpack.security.encryptionKey: "something_at_least_32_characters"
 ```
 
@@ -201,15 +201,15 @@ sudo filebeat setup -e
 ```
 
 ## Activate the endpoint module
-```
-http://localhost:5601/app/integrations/detail/endpoint-8.2.0/overview
-```
+Reference: [http://localhost:5601/app/integrations/detail/endpoint-8.2.0/overview]
 
-###############################################################################
-# Could make ip indicator works???
+
+## Could make ip indicator works???
+```
 sudo filebeat modules enable iptables
 sudo gedit /etc/filebeat/modules.d/iptables.yml 
 		enabled: true
+```
 
 ## No logs, so I try 
 ```
@@ -222,35 +222,35 @@ kern.log instead of iptables.log
 
 ## If you have this error
 ```
-	{"log.level":"error","@timestamp":"2023-01-27T23:21:48.261-0500","log.logger":"publisher_pipeline_output","log.origin":
-	{"file.name":"pipeline/client_worker.go","file.line":150},"message":"Failed to connect to backoff(elasticsearch(http://192.168.206.131:9200)): 
-	Connection marked as failed because the onConnect callback failed: Elasticsearch is too old. Please upgrade the instance. 
-	If you would like to connect to older instances set output.elasticsearch.allow_older_versions to true. ES=8.5.3, Beat=8.6.1","service.name":"winlogbeat","ecs.version":"1.6.0"}
+{"log.level":"error","@timestamp":"2023-01-27T23:21:48.261-0500","log.logger":"publisher_pipeline_output","log.origin":
+{"file.name":"pipeline/client_worker.go","file.line":150},"message":"Failed to connect to backoff(elasticsearch(http://192.168.206.131:9200)): 
+Connection marked as failed because the onConnect callback failed: Elasticsearch is too old. Please upgrade the instance. 
+If you would like to connect to older instances set output.elasticsearch.allow_older_versions to true. ES=8.5.3, Beat=8.6.1","service.name":"winlogbeat","ecs.version":"1.6.0"}
 ```
 
 ## Solution
 ```
-	output.elasticsearch.allow_older_versions to true
+output.elasticsearch.allow_older_versions to true
 ```
 
 ## Setup Kibana in the winlogbeat config to allow the activation of Kibana dashboard
-## Uncomment and the the kibana host for the winlogbeat setup
+Uncomment and the the kibana host for the winlogbeat setup
 ```
-	setup.kibana:
+setup.kibana:
 
-	  # Kibana Host
-	  # Scheme and port can be left out and will be set to the default (http and 5601)
-	  # In case you specify and additional path, the scheme is required: http://localhost:5601/path
-	  # IPv6 addresses should always be defined as: https://[2001:db8::1]:5601
-	  host: "192.168.206.131:5601"
+  # Kibana Host
+  # Scheme and port can be left out and will be set to the default (http and 5601)
+  # In case you specify and additional path, the scheme is required: http://localhost:5601/path
+  # IPv6 addresses should always be defined as: https://[2001:db8::1]:5601
+  host: "192.168.206.131:5601"
 ```
 
 ## Add more sysmon events, will allow to get Virus detection
 ```
-  - name: Internet Explorer
-  - name: Microsoft-Windows-Windows Firewall With Advanced Security/Firewall
-  - name: Microsoft-Windows-Windows Defender/Operational
-    include_xml: true
+- name: Internet Explorer
+- name: Microsoft-Windows-Windows Firewall With Advanced Security/Firewall
+- name: Microsoft-Windows-Windows Defender/Operational
+  include_xml: true
 ```
 
 ## Setup
@@ -269,9 +269,7 @@ winlogbeat run -e
 ```
 
 # Download sysmon
-```
-https://learn.microsoft.com/en-us/sysinternals/downloads/sysmon
-```
+Link here: [https://learn.microsoft.com/en-us/sysinternals/downloads/sysmon]
 
 ## Activate sysmon network connection
 By default, tcp disabled by default, we need to activate it to have indicator match
@@ -318,20 +316,20 @@ The dataset "event.dataset: ti_*" does not match the filebeat one
 ## Now we have a rule that match
 
 ```
-	For this rule : Threat Intel Filebeat Module (v8.x) Indicator Match
+For this rule : Threat Intel Filebeat Module (v8.x) Indicator Match
 ```
 
 ## Look at the rule, all the fields are matching (the one from the windows event, and the one from the IOC feed.
 ```
-	(destination.ip MATCHES threat.indicator.ip)
-	threat.indicator.ip: * -> come from abuse.ch, not alienvault
+(destination.ip MATCHES threat.indicator.ip)
+threat.indicator.ip: * -> come from abuse.ch, not alienvault
 ```
 
 ## Test one IOC
- Use Powershell to simulate a c2 connection (for fun)
+Use Powershell to simulate a c2 connection (for fun)
 
 ```
-	Invoke-WebRequest 2.14.82.210 -OutFile blog.txt
+Invoke-WebRequest 2.14.82.210 -OutFile blog.txt
 ```
 
 ## The rule is working ;)
