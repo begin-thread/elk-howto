@@ -1,12 +1,11 @@
 ###############################################################################
-# INSTALL Ubuntu to host ELK and Filebeat to send IOC to ELK
+## INSTALL Ubuntu to host ELK and Filebeat to send IOC to ELK
 ###############################################################################
 https://ubuntu.com/download/desktop
 
-###############################################################################
-# INSTALL DOCKER-DESKTOP ON UBUNTU
-###############################################################################
-# Ref. : https://docs.docker.com/engine/install/ubuntu/
+## INSTALL DOCKER-DESKTOP ON UBUNTU
+
+Reference : [https://docs.docker.com/engine/install/ubuntu/]
 
 ```
 sudo apt-get remove docker docker-engine docker.io containerd runc
@@ -34,43 +33,39 @@ sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin
 sudo docker run hello-world
 ```
 
-###############################################################################
-# GET ELK STACK (DOCKER)
-###############################################################################
+## GET ELK STACK (DOCKER)
 	git clone https://github.com/deviantony/docker-elk.git
 	cd docker-elk
 	sudo docker-compose up
 
-###############################################################################
-# LOGON TO ELK
-###############################################################################
+## LOGON TO ELK
 http://localhost:5601/app/home#/
 elastic / changeme
 
 
 ###############################################################################
-# FILEBEAT INSTALLATION ON UBUNTU (TO SEND IOC)
+## FILEBEAT INSTALLATION ON UBUNTU (TO SEND IOC)
 ###############################################################################
 
-# Reference https://www.elastic.co/fr/security-labs/ingesting-threat-data-with-the-threat-intel-filebeat-module
+## Reference https://www.elastic.co/fr/security-labs/ingesting-threat-data-with-the-threat-intel-filebeat-module
 	curl -L -O https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-8.6.1-amd64.deb
 
 	sudo dpkg -i filebeat-8.6.1-amd64.deb
 
-# Uncomment user and pass for elasticsearch
+## Uncomment user and pass for elasticsearch
 	sudo vi /etc/filebeat/filebeat.yml
 
-# Enable the Filebeat Kibana dashboard
+## Enable the Filebeat Kibana dashboard
 	sudo filebeat setup -e
 
 ###############################################################################
-# FILEBEAT THREATINTEL MODULE ACTIVATION
+## FILEBEAT THREATINTEL MODULE ACTIVATION
 ###############################################################################
 
-# Activate the threatintel module
+## Activate the threatintel module
 sudo filebeat modules enable threatintel
 
-# Activate your feeds
+## Activate your feeds
 sudo vi /etc/filebeat/modules.d/threatintel.yml 
 OR
 sudo gedit /etc/filebeat/modules.d/threatintel.yml 
@@ -80,27 +75,27 @@ Example :
 	  abuseurl:
 		enabled: true
 
-# For AlienVault, get your API key here and add it to threatintel.yml
+## For AlienVault, get your API key here and add it to threatintel.yml
 https://otx.alienvault.com/api
 
-# The authentication token used to contact the OTX API, can be found on the OTX UI.
+## The authentication token used to contact the OTX API, can be found on the OTX UI.
 var.api_token: put-you-key-here
 
-# Test to connectivity
+## Test to connectivity
 sudo filebeat test ouput
 
-# Launch filebeat
+## Launch filebeat
 sudo filebeat -e
 
-# Validate if you have this error (not quite easy to see)
+## Validate if you have this error (not quite easy to see)
 {"log.level":"error","@timestamp":"2023-01-26T20:48:07.041-0800","log.logger":"publisher_pipeline_output","log.origin":{"file.name":"pipeline/client_worker.go","file.line":150},"message":"Failed to connect to backoff
 (elasticsearch(http://192.168.2.41:9200)): Connection marked as failed because the onConnect callback failed: 
 
-# Sanitized error is
+## Sanitized error is
 Elasticsearch is too old. Please upgrade the instance. 
 If you would like to connect to older instances set output.elasticsearch.allow_older_versions to true. ES=8.5.3, Beat=8.6.1","service.name":"filebeat","ecs.version":"1.6.0"}
 
-# The solution is to add allow_older_versions : "true" in the output.elasticsearch section
+## The solution is to add allow_older_versions : "true" in the output.elasticsearch section
 
 output.elasticsearch:
   # Array of hosts to connect to.
@@ -115,22 +110,22 @@ output.elasticsearch:
   password: "**********"
   allow_older_versions : "true"
 
-# If you have this error "no enable fileset error"
+## If you have this error "no enable fileset error"
 You need to activate some modules as specified in my threatintel.yml section up here
 
 ###############################################################################
-# KIBANA INDICATORS
+## KIBANA INDICATORS
 ###############################################################################
 
-# Add the threatintel integration
+## Add the threatintel integration
 http://localhost:5601/app/integrations/detail/ti_util-1.1.0/overview
 
-# Validate the ingestion here
+## Validate the ingestion here
 http://localhost:5601/app/security/threat_intelligence/indicators
 
 
 ###############################################################################
-# KIBANA SECURITY PANEL
+## KIBANA SECURITY PANEL
 ###############################################################################
 
 # Error will occur
