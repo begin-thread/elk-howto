@@ -45,7 +45,13 @@ sudo docker compose version
 ```
 git clone https://github.com/deviantony/docker-elk.git
 cd docker-elk
-sudo docker-compose up
+
+# Ref. :  https://docs.docker.com/compose/install/linux/#install-the-plugin-manually
+# 2023-02-08 - It seems that in Ubuntu Azure, docker compose v2 is installed (instead of v1)
+# v1 = docker-compose
+# v2 = docker compose
+
+sudo docker compose up
 ```
 
 ## LOGON TO ELK
