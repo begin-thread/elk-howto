@@ -101,12 +101,12 @@ Link here: [https://otx.alienvault.com/api]
 
 ## The authentication token used to contact the OTX API, can be found on the OTX UI.
 ```
-var.api_token: put-you-key-here
+var.api_token: put-your-key-here
 ```
 
 ## Test to connectivity
 ```
-sudo filebeat test ouput
+sudo filebeat test output
 ```
 
 ## Launch filebeat
@@ -147,12 +147,15 @@ You need to activate some modules as specified in my threatintel.yml section up 
 
 ## Add the threatintel integration
 ```
-[http://localhost:5601/app/integrations/detail/ti_util-1.1.0/overview]
+# 2023-02-08 Not useful, works with the intel integration in Kibana? [http://localhost:5601/app/integrations/detail/ti_util-1.1.0/overview]
 ```
 
 ## Validate the ingestion here
 ```
 [http://localhost:5601/app/security/threat_intelligence/indicators]
+
+# I cannot publish the URL directly as it use a token in the URL
+Look at this dashboard too : [Filebeat Threat Intel] AlienVault OTX
 ```
 
 
