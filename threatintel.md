@@ -414,7 +414,7 @@ Expected results are :
 <!---
 *******************************************************************************
 -->
-# TEST T1059.001 Template
+# TEST T1059.001 - Command and Scripting Interpreter: PowerShell
 'https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1059.001/T1059.001.md'
 
 Thanks to 'https://systemweakness.com/atomic-red-team-3-detecting-bloodhound-using-the-download-cradle-in-elk-siem-bc6960cb4066'
