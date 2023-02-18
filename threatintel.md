@@ -47,7 +47,7 @@ git clone https://github.com/deviantony/docker-elk.git
 cd docker-elk
 
 # Ref. :  https://docs.docker.com/compose/install/linux/#install-the-plugin-manually
-# 2023-02-08 - It seems that in Ubuntu Azure, docker compose v2 is installed (instead of v1)
+# It seems that in Ubuntu Azure, docker compose v2 is installed (instead of v1) (2023-02-08)
 # v1 = docker-compose
 # v2 = docker compose
 
@@ -147,7 +147,7 @@ You need to activate some modules as specified in my threatintel.yml section up 
 
 ## Add the threatintel integration
 ```
-# 2023-02-08 Not useful, works with the intel integration in Kibana? [http://localhost:5601/app/integrations/detail/ti_util-1.1.0/overview]
+# Not useful, works with the intel integration in Kibana? [http://localhost:5601/app/integrations/detail/ti_util-1.1.0/overview] (2023-02-08)
 ```
 
 ## Validate the ingestion here
@@ -265,6 +265,15 @@ setup.kibana:
   include_xml: true
 ```
 
+##  New proposed config! (2023-02-18)
+'https://github.com/jhochwald/Universal-Winlogbeat-configuration'
+'https://github.com/jhochwald/Universal-Winlogbeat-configuration/issues/4'
+
+## Make sure to test the config  (2023-02-18)
+```
+winlogbeat.exe test config
+```
+
 ## Setup
 ```
 winlogbeat.exe setup -e
@@ -289,7 +298,7 @@ By default, tcp disabled by default, we need to activate it to have indicator ma
 The screenshot [-n] configures Sysmon to Log network connections as well. 
 ```
 ```
-# 2023-02-18 Use the SwiftOnSecurity sysmon configuation https://github.com/SwiftOnSecurity/sysmon-config
+# Use the SwiftOnSecurity sysmon configuation https://github.com/SwiftOnSecurity/sysmon-config (2023-02-18)
 sysmon.exe -accepteula -i sysmonconfig-export.xml
 ```
 
@@ -351,11 +360,21 @@ Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope CurrentUser
 ```
 
 ## Launch a test
+The list of available tests are documented here 
+'https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/Indexes/Indexes-Markdown/index.md'
+
+
+'https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1055.012/T1055.012.md'
 ```
 Invoke-AtomicTest T1055.012 -ShowDetailsBrief​
 Invoke-AtomicTest T1055.012 -CheckPrereqs
 Invoke-AtomicTest T1055.012 -GetPrereqs
 ​Invoke-AtomicTest T1055.012 
+```
+
+T1037.001-1 Logon Scripts
+```
+Invoke-AtomicTest T1037.001
 ```
 
 ## ELK - Validate the resultat
