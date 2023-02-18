@@ -232,18 +232,7 @@ sudo service ufw enable
 kern.log instead of iptables.log
 
 
-# 6- WINLOGBEAT ON *** WINDOWS *** TO GENERATE EVENTS
-
-## If you have this error
-> {"log.level":"error","@timestamp":"2023-01-27T23:21:48.261-0500","log.logger":"publisher_pipeline_output","log.origin":
-> {"file.name":"pipeline/client_worker.go","file.line":150},"message":"Failed to connect to backoff(elasticsearch(http://192.168.206.131:9200)): 
-> Connection marked as failed because the onConnect callback failed: Elasticsearch is too old. Please upgrade the instance. 
-> If you would like to connect to older instances set output.elasticsearch.allow_older_versions to true. ES=8.5.3, Beat=8.6.1","service.name":"winlogbeat","ecs.version":"1.6.0"}
-
-## Solution
-```
-output.elasticsearch.allow_older_versions to true
-```
+# 6- WINLOGBEAT ON *** WINDOWS *** TO SEND EVENTS TO ELK
 
 ## Setup Kibana in the winlogbeat config to allow the activation of Kibana dashboard
 Uncomment and the the kibana host for the winlogbeat setup
@@ -257,17 +246,24 @@ setup.kibana:
   host: "192.168.206.131:5601"
 ```
 
-## Add more sysmon events, will allow to get Virus detection
+##  New proposed winlogbeat config! (2023-02-18)
+-> -> -> 'https://github.com/Cyb3rWard0g/HELK/blob/master/configs/winlogbeat/winlogbeat.yml'
+#'https://github.com/jhochwald/Universal-Winlogbeat-configuration'
+#'https://github.com/jhochwald/Universal-Winlogbeat-configuration/issues/4'
+
+## Download sysmon
+Link here: [https://learn.microsoft.com/en-us/sysinternals/downloads/sysmon]
+
+## Activate sysmon network connection
+By default, tcp disabled by default, we need to activate it to have indicator match
 ```
-- name: Internet Explorer
-- name: Microsoft-Windows-Windows Firewall With Advanced Security/Firewall
-- name: Microsoft-Windows-Windows Defender/Operational
-  include_xml: true
+The screenshot [-n] configures Sysmon to Log network connections as well. 
 ```
 
-##  New proposed config! (2023-02-18)
-'https://github.com/jhochwald/Universal-Winlogbeat-configuration'
-'https://github.com/jhochwald/Universal-Winlogbeat-configuration/issues/4'
+# SYSMON - Use the SwiftOnSecurity sysmon configuration https://github.com/SwiftOnSecurity/sysmon-config (2023-02-18)
+```
+sysmon.exe -accepteula -i sysmonconfig-export.xml
+```
 
 ## Make sure to test the config  (2023-02-18)
 ```
@@ -289,19 +285,16 @@ winlogbeat.exe test output
 winlogbeat run -e
 ```
 
-## Download sysmon
-Link here: [https://learn.microsoft.com/en-us/sysinternals/downloads/sysmon]
+## If you have this error in winlogbeat output
+> {"log.level":"error","@timestamp":"2023-01-27T23:21:48.261-0500","log.logger":"publisher_pipeline_output","log.origin":
+> {"file.name":"pipeline/client_worker.go","file.line":150},"message":"Failed to connect to backoff(elasticsearch(http://192.168.206.131:9200)): 
+> Connection marked as failed because the onConnect callback failed: Elasticsearch is too old. Please upgrade the instance. 
+> If you would like to connect to older instances set output.elasticsearch.allow_older_versions to true. ES=8.5.3, Beat=8.6.1","service.name":"winlogbeat","ecs.version":"1.6.0"}
 
-## Activate sysmon network connection
-By default, tcp disabled by default, we need to activate it to have indicator match
+The solution is here
 ```
-The screenshot [-n] configures Sysmon to Log network connections as well. 
+output.elasticsearch.allow_older_versions to true
 ```
-```
-# Use the SwiftOnSecurity sysmon configuation https://github.com/SwiftOnSecurity/sysmon-config (2023-02-18)
-sysmon.exe -accepteula -i sysmonconfig-export.xml
-```
-
 
 # 7- TEST A DETECTION BY A KIBANA RULE
 
@@ -354,17 +347,19 @@ Invoke-WebRequest x.x.x.x -OutFile out.txt
 ## Installation
 It needs to be done everytime you start powershell
 ```
-IEX (IWR 'https://raw.githubusercontent.com/redcanaryco/invoke-atomicredteam/master/install-atomicredteam.ps1' -UseBasicParsing); Install-AtomicRedTeam -getAtomics
+IEX (IWR 'https://raw.githubusercontent.com/redcanaryco/invoke-atomicredteam/master/install-atomicredteam.ps1' -UseBasicParsing); Install-AtomicRedTeam -getAtomics -Force
 
-Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope CurrentUser
+Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope CurrentUser -Force
 ```
 
 ## Launch a test
 The list of available tests are documented here 
+
 'https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/Indexes/Indexes-Markdown/index.md'
 
 
 'https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1055.012/T1055.012.md'
+
 ```
 Invoke-AtomicTest T1055.012 -ShowDetailsBrief​
 Invoke-AtomicTest T1055.012 -CheckPrereqs
