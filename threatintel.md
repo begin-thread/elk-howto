@@ -357,9 +357,16 @@ The list of available tests are documented here
 
 'https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/Indexes/Indexes-Markdown/index.md'
 
-
 'https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1055.012/T1055.012.md'
 
+
+<!---
+*******************************************************************************
+-->
+# TEST T1055.012 - Process Injection: Process Hollowing
+'https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1055.012/T1055.012.md'
+
+## LAUNCH
 ```
 Invoke-AtomicTest T1055.012 -ShowDetailsBrief​
 Invoke-AtomicTest T1055.012 -CheckPrereqs
@@ -367,15 +374,34 @@ Invoke-AtomicTest T1055.012 -GetPrereqs
 ​Invoke-AtomicTest T1055.012 
 ```
 
-T1037.001-1 Logon Scripts
+## EXPECTED RESULT
+Rule triggered should be "Potential Process Injection via PowerShell"
+
+<!---
+*******************************************************************************
+-->
+# TEST T1037.001-1 Logon Scripts
+
+## LAUNCH
 ```
 Invoke-AtomicTest T1037.001
 ```
-
-## ELK - Validate the resultat
-It will generate an alert (if you activated it in ELK).
-"Potential Process Injection via PowerShell"
+## EXPECTED RESULT
+In progress...
 
 
+<!---
+*******************************************************************************
+-->
+# TEST Txxxx Template
+'github url'
+
+## LAUNCH
+```
+Invoke-AtomicTest Txxxx
+```
+
+## EXPECTED RESULT
+In progress...
 
 
