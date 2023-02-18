@@ -375,9 +375,10 @@ Invoke-AtomicTest T1055.012 -GetPrereqs -v
 ​Invoke-AtomicTest T1055.012 -v
 ```
 
-Rule(s) triggered should be :
-> "Potential Process Injection via PowerShell"
-> "Potential Antimalware Scan Interface Bypass via PowerShell"
+Expected results are :
+> "Potential Process Injection via PowerShell" rule triggered
+
+> "Potential Antimalware Scan Interface Bypass via PowerShell" rule triggered
 
 <!---
 *******************************************************************************
@@ -385,13 +386,13 @@ Rule(s) triggered should be :
 # TEST T1037.001 - Boot or Logon Initialization Scripts: Logon Script
 'https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1037.001/T1037.001.md'
 
-## LAUNCH
 ```
 Invoke-AtomicTest T1037.001 -v
 ```
 
-## EXPECTED RESULT
-In progress...
+Expected results are :
+
+> In progress...
 
 
 <!---
@@ -402,15 +403,13 @@ In progress...
 
 *** Your need to start IE first so the test can call IE (yep)
 
-## LAUNCH
 ```
 Invoke-AtomicTest T1071.001 -v
 ```
 
-## EXPECTED RESULT
-Nothing... We need to create a custom rule! More to come...
+Expected results are :
 
-
+> Nothing... We need to create a custom rule! More to come...
 
 <!---
 *******************************************************************************
@@ -420,15 +419,15 @@ Nothing... We need to create a custom rule! More to come...
 
 Thanks to 'https://systemweakness.com/atomic-red-team-3-detecting-bloodhound-using-the-download-cradle-in-elk-siem-bc6960cb4066'
 
-## LAUNCH
 ```
 Invoke-AtomicTest T1059.001 -v
 ```
 
-## EXPECTED RESULT
-message: (SharpHound or BloodHound)
+Expected results are :
 
-More to come...
+> KQL = message: (SharpHound or BloodHound)
+
+> More to come...
 
 
 
@@ -438,12 +437,13 @@ More to come...
 # TEST Txxxx Template
 'github url'
 
-## LAUNCH
 ```
 Invoke-AtomicTest Txxxx -v
 ```
 
-## EXPECTED RESULT
-In progress...
+Expected results are :
+
+> More to come...
+
 
 
