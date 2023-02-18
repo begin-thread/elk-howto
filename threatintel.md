@@ -289,7 +289,8 @@ By default, tcp disabled by default, we need to activate it to have indicator ma
 The screenshot [-n] configures Sysmon to Log network connections as well. 
 ```
 ```
-sysmon -i -n -accepteula
+# 2023-02-18 Use the SwiftOnSecurity sysmon configuation https://github.com/SwiftOnSecurity/sysmon-config
+sysmon.exe -accepteula -i sysmonconfig-export.xml
 ```
 
 
