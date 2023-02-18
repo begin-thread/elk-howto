@@ -340,24 +340,27 @@ Invoke-WebRequest x.x.x.x -OutFile out.txt
 
 ## The rule is working ;)
 
-
-Invoke-AtomicTest T1053.005-1
 # 8- TESTATOMIC RED TEAM TO TEST MITRE 
 
 ## Installation
+It needs to be done everytime you start powershell
 ```
 IEX (IWR 'https://raw.githubusercontent.com/redcanaryco/invoke-atomicredteam/master/install-atomicredteam.ps1' -UseBasicParsing); Install-AtomicRedTeam -getAtomics
 
 Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope CurrentUser
 ```
 
-## Test
+## Launch a test
 ```
-Invoke-AtomicTest T1053.005-1 -ShowDetailsBrief​
-Invoke-AtomicTest T1053.005-1 -CheckPrereqs
-Invoke-AtomicTest T1053.005-1 -GetPrereqs
-​Invoke-AtomicTest T1053.005-1 
+Invoke-AtomicTest T1055.012 -ShowDetailsBrief​
+Invoke-AtomicTest T1055.012 -CheckPrereqs
+Invoke-AtomicTest T1055.012 -GetPrereqs
+​Invoke-AtomicTest T1055.012 
 ```
+
+## ELK - Validate the resultat
+It will generate an alert (if you activated it in ELK).
+"Potential Process Injection via PowerShell"
 
 
 
