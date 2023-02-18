@@ -375,17 +375,21 @@ Invoke-AtomicTest T1055.012 -GetPrereqs
 ```
 
 ## EXPECTED RESULT
-Rule triggered should be "Potential Process Injection via PowerShell"
+Rule(s) triggered should be :
+"Potential Process Injection via PowerShell"
+"Potential Antimalware Scan Interface Bypass via PowerShell"
 
 <!---
 *******************************************************************************
 -->
-# TEST T1037.001-1 Logon Scripts
+# TEST T1037.001 - Boot or Logon Initialization Scripts: Logon Script
+'https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1037.001/T1037.001.md'
 
 ## LAUNCH
 ```
 Invoke-AtomicTest T1037.001
 ```
+
 ## EXPECTED RESULT
 In progress...
 
