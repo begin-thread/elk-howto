@@ -341,7 +341,23 @@ Invoke-WebRequest x.x.x.x -OutFile out.txt
 ## The rule is working ;)
 
 
+Invoke-AtomicTest T1053.005-1
+# 8- TESTATOMIC RED TEAM TO TEST MITRE 
 
+## Installation
+```
+IEX (IWR 'https://raw.githubusercontent.com/redcanaryco/invoke-atomicredteam/master/install-atomicredteam.ps1' -UseBasicParsing); Install-AtomicRedTeam -getAtomics
+
+Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope CurrentUser
+```
+
+## Test
+```
+Invoke-AtomicTest T1053.005-1 -ShowDetailsBrief​
+Invoke-AtomicTest T1053.005-1 -CheckPrereqs
+Invoke-AtomicTest T1053.005-1 -GetPrereqs
+​Invoke-AtomicTest T1053.005-1 
+```
 
 
 
