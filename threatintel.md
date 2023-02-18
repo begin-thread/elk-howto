@@ -375,10 +375,9 @@ Invoke-AtomicTest T1055.012 -GetPrereqs -v
 ​Invoke-AtomicTest T1055.012 -v
 ```
 
-### 9.1.1 - EXPECTED RESULT
 Rule(s) triggered should be :
-"Potential Process Injection via PowerShell"
-"Potential Antimalware Scan Interface Bypass via PowerShell"
+> "Potential Process Injection via PowerShell"
+> "Potential Antimalware Scan Interface Bypass via PowerShell"
 
 <!---
 *******************************************************************************
