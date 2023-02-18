@@ -393,6 +393,23 @@ In progress...
 <!---
 *******************************************************************************
 -->
+# TEST T1071.001 - Application Layer Protocol: Web Protocols
+'https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1071.001/T1071.001.md'
+
+*** Your need to start IE first so the test can call IE (yep)
+
+## LAUNCH
+```
+Invoke-AtomicTest T1071.001
+```
+
+## EXPECTED RESULT
+Nothing... We need to create a custom rule! More to come...
+
+
+<!---
+*******************************************************************************
+-->
 # TEST Txxxx Template
 'github url'
 
