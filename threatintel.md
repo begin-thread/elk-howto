@@ -340,7 +340,7 @@ Invoke-WebRequest x.x.x.x -OutFile out.txt
 
 ## The rule is working ;)
 
-# 8- TESTATOMIC RED TEAM TO TEST MITRE 
+# 8- ATOMIC RED TEAM TO TEST MITRE ATTACK WITH ELK
 
 ## Installation
 It needs to be done everytime you start powershell
