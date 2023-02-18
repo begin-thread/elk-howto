@@ -337,7 +337,7 @@ Use Powershell to simulate a c2 connection (for fun)
 
 x.x.x.x = pick one from alienvault, but be careful...
 ```
-Invoke-WebRequest x.x.x.x -OutFile out.txt
+Invoke-WebRequest x.x.x.x -OutFile out.txt  -v
 ```
 
 ## The rule is working ;)
@@ -368,10 +368,10 @@ The list of available tests are documented here
 
 ## LAUNCH
 ```
-Invoke-AtomicTest T1055.012 -ShowDetailsBrief​
-Invoke-AtomicTest T1055.012 -CheckPrereqs
-Invoke-AtomicTest T1055.012 -GetPrereqs
-​Invoke-AtomicTest T1055.012 
+Invoke-AtomicTest T1055.012 -ShowDetailsBrief​ -v
+Invoke-AtomicTest T1055.012 -CheckPrereqs -v
+Invoke-AtomicTest T1055.012 -GetPrereqs -v
+​Invoke-AtomicTest T1055.012 -v
 ```
 
 ## EXPECTED RESULT
@@ -387,7 +387,7 @@ Rule(s) triggered should be :
 
 ## LAUNCH
 ```
-Invoke-AtomicTest T1037.001
+Invoke-AtomicTest T1037.001 -v
 ```
 
 ## EXPECTED RESULT
@@ -404,11 +404,29 @@ In progress...
 
 ## LAUNCH
 ```
-Invoke-AtomicTest T1071.001
+Invoke-AtomicTest T1071.001 -v
 ```
 
 ## EXPECTED RESULT
 Nothing... We need to create a custom rule! More to come...
+
+
+
+<!---
+*******************************************************************************
+-->
+# TEST T1059.001 Template
+'github url'
+Thanks to 'https://systemweakness.com/atomic-red-team-3-detecting-bloodhound-using-the-download-cradle-in-elk-siem-bc6960cb4066'
+
+## LAUNCH
+```
+Invoke-AtomicTest T1059.001 -v
+```
+
+## EXPECTED RESULT
+message: (SharpHound or BloodHound)
+
 
 
 <!---
@@ -419,7 +437,7 @@ Nothing... We need to create a custom rule! More to come...
 
 ## LAUNCH
 ```
-Invoke-AtomicTest Txxxx
+Invoke-AtomicTest Txxxx -v
 ```
 
 ## EXPECTED RESULT
