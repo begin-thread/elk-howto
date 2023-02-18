@@ -344,7 +344,7 @@ Invoke-WebRequest x.x.x.x -OutFile out.txt  -v
 
 # 8- ATOMIC RED TEAM TO TEST MITRE ATTACK WITH ELK
 
-## Installation
+## 8.1 - Installation
 It needs to be done everytime you start powershell
 ```
 IEX (IWR 'https://raw.githubusercontent.com/redcanaryco/invoke-atomicredteam/master/install-atomicredteam.ps1' -UseBasicParsing); Install-AtomicRedTeam -getAtomics -Force
@@ -352,7 +352,7 @@ IEX (IWR 'https://raw.githubusercontent.com/redcanaryco/invoke-atomicredteam/mas
 Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope CurrentUser -Force
 ```
 
-## Launch a test
+## 8.2 - Launch a test
 The list of available tests are documented here 
 
 'https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/Indexes/Indexes-Markdown/index.md'
@@ -363,10 +363,11 @@ The list of available tests are documented here
 <!---
 *******************************************************************************
 -->
-# TEST T1055.012 - Process Injection: Process Hollowing
+# 9.0 - Testing
+
+## 9.1 - TEST T1055.012 - Process Injection: Process Hollowing
 'https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1055.012/T1055.012.md'
 
-## LAUNCH
 ```
 Invoke-AtomicTest T1055.012 -ShowDetailsBrief​ -v
 Invoke-AtomicTest T1055.012 -CheckPrereqs -v
@@ -374,7 +375,7 @@ Invoke-AtomicTest T1055.012 -GetPrereqs -v
 ​Invoke-AtomicTest T1055.012 -v
 ```
 
-## EXPECTED RESULT
+### 9.1.1 - EXPECTED RESULT
 Rule(s) triggered should be :
 "Potential Process Injection via PowerShell"
 "Potential Antimalware Scan Interface Bypass via PowerShell"
@@ -416,7 +417,8 @@ Nothing... We need to create a custom rule! More to come...
 *******************************************************************************
 -->
 # TEST T1059.001 Template
-'github url'
+'https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1059.001/T1059.001.md'
+
 Thanks to 'https://systemweakness.com/atomic-red-team-3-detecting-bloodhound-using-the-download-cradle-in-elk-siem-bc6960cb4066'
 
 ## LAUNCH
@@ -426,6 +428,8 @@ Invoke-AtomicTest T1059.001 -v
 
 ## EXPECTED RESULT
 message: (SharpHound or BloodHound)
+
+More to come...
 
 
 
