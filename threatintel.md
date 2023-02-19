@@ -234,7 +234,7 @@ kern.log instead of iptables.log
 
 # 6- WINLOGBEAT ON *** WINDOWS *** TO SEND EVENTS TO ELK
 
-## Setup Kibana in the winlogbeat config to allow the activation of Kibana dashboard
+## 6.1 - Setup Kibana in the winlogbeat config to allow the activation of Kibana dashboard
 Uncomment and the the kibana host for the winlogbeat setup
 ```
 setup.kibana:
@@ -246,7 +246,7 @@ setup.kibana:
   host: "192.168.206.131:5601"
 ```
 
-##  New proposed winlogbeat config! (2023-02-18)
+## 6.2 - New proposed winlogbeat config! (2023-02-18)
 -> -> -> 'https://github.com/Cyb3rWard0g/HELK/blob/master/configs/winlogbeat/winlogbeat.yml'
 #'https://github.com/jhochwald/Universal-Winlogbeat-configuration'
 #'https://github.com/jhochwald/Universal-Winlogbeat-configuration/issues/4'
@@ -256,18 +256,22 @@ Link here: [https://learn.microsoft.com/en-us/sysinternals/downloads/sysmon]
 
 ## Activate sysmon network connection
 By default, tcp disabled by default, we need to activate it to have indicator match
+
 ```
 The screenshot [-n] configures Sysmon to Log network connections as well. 
 ```
 
-# SYSMON - Use the SwiftOnSecurity sysmon configuration https://github.com/SwiftOnSecurity/sysmon-config (2023-02-18)
+## SYSMON - Use the SwiftOnSecurity sysmon configuration https://github.com/SwiftOnSecurity/sysmon-config (2023-02-18)
 ```
-sysmon.exe -accepteula -i sysmonconfig-export.xml
+sysmon -i -accepteula -h md5,sha256,imphash -l -n
+
+# OLD sysmon.exe -accepteula -n -i sysmonconfig-export.xml
 ```
 
+#
 ## Make sure to test the config  (2023-02-18)
 ```
-winlogbeat.exe test config
+winlogbeat.exe test config -e
 ```
 
 ## Setup
@@ -277,7 +281,7 @@ winlogbeat.exe setup -e
 
 ## Test
 ```
-winlogbeat.exe test output
+winlogbeat.exe test output -e
 ```
 
 ## Run winlogbeat in a privileged cmd.exe windows (to allow registry access, sysmon is a good example)
@@ -295,6 +299,9 @@ The solution is here
 ```
 output.elasticsearch.allow_older_versions to true
 ```
+
+## Be careful to start winlogbeat with Admin right!!! 
+Otherwise a small error message will be hidden in the console saying that without admin rights, sysmon will not be ingested...
 
 # 7- TEST A DETECTION BY A KIBANA RULE
 
@@ -335,12 +342,16 @@ threat.indicator.ip: * -> come from abuse.ch, not alienvault
 ## Test one IOC
 Use Powershell to simulate a c2 connection (for fun)
 
-x.x.x.x = pick one from alienvault, but be careful...
 ```
+#x.x.x.x = pick one from alienvault, but be careful...
+
 Invoke-WebRequest x.x.x.x -OutFile out.txt  -v
 ```
 
-## The rule is working ;)
+Expected results are :
+
+"Potential Process Injection via PowerShell" rule triggered
+
 
 # 8- ATOMIC RED TEAM TO TEST MITRE ATTACK WITH ELK
 
