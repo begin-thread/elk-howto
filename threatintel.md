@@ -248,12 +248,41 @@ setup.kibana:
 
 ## 6.2 - New proposed winlogbeat config! (2023-02-18)
 
--> -> -> 'https://github.com/Cyb3rWard0g/HELK/blob/master/configs/winlogbeat/winlogbeat.yml'
-
 Other good reference :
-'https://github.com/jhochwald/Universal-Winlogbeat-configuration'
+- 'https://github.com/jhochwald/Universal-Winlogbeat-configuration'
+- 'https://github.com/jhochwald/Universal-Winlogbeat-configuration/issues/4'
 
-'https://github.com/jhochwald/Universal-Winlogbeat-configuration/issues/4'
+
+My personal version based on 'https://github.com/Cyb3rWard0g/HELK/blob/master/configs/winlogbeat/winlogbeat.yml'
+
+```
+#-------------------------- Windows Logs To Collect -----------------------------
+winlogbeat.event_logs:
+  - name: Application
+    ignore_older: 30m
+    provider:
+      - TCP/IP
+  - name: Security
+    ignore_older: 30m
+  - name: System
+    ignore_older: 30m
+  - name: Microsoft-Windows-Sysmon/Operational
+    ignore_older: 30m
+  - name: Microsoft-Windows-PowerShell/Operational
+    ignore_older: 30m
+    #event_id: 4103, 4104
+    event_id: 4103, 4104, 4105, 4106
+  - name: Windows PowerShell
+    #event_id: 400,600
+    event_id: 400, 403, 600, 800
+    ignore_older: 30m
+  - name: Microsoft-Windows-WMI-Activity/Operational
+    event_id: 5857,5858,5859,5860,5861
+  - name: ForwardedEvents
+    tags: [forwarded]
+  - name: Internet Explorer
+    ignore_older: 30m
+```
 
 ## Download sysmon
 Link here: [https://learn.microsoft.com/en-us/sysinternals/downloads/sysmon]
