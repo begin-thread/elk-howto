@@ -247,9 +247,13 @@ setup.kibana:
 ```
 
 ## 6.2 - New proposed winlogbeat config! (2023-02-18)
+
 -> -> -> 'https://github.com/Cyb3rWard0g/HELK/blob/master/configs/winlogbeat/winlogbeat.yml'
-#'https://github.com/jhochwald/Universal-Winlogbeat-configuration'
-#'https://github.com/jhochwald/Universal-Winlogbeat-configuration/issues/4'
+
+Other good reference :
+'https://github.com/jhochwald/Universal-Winlogbeat-configuration'
+
+'https://github.com/jhochwald/Universal-Winlogbeat-configuration/issues/4'
 
 ## Download sysmon
 Link here: [https://learn.microsoft.com/en-us/sysinternals/downloads/sysmon]
@@ -263,9 +267,12 @@ The screenshot [-n] configures Sysmon to Log network connections as well.
 
 ## SYSMON - Use the SwiftOnSecurity sysmon configuration https://github.com/SwiftOnSecurity/sysmon-config (2023-02-18)
 ```
-sysmon -i -accepteula -h md5,sha256,imphash -l -n
+sysmon.exe -accepteula -n -i sysmonconfig-export.xml
+```
 
-# OLD sysmon.exe -accepteula -n -i sysmonconfig-export.xml
+## SYSMON - Use a simple version (2023-02-18)
+```
+sysmon -i -accepteula -h md5,sha256,imphash -l -n
 ```
 
 #
@@ -284,9 +291,15 @@ winlogbeat.exe setup -e
 winlogbeat.exe test output -e
 ```
 
-## Run winlogbeat in a privileged cmd.exe windows (to allow registry access, sysmon is a good example)
+## Run winlogbeat in a *** privileged *** cmd.exe windows (to allow registry access, sysmon is a good example)
+
+Be careful to start winlogbeat with Admin right!!! 
+Otherwise a small error message will be hidden in the console saying that without admin rights, sysmon will not be ingested...
+
+Thanks to kifarunix.com for the admin reminder! 'https://kifarunix.com/send-windows-logs-to-elastic-stack-using-winlogbeat-and-sysmon/'
+
 ```
-winlogbeat run -e
+winlogbeat.exe run -c winlogbeat.yml -e
 ```
 
 ## If you have this error in winlogbeat output
@@ -300,57 +313,52 @@ The solution is here
 output.elasticsearch.allow_older_versions to true
 ```
 
-## Be careful to start winlogbeat with Admin right!!! 
-Otherwise a small error message will be hidden in the console saying that without admin rights, sysmon will not be ingested...
+# 7- TEST A THREAT INTELLIGENCE IOC DETECTION BY A KIBANA RULE
 
-# 7- TEST A DETECTION BY A KIBANA RULE
-
-## Rule to activate, by default not all rules are activated
+## 7.1 - Rule to activate, by default not all rules are activated
 ```
 Rule = Threat Intel Filebeat Module (v8.x) Indicator Match
 ```
 
-
-## Way to test
+## 7.2 - Way to test
 Test the IOC with MSEDGE or TELNET on the port
 Ping or Tracert do no generate tcp/udp traffic (was a simple not working)
 
-## Filebeat config
+## 7.3 - Filebeat config
 ```
 Update the securitySolution:defaultThreatIndex advanced setting by adding the appropriate index pattern name after the default Fleet threat intelligence index pattern (logs-ti*):
 ```
 
-
-## It is important to read the rules, and make sure it match your tests
+It is important to read the rules, and make sure it match your tests
 Make sure the index is the right one
 ```
 For this rule : Threat Intel Indicator Match
 The dataset "event.dataset: ti_*" does not match the filebeat one
 ```
 
-## Now we have a rule that match
-```
-For this rule : Threat Intel Filebeat Module (v8.x) Indicator Match
-```
+## 7.4 - Now we have a rule that match
 
-## Look at the rule, all the fields are matching (the one from the windows event, and the one from the IOC feed.
+> For this rule : Threat Intel Filebeat Module (v8.x) Indicator Match
+
+
+## 7.5 - Look at the rule, all the fields are matching (the one from the windows event, and the one from the IOC feed)
 ```
 (destination.ip MATCHES threat.indicator.ip)
 threat.indicator.ip: * -> come from abuse.ch, not alienvault
 ```
 
-## Test one IOC
+## 7.6 Test one IOC
 Use Powershell to simulate a c2 connection (for fun)
 
-```
-#x.x.x.x = pick one from alienvault, but be careful...
+> x.x.x.x = pick one from alienvault, but be careful...
 
+```
 Invoke-WebRequest x.x.x.x -OutFile out.txt  -v
 ```
 
 Expected results are :
 
-"Potential Process Injection via PowerShell" rule triggered
+> "Potential Process Injection via PowerShell" rule triggered
 
 
 # 8- ATOMIC RED TEAM TO TEST MITRE ATTACK WITH ELK
