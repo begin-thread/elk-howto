@@ -492,16 +492,23 @@ Expected results are :
 <!---
 *******************************************************************************
 -->
-# TEST Txxxx Template
-'github url'
+# 11 - MISP Threat Intelligence Platform (TIP)
+
+Here is the installation command. Please note that it will take a while to install...
 
 ```
-Invoke-AtomicTest Txxxx -v
+git clone https://github.com/MISP/misp-docker
+
+cd misp-docker
+
+cp template.env .env 
+
+sudo docker compose up
 ```
 
-Expected results are :
+https://localhost/feeds/index
 
-> More to come...
+> Enable selected
 
-
+> Enable caching for selected 
 
