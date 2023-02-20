@@ -494,6 +494,7 @@ Expected results are :
 -->
 # 11 - MISP Threat Intelligence Platform (TIP)
 
+## 11.1 Installation
 Here is the installation command. Please note that it will take a while to install...
 
 ```
@@ -502,9 +503,38 @@ git clone https://github.com/MISP/misp-docker
 cd misp-docker
 
 cp template.env .env 
+```
 
+## Change the base URL for your MISP IP
+
+In the .env file 
+
+```
+#MISP_BASEURL=https://localhost
+MISP_BASEURL=https://192.168.206.131/
+```
+
+## Change the timezone. To find yours, type this command
+
+```
+timedatectl
+```
+
+Replace with your timezone in the .env file 
+
+> Time zone: America/Toronto (EST, -0500)
+
+```
+#TIMEZONE=Europe/Brussels
+TIMEZONE=America/Toronto
+```
+
+## Start Docker
+```
 sudo docker compose up
 ```
+
+## Activate feeds
 
 'https://localhost/feeds/index'
 
@@ -514,7 +544,10 @@ sudo docker compose up
 
 > "Fetch and store all feed data"
 
+## Refresh and wait
+
 'https://localhost/'
 
 Wait a couple of minutes and go back to the main page, the feeds are loading
+
 
