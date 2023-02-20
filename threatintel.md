@@ -506,9 +506,15 @@ cp template.env .env
 sudo docker compose up
 ```
 
-https://localhost/feeds/index
+'https://localhost/feeds/index'
 
-> Enable selected
+> "Enable selected"
 
-> Enable caching for selected 
+> "Enable caching for selected" 
+
+> "Fetch and store all feed data"
+
+'https://localhost/'
+
+Wait a couple of minutes and go back to the main page, the feeds are loading
 
