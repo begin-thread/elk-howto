@@ -554,12 +554,12 @@ sudo docker compose up
 Wait a couple of minutes and go back to the main page, the feeds are loading
 
 
+
 # 99 - Install xRDP on Ubuntu
 
 'https://linuxize.com/post/how-to-install-xrdp-on-ubuntu-20-04/'
 
 ```
-sudo apt install xfce4
 sudo apt install xrdp 
 sudo systemctl status xrdp
 
@@ -567,6 +567,19 @@ sudo adduser xrdp ssl-cert
 sudo systemctl restart xrdp
 ```
 
+# 99 - Install xfce4 on Ubuntu 
+
+Less intensive on the graphical side. Good with old hardware.
+
+```
+sudo apt install xfce4
+```
+
+At login, choose "Xfce session" as the disply manager.
+
+# UFW - Some useful commands 
+
+> Beware that Docker will use iptables directly, so everything you do to close some ports will not work.
 
 ```
 sudo ufw allow 22
@@ -581,3 +594,4 @@ service ufw restart
 
 apt-get install gufw
 ```
+
