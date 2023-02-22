@@ -97,7 +97,7 @@ xpack.security.encryptionKey: "something_at_least_32_characters"
 > - Enriched with Threat Intelligence: This section shows indicator matches that Elastic Security found when querying the alert for fields with threat intelligence. You can use the date time picker to modify the query time frame, which looks at the past 30 days by default. Click the Inspect button, located on the far right of the threat label, to view more information on the query. If threat matches are not discovered within the selected time frame, the section displays a message that none are available.
 
 
-# FILEBEAT INSTALLATION ON UBUNTU (TO SEND IOC)
+# FILEBEAT INSTALLATION ON UBUNTU
 Reference [https://www.elastic.co/fr/security-labs/ingesting-threat-data-with-the-threat-intel-filebeat-module]
 ```
 curl -L -O https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-8.6.1-amd64.deb
@@ -156,7 +156,7 @@ sudo service filebeat start
 *******************************************************************************
 -->
 
-# FILEBEAT THREATINTEL MODULE ACTIVATION
+# FILEBEAT THREATINTEL MODULE ACTIVATION (TO SEND IOC TO ELK)
 
 ## Activate the threatintel module
 ```
