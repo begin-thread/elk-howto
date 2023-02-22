@@ -166,8 +166,6 @@ sudo filebeat modules enable threatintel
 ## Activate your feeds
 ```
 sudo vi /etc/filebeat/modules.d/threatintel.yml 
-OR
-sudo gedit /etc/filebeat/modules.d/threatintel.yml 
 ```
 
 Example :
@@ -543,7 +541,13 @@ Expected results are :
 
 > More to come...
 
-
+<!---
+*******************************************************************************
+-->
+## TEST Bruteforce ssh
+```
+nmap -p 22 --script ssh-brute x.x.x.x
+```
 
 <!---
 *******************************************************************************
