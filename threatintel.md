@@ -55,6 +55,9 @@ cd docker-elk
 # v2 = docker compose
 
 sudo docker compose up
+
+# ufw deny 5601
+# service ufw restart
 ```
 
 ## LOGON TO ELK
@@ -551,3 +554,30 @@ sudo docker compose up
 Wait a couple of minutes and go back to the main page, the feeds are loading
 
 
+# 99 - Install xRDP on Ubuntu
+
+'https://linuxize.com/post/how-to-install-xrdp-on-ubuntu-20-04/'
+
+```
+sudo apt install xfce4
+sudo apt install xrdp 
+sudo systemctl status xrdp
+
+sudo adduser xrdp ssl-cert  
+sudo systemctl restart xrdp
+```
+
+
+```
+sudo ufw allow 22
+sudo ufw allow 3389
+sudo ufw deny 5601
+
+sudo ufw default deny incoming
+sudo ufw default allow outgoing
+
+sudo ufw enable
+service ufw restart
+
+apt-get install gufw
+```
