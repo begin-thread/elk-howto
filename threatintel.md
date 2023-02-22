@@ -9,7 +9,7 @@
 <!---
 *******************************************************************************
 -->
-# 1- INSTALL Ubuntu to host ELK and Filebeat to send IOC to ELK
+# INSTALL Ubuntu to host ELK and Filebeat to send IOC to ELK
 Download link here: [https://ubuntu.com/download/desktop]
 
 ## INSTALL DOCKER-DESKTOP ON UBUNTU
@@ -69,28 +69,94 @@ Link here: [http://localhost:5601/app/home#/]
 *******************************************************************************
 -->
 
-# 2- FILEBEAT INSTALLATION ON UBUNTU (TO SEND IOC)
+# KIBANA SECURITY PANEL
+
+## Error will occur
+API integration key required
+> A new encryption key is generated for saved objects each time you start Kibana. Without a persistent key, you cannot delete or modify rules after Kibana restarts. To set a persistent key, add the xpack.encryptedSavedObjects.encryptionKey setting with any text value of 32 or more characters to the kibana.yml file.
+
+## Edit 
+```
+vi docker-elk/kibana/config/kibana.yml
+```
+
+## Add to the beginning of the file a generated key
+```
+xpack.encryptedSavedObjects:
+  encryptionKey: "min-32-byte-long-strong-encryption-key"
+```
+
+## Also add
+Reference: [https://www.elastic.co/guide/en/kibana/current/using-kibana-with-security.html#security-configure-settings]
+```
+xpack.security.encryptionKey: "something_at_least_32_characters"
+```
+
+## There are 2 goals with the current setup you are installing
+> - Threat Matched Detected: This section is solely reserved for threat indicator matches identified by an indicator match rule. Threat indicator matches are produced whenever event data matches a threat indicator field value in your indicator index. If indicator threat matches are not discovered, the section displays a message that none are available.
+> - Enriched with Threat Intelligence: This section shows indicator matches that Elastic Security found when querying the alert for fields with threat intelligence. You can use the date time picker to modify the query time frame, which looks at the past 30 days by default. Click the Inspect button, located on the far right of the threat label, to view more information on the query. If threat matches are not discovered within the selected time frame, the section displays a message that none are available.
+
+
+# FILEBEAT INSTALLATION ON UBUNTU (TO SEND IOC)
 Reference [https://www.elastic.co/fr/security-labs/ingesting-threat-data-with-the-threat-intel-filebeat-module]
 ```
 curl -L -O https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-8.6.1-amd64.deb
 sudo dpkg -i filebeat-8.6.1-amd64.deb
 ```
 
-## Uncomment user and pass for elasticsearch
+## Uncomment HOST / USER / PASS for elasticsearch
 ```
 sudo vi /etc/filebeat/filebeat.yml
 ```
 
+
+If you want to send syslog, enable this module
+```
+sudo filebeat modules enable system
+```
+
+```
+sudo vi /etc/filebeat/modules.d/system.yml 
+```
+
+Enable the 2 modules ->->->
+
+```
+- module: system
+  # Syslog
+  syslog:
+->->->    enabled: true
+
+    # Set custom paths for the log files. If left empty,
+    # Filebeat will choose the paths depending on your OS.
+    #var.paths:
+
+  # Authorization logs
+  auth:
+->->->    enabled: false
+```
+
+
 ## Enable the Filebeat Kibana dashboard
 ```
-sudo filebeat setup -e
+sudo filebeat setup
+sudo filebeat test output
+```
+
+## Make it permanent
+```
+# Enable at boot
+sudo systemctl enable filebeat
+
+# Make it permanent
+sudo service filebeat start
 ```
 
 <!---
 *******************************************************************************
 -->
 
-# 3- FILEBEAT THREATINTEL MODULE ACTIVATION
+# FILEBEAT THREATINTEL MODULE ACTIVATION
 
 ## Activate the threatintel module
 ```
@@ -156,14 +222,17 @@ output.elasticsearch:
 ## If you have this error "no enable fileset error"
 You need to activate some modules as specified in my threatintel.yml section up here
 
-# 4- KIBANA INDICATORS
+<!---
+*******************************************************************************
+-->
+# KIBANA INDICATORS
 
-## 4.1 - Add the threatintel integration
+## Add the threatintel integration
 ```
 # Not useful, works with the intel integration in Kibana? [http://localhost:5601/app/integrations/detail/ti_util-1.1.0/overview] (2023-02-08)
 ```
 
-## 4.2 - Validate the ingestion here
+## Validate the ingestion here
 ```
 [http://localhost:5601/app/security/threat_intelligence/indicators]
 
@@ -171,36 +240,11 @@ You need to activate some modules as specified in my threatintel.yml section up 
 Look at this dashboard too : [Filebeat Threat Intel] AlienVault OTX
 ```
 
+<!---
+*******************************************************************************
+-->
 
-# 5- KIBANA SECURITY PANEL
-
-## 5.1 - Error will occur
-API integration key required
-> A new encryption key is generated for saved objects each time you start Kibana. Without a persistent key, you cannot delete or modify rules after Kibana restarts. To set a persistent key, add the xpack.encryptedSavedObjects.encryptionKey setting with any text value of 32 or more characters to the kibana.yml file.
-
-## 5.2 - Edit 
-```
-vi docker-elk/kibana/config/kibana.yml
-```
-
-## 5.3 - Add to the beginning of the file a generated key
-```
-xpack.encryptedSavedObjects:
-  encryptionKey: "min-32-byte-long-strong-encryption-key"
-```
-
-## 5.4 - Also add
-Reference: [https://www.elastic.co/guide/en/kibana/current/using-kibana-with-security.html#security-configure-settings]
-```
-xpack.security.encryptionKey: "something_at_least_32_characters"
-```
-
-## 5.5 - There are 2 goals with the current setup you are installing
-> - Threat Matched Detected: This section is solely reserved for threat indicator matches identified by an indicator match rule. Threat indicator matches are produced whenever event data matches a threat indicator field value in your indicator index. If indicator threat matches are not discovered, the section displays a message that none are available.
-> - Enriched with Threat Intelligence: This section shows indicator matches that Elastic Security found when querying the alert for fields with threat intelligence. You can use the date time picker to modify the query time frame, which looks at the past 30 days by default. Click the Inspect button, located on the far right of the threat label, to view more information on the query. If threat matches are not discovered within the selected time frame, the section displays a message that none are available.
-
-
-# 6- FILEBEAT *** UBUNTU *** SYSLOG TO MAKE SOME RULES DETECTION
+# FILEBEAT *** UBUNTU *** SYSLOG TO MAKE SOME RULES DETECTION
 
 ## SYSTEM
 ```
@@ -246,9 +290,12 @@ sudo service ufw enable
 kern.log instead of iptables.log
 
 
-# 7- WINLOGBEAT ON *** WINDOWS *** TO SEND EVENTS TO ELK
+<!---
+*******************************************************************************
+-->
+# WINLOGBEAT ON *** WINDOWS *** TO SEND EVENTS TO ELK
 
-## 7.1 - Setup Kibana in the winlogbeat config to allow the activation of Kibana dashboard
+## Setup Kibana in the winlogbeat config to allow the activation of Kibana dashboard
 Uncomment and the the kibana host for the winlogbeat setup
 ```
 setup.kibana:
@@ -260,7 +307,7 @@ setup.kibana:
   host: "192.168.206.131:5601"
 ```
 
-## 7.2 - New proposed winlogbeat config! (2023-02-18)
+## New proposed winlogbeat config! (2023-02-18)
 
 Other good reference :
 - 'https://github.com/jhochwald/Universal-Winlogbeat-configuration'
@@ -298,42 +345,42 @@ winlogbeat.event_logs:
     ignore_older: 30m
 ```
 
-## 7.3 - Download sysmon
+## Download sysmon
 Link here: [https://learn.microsoft.com/en-us/sysinternals/downloads/sysmon]
 
-## 7.4 - Activate sysmon network connection
+## Activate sysmon network connection
 By default, tcp disabled by default, we need to activate it to have indicator match
 
 ```
 The screenshot [-n] configures Sysmon to Log network connections as well. 
 ```
 
-## 7.5 - SYSMON - Use the SwiftOnSecurity sysmon configuration https://github.com/SwiftOnSecurity/sysmon-config (2023-02-18)
+## SYSMON - Use the SwiftOnSecurity sysmon configuration https://github.com/SwiftOnSecurity/sysmon-config (2023-02-18)
 ```
 sysmon.exe -accepteula -n -i sysmonconfig-export.xml
 ```
 
-## 7.6 - SYSMON - Use a simple version (2023-02-18)
+## SYSMON - Use a simple version (2023-02-18)
 ```
 sysmon -i -accepteula -h md5,sha256,imphash -l -n
 ```
 
-## 7.7 - Make sure to test the config  (2023-02-18)
+## Make sure to test the config  (2023-02-18)
 ```
 winlogbeat.exe test config -e
 ```
 
-## 7.8 - Setup
+## Setup
 ```
 winlogbeat.exe setup -e
 ```
 
-## 7.9 - Test
+## Test
 ```
 winlogbeat.exe test output -e
 ```
 
-## 7.10 - Run winlogbeat in a *** privileged *** cmd.exe windows (to allow registry access, sysmon is a good example)
+## Run winlogbeat in a *** privileged *** cmd.exe windows (to allow registry access, sysmon is a good example)
 
 Be careful to start winlogbeat with Admin right!!! 
 Otherwise a small error message will be hidden in the console saying that without admin rights, sysmon will not be ingested...
@@ -344,7 +391,7 @@ Thanks to kifarunix.com for the admin reminder! 'https://kifarunix.com/send-wind
 winlogbeat.exe run -c winlogbeat.yml -e
 ```
 
-## 7.11 - If you have this error in winlogbeat output
+## If you have this error in winlogbeat output
 > {"log.level":"error","@timestamp":"2023-01-27T23:21:48.261-0500","log.logger":"publisher_pipeline_output","log.origin":
 > {"file.name":"pipeline/client_worker.go","file.line":150},"message":"Failed to connect to backoff(elasticsearch(http://192.168.206.131:9200)): 
 > Connection marked as failed because the onConnect callback failed: Elasticsearch is too old. Please upgrade the instance. 
@@ -355,18 +402,21 @@ The solution is here
 output.elasticsearch.allow_older_versions to true
 ```
 
-# 8- TEST A THREAT INTELLIGENCE IOC DETECTION BY A KIBANA RULE
+<!---
+*******************************************************************************
+-->
+# TEST A THREAT INTELLIGENCE IOC DETECTION BY A KIBANA RULE
 
-## 8.1 - Rule to activate, by default not all rules are activated
+## Rule to activate, by default not all rules are activated
 ```
 Rule = Threat Intel Filebeat Module (v8.x) Indicator Match
 ```
 
-## 8.2 - Way to test
+## Way to test
 Test the IOC with MSEDGE or TELNET on the port
 Ping or Tracert do no generate tcp/udp traffic (was a simple not working)
 
-## 8.3 - Filebeat config
+## Filebeat config
 ```
 Update the securitySolution:defaultThreatIndex advanced setting by adding the appropriate index pattern name after the default Fleet threat intelligence index pattern (logs-ti*):
 ```
@@ -378,18 +428,18 @@ For this rule : Threat Intel Indicator Match
 The dataset "event.dataset: ti_*" does not match the filebeat one
 ```
 
-## 8.4 - Now we have a rule that match
+## Now we have a rule that match
 
 > For this rule : Threat Intel Filebeat Module (v8.x) Indicator Match
 
 
-## 8.5 - Look at the rule, all the fields are matching (the one from the windows event, and the one from the IOC feed)
+## Look at the rule, all the fields are matching (the one from the windows event, and the one from the IOC feed)
 ```
 (destination.ip MATCHES threat.indicator.ip)
 threat.indicator.ip: * -> come from abuse.ch, not alienvault
 ```
 
-## 8.6 Test one IOC
+## Test one IOC
 Use Powershell to simulate a c2 connection (for fun)
 
 > x.x.x.x = pick one from alienvault, but be careful...
@@ -403,9 +453,12 @@ Expected results are :
 > "Potential Process Injection via PowerShell" rule triggered
 
 
-# 9- ATOMIC RED TEAM TO TEST MITRE ATTACK WITH ELK
+<!---
+*******************************************************************************
+-->
+# ATOMIC RED TEAM TO TEST MITRE ATTACK WITH ELK
 
-## 9.1 - Installation
+## Installation
 It needs to be done everytime you start powershell
 ```
 IEX (IWR 'https://raw.githubusercontent.com/redcanaryco/invoke-atomicredteam/master/install-atomicredteam.ps1' -UseBasicParsing); Install-AtomicRedTeam -getAtomics -Force
@@ -413,7 +466,7 @@ IEX (IWR 'https://raw.githubusercontent.com/redcanaryco/invoke-atomicredteam/mas
 Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope CurrentUser -Force
 ```
 
-## 9.2 - Launch a test
+## Launch a test
 The list of available tests are documented here 
 
 'https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/Indexes/Indexes-Markdown/index.md'
@@ -424,9 +477,9 @@ The list of available tests are documented here
 <!---
 *******************************************************************************
 -->
-# 10.0 - Testing
+# Testing
 
-## 10.1 - TEST T1055.012 - Process Injection: Process Hollowing
+## TEST T1055.012 - Process Injection: Process Hollowing
 'https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1055.012/T1055.012.md'
 
 ```
@@ -444,7 +497,7 @@ Expected results are :
 <!---
 *******************************************************************************
 -->
-# 10.2 TEST T1037.001 - Boot or Logon Initialization Scripts: Logon Script
+# TEST T1037.001 - Boot or Logon Initialization Scripts: Logon Script
 'https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1037.001/T1037.001.md'
 
 ```
@@ -459,7 +512,7 @@ Expected results are :
 <!---
 *******************************************************************************
 -->
-# 10.3 TEST T1071.001 - Application Layer Protocol: Web Protocols
+# TEST T1071.001 - Application Layer Protocol: Web Protocols
 'https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1071.001/T1071.001.md'
 
 *** Your need to start IE first so the test can call IE (yep)
@@ -475,7 +528,7 @@ Expected results are :
 <!---
 *******************************************************************************
 -->
-## 10.4 TEST T1059.001 - Command and Scripting Interpreter: PowerShell
+## TEST T1059.001 - Command and Scripting Interpreter: PowerShell
 'https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1059.001/T1059.001.md'
 
 Thanks to 'https://systemweakness.com/atomic-red-team-3-detecting-bloodhound-using-the-download-cradle-in-elk-siem-bc6960cb4066'
@@ -495,9 +548,9 @@ Expected results are :
 <!---
 *******************************************************************************
 -->
-# 11 - MISP Threat Intelligence Platform (TIP)
+# MISP Threat Intelligence Platform (TIP)
 
-## 11.1 Installation
+## Installation
 Here is the installation command. Please note that it will take a while to install...
 
 ```
@@ -554,6 +607,9 @@ sudo docker compose up
 Wait a couple of minutes and go back to the main page, the feeds are loading
 
 
+<!---
+*******************************************************************************
+-->
 
 # 99 - Install xRDP on Ubuntu
 
@@ -567,6 +623,9 @@ sudo adduser xrdp ssl-cert
 sudo systemctl restart xrdp
 ```
 
+<!---
+*******************************************************************************
+-->
 # 99 - Install xfce4 on Ubuntu 
 
 Less intensive on the graphical side. Good with old hardware.
@@ -577,7 +636,10 @@ sudo apt install xfce4
 
 At login, choose "Xfce session" as the disply manager.
 
-# UFW - Some useful commands 
+<!---
+*******************************************************************************
+-->
+# 99 UFW - Some useful commands 
 
 > Beware that Docker will use iptables directly, so everything you do to close some ports will not work.
 
