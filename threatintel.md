@@ -9,10 +9,10 @@
 <!---
 *******************************************************************************
 -->
-# INSTALL Ubuntu to host ELK and Filebeat to send IOC to ELK
+# INSTALL UBUNTU to host ELK and Filebeat to send IOC to ELK
 Download link here: [https://ubuntu.com/download/desktop]
 
-## INSTALL DOCKER-DESKTOP ON UBUNTU
+## INSTALL DOCKER ON UBUNTU
 
 Reference: [https://docs.docker.com/engine/install/ubuntu/]
 
@@ -60,7 +60,7 @@ sudo docker compose up
 # service ufw restart
 ```
 
-## LOGON TO ELK
+## LOGIN TO ELK
 Link here: [http://localhost:5601/app/home#/]
 
 > elastic / yourpassword
@@ -109,7 +109,6 @@ sudo dpkg -i filebeat-8.6.1-amd64.deb
 sudo vi /etc/filebeat/filebeat.yml
 ```
 
-
 If you want to send syslog, enable this module
 ```
 sudo filebeat modules enable system
@@ -136,7 +135,6 @@ Enable the 2 modules ->->->
 ->->->    enabled: false
 ```
 
-
 ## Enable the Filebeat Kibana dashboard
 ```
 sudo filebeat setup
@@ -151,6 +149,40 @@ sudo systemctl enable filebeat
 # Make it permanent
 sudo service filebeat start
 ```
+
+<!---
+*******************************************************************************
+-->
+
+# AUDITBEAT (for Linux AuditD / Better than the auditd module of FILEBEAT)
+
+## Install
+
+```
+curl -L -O https://artifacts.elastic.co/downloads/beats/auditbeat/auditbeat-8.6.2-amd64.deb
+sudo dpkg -i auditbeat-8.6.2-amd64.deb
+```
+
+## Uncomment HOST / USER / PASS for elasticsearch
+```
+sudo vi /etc/auditbeat/auditbeat.yml
+```
+
+## Enable the auditbeat Kibana dashboard
+```
+sudo filebeat setup
+sudo filebeat test output
+```
+
+## Make it permanent
+```
+# Enable at boot
+sudo systemctl enable auditbeat
+
+# Make it permanent
+sudo service auditbeat start
+```
+
 
 <!---
 *******************************************************************************
