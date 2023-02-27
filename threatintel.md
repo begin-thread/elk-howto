@@ -344,7 +344,7 @@ Other good reference :
 - 'https://github.com/jhochwald/Universal-Winlogbeat-configuration/issues/4'
 
 
-My personal version based on 'https://github.com/Cyb3rWard0g/HELK/blob/master/configs/winlogbeat/winlogbeat.yml'
+My personal version is based on 'https://github.com/Cyb3rWard0g/HELK/blob/master/configs/winlogbeat/winlogbeat.yml'
 
 ```
 #-------------------------- Windows Logs To Collect -----------------------------
@@ -693,3 +693,15 @@ service ufw restart
 apt-get install gufw
 ```
 
+
+<!---
+*******************************************************************************
+-->
+# 666 - RANDOM
+
+'https://communities.vmware.com/t5/VMware-Workstation-Player/VMware-Player-has-paused-this-virtual-machine/td-p/1192117'
+
+> For security reasons, VMware doesn't allow VM's to start/run if there is not enough free disk space available. This is a percentage of the partition size.
+> You can override this with mainMem.freeSpaceCheck = "FALSE" (see http://sanbarrow.com/vmx/vmx-advanced.html#vmx)
+> Personally, I wouldn't take the risk and rather clean up the disk or move the VM to a larger disk.
+> André
