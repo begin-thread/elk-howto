@@ -670,7 +670,7 @@ Less intensive on the graphical side. Good with old hardware.
 sudo apt install xfce4
 ```
 
-At login, choose "Xfce session" as the disply manager.
+At login, choose "Xfce session" as the display manager.
 
 <!---
 *******************************************************************************
@@ -705,3 +705,11 @@ apt-get install gufw
 > You can override this with mainMem.freeSpaceCheck = "FALSE" (see http://sanbarrow.com/vmx/vmx-advanced.html#vmx)
 > Personally, I wouldn't take the risk and rather clean up the disk or move the VM to a larger disk.
 > André
+
+# 666 - RANDOM
+
+```
+sudo apt install gnome-session-flashback
+
+sudo update-alternatives --config x-session-manager
+```
