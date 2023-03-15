@@ -642,6 +642,35 @@ sudo docker compose up
 
 Wait a couple of minutes and go back to the main page, the feeds are loading
 
+<!---
+*******************************************************************************
+-->
+# 99 - Install Ubuntu-Desktop on Ubuntu 
+
+Less intensive on the graphical side. Good with old hardware.
+
+```
+sudo apt install ubuntu-desktop
+```
+
+At login, choose "gnome session" as the display manager.???
+
+
+
+<!---
+*******************************************************************************
+-->
+# 99 - Install xfce4 on Ubuntu 
+
+Less intensive on the graphical side. Good with old hardware.
+
+```
+sudo apt install xfce4
+```
+
+At login, choose "Xfce session" as the display manager.
+
+
 
 <!---
 *******************************************************************************
@@ -661,19 +690,6 @@ sudo adduser xrdp ssl-cert
 
 sudo service xrdp restart
 ```
-
-<!---
-*******************************************************************************
--->
-# 99 - Install xfce4 on Ubuntu 
-
-Less intensive on the graphical side. Good with old hardware.
-
-```
-sudo apt install xfce4
-```
-
-At login, choose "Xfce session" as the display manager.
 
 <!---
 *******************************************************************************
@@ -715,9 +731,10 @@ Ref.: 'https://packages.ubuntu.com/bionic/x-session-manager'
 
 ```
 sudo apt install gnome-session-flashback
-sudo apt install gnome-session gdm3
+sudo apt install gnome-session
 sudo apt install cinnamon-session
- 
+sudo apt install mate-session-manager
+sudo apt install gdm3
  
 # Select the right one
 sudo update-alternatives --config x-session-manager
@@ -729,9 +746,16 @@ sudo update-alternatives --install /usr/bin/x-session-manager x-session-manager 
 sudo service xrdp restart
 
 #20230314 sudo systemctl restart xrdp
-
-
+# Always restart that way
+sudo service xrdp restart
 
 #
+sudo reboot
+```
+
+Back to default ( 'https://ubuntuhandbook.org/index.php/2020/07/change-default-display-manager-ubuntu-20-04/' )
+
+```
+sudo dpkg-reconfigure gdm3 
 sudo reboot
 ```
