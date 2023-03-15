@@ -656,7 +656,10 @@ sudo apt install xrdp
 sudo systemctl status xrdp
 
 sudo adduser xrdp ssl-cert  
-sudo systemctl restart xrdp
+
+#20230314 sudo systemctl restart xrdp
+
+sudo service xrdp restart
 ```
 
 <!---
@@ -708,11 +711,27 @@ apt-get install gufw
 
 # 666 - RANDOM
 
+Ref.: 'https://packages.ubuntu.com/bionic/x-session-manager'
+
 ```
 sudo apt install gnome-session-flashback
-
+sudo apt install gnome-session gdm3
+sudo apt install cinnamon-session
+ 
+ 
+# Select the right one
 sudo update-alternatives --config x-session-manager
 
+# Another option
 sudo update-alternatives --install /usr/bin/x-session-manager x-session-manager /usr/lib/gnome-flashback/gnome-flashback-metacity 60
 
+# Always restart that way
+sudo service xrdp restart
+
+#20230314 sudo systemctl restart xrdp
+
+
+
+#
+sudo reboot
 ```
