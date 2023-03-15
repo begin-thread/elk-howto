@@ -712,4 +712,7 @@ apt-get install gufw
 sudo apt install gnome-session-flashback
 
 sudo update-alternatives --config x-session-manager
+
+sudo update-alternatives --install /usr/bin/x-session-manager x-session-manager /usr/lib/gnome-flashback/gnome-flashback-metacity 60
+
 ```
