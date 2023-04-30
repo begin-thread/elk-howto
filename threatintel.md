@@ -167,11 +167,14 @@ sudo dpkg -i auditbeat-8.6.2-amd64.deb
 ```
 sudo vi /etc/auditbeat/auditbeat.yml
 ```
+## Add parameters for compatibility
+allow_older_versions : "true"
+
 
 ## Enable the auditbeat Kibana dashboard
 ```
-sudo filebeat setup
-sudo filebeat test output
+sudo auditbeat setup -e
+sudo auditbeat test output
 ```
 
 ## Make it permanent
@@ -291,11 +294,17 @@ enabled: true
 sudo apt-get install auditd
 sudo filebeat modules enable auditd
 ```
-
 ## Enable modules in the module.d/auditd.yml
 ```
 enabled: true
 ```
+
+
+## IPTABLES - ENABLE AND ACTIVATE
+```
+sudo filebeat modules enable iptables
+```
+
 
 ## Activate
 ```
@@ -580,6 +589,69 @@ Expected results are :
 ```
 nmap -p 22 --script ssh-brute x.x.x.x
 ```
+
+
+<!---
+*******************************************************************************
+-->
+# Ubuntu setup for hacking
+
+Install Ubuntu VM
+Install Filebeat 
+
+## To catch auth logs from apache
+```
+sudo filebeat modules enable apache2
+```
+
+## To catch auth logs from ftp
+```
+sudo filebeat modules enable system
+```
+
+## To catch auth logs from ftp
+```
+sudo filebeat modules enable system
+```
+
+## To catch network connection from ftp
+```
+sudo filebeat modules enable iptables
+sudo vi /etc/filebeat/modules.d/iptables.yml 
+		enabled: true
+```
+
+MAJ de modules.d/apache2.yml
+
+## Install some services
+```
+sudo apt-get install vsftpd
+sudo apt-get install ssh
+```
+
+## Allow some port on the firewall
+```
+ufw allow 20 21 22
+service ufw restart
+```
+
+## To catch auth logs from ftp
+```
+sudo filebeat setup -e
+sudo filebeat -e
+```
+
+## Generate traffic
+hydra -t 1 -V -f -I -l poly -P /usr/share/wordlists/rockyou.txt 192.168.6.128 ssh
+hydra -t 1 -V -f -I -l poly -P /usr/share/wordlists/rockyou.txt 192.168.6.128 ftp
+dirbuster -u http://192.168.6.128:8443
+
+
+## Brute force rule
+https://discuss.elastic.co/t/network-scan/322835
+https://www.elastic.co/fr/security-labs/detect-credential-access
++++ https://discuss.elastic.co/t/what-is-the-point-of-using-eql-to-correlate-log/294542/2
+
 
 <!---
 *******************************************************************************
