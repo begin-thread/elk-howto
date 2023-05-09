@@ -1,4 +1,5 @@
 # Very helpful links!
+# Very helpful links!
 
 [https://github.com/deviantony/docker-elk] Thanks you so much!
 
@@ -516,8 +517,6 @@ The list of available tests are documented here
 <!---
 *******************************************************************************
 -->
-# Testing
-
 ## TEST T1055.012 - Process Injection: Process Hollowing
 'https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1055.012/T1055.012.md'
 
@@ -582,19 +581,28 @@ Expected results are :
 
 > More to come...
 
+# BASICS TEST FOR DIFFRENTS PROTOCOLS
+
 <!---
 *******************************************************************************
 -->
-## TEST Bruteforce ssh
+## SSH bruteforce
 ```
 nmap -p 22 --script ssh-brute x.x.x.x
+hydra -t 1 -V -f -I -l poly -P /usr/share/wordlists/rockyou.txt 192.168.6.128 SSH
 ```
+
+## FTP bruteforce
+hydra -t 1 -V -f -I -l poly -P /usr/share/wordlists/rockyou.txt 192.168.6.128 FTP
+
+## Web directory bruteforce
+dirbuster -u http://192.168.6.128:8443
 
 
 <!---
 *******************************************************************************
 -->
-# Ubuntu setup for hacking
+# TARGET MACHINE 1 - Ubuntu setup with filebeat + FTP 
 
 Install Ubuntu VM
 Install Filebeat 
@@ -604,53 +612,58 @@ Install Filebeat
 sudo filebeat modules enable apache2
 ```
 
-## To catch auth logs from ftp
+## To catch auth logs from FTP
 ```
 sudo filebeat modules enable system
 ```
 
-## To catch auth logs from ftp
-```
-sudo filebeat modules enable system
-```
-
-## To catch network connection from ftp
+## To catch network connection from FTP
 ```
 sudo filebeat modules enable iptables
 sudo vi /etc/filebeat/modules.d/iptables.yml 
 		enabled: true
 ```
 
-MAJ de modules.d/apache2.yml
+update modules.d/apache2.yml
 
 ## Install some services
 ```
-sudo apt-get install vsftpd
-sudo apt-get install ssh
+sudo apt-get install vsFTPd
+sudo apt-get install SSH
 ```
 
-## Allow some port on the firewall
+## Allow some ports on the firewall
 ```
 ufw allow 20 21 22
 service ufw restart
 ```
 
-## To catch auth logs from ftp
+## Filebeat setup + configuration
 ```
 sudo filebeat setup -e
+sudo filebeat test output -e
 sudo filebeat -e
 ```
-
-## Generate traffic
-hydra -t 1 -V -f -I -l poly -P /usr/share/wordlists/rockyou.txt 192.168.6.128 ssh
-hydra -t 1 -V -f -I -l poly -P /usr/share/wordlists/rockyou.txt 192.168.6.128 ftp
-dirbuster -u http://192.168.6.128:8443
 
 
 ## Brute force rule
 https://discuss.elastic.co/t/network-scan/322835
 https://www.elastic.co/fr/security-labs/detect-credential-access
 +++ https://discuss.elastic.co/t/what-is-the-point-of-using-eql-to-correlate-log/294542/2
+
+<!---
+*******************************************************************************
+-->
+# TARGET MACHINE 2 - Ubuntu setup with filebeat + MySql
+
+Install Ubuntu VM
+Install Filebeat 
+
+```
+sudo apt-get install mysql-server
+```
+
+
 
 
 <!---
