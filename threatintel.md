@@ -138,8 +138,8 @@ Enable the 2 modules ->->->
 
 ## Enable the Filebeat Kibana dashboard
 ```
-sudo filebeat setup
-sudo filebeat test output
+sudo filebeat setup -e
+sudo filebeat test output -e
 ```
 
 ## Make it permanent
@@ -639,9 +639,47 @@ service ufw restart
 ```
 
 ## Filebeat setup + configuration
+
+Reference : https://www.elastic.co/guide/en/beats/filebeat/current/filebeat-installation-configuration.html
 ```
-sudo filebeat setup -e
+sudo apt install curl
+
+curl -L -O https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-8.7.1-amd64.deb
+sudo dpkg -i filebeat-8.7.1-amd64.deb
+```
+
+
+```
+sudo vi /etc/filebeat/filebeat.yml 
+```
+
+
+```
+output.elasticsearch:
+  # Array of hosts to connect to.
+->->->  hosts: ["YOUR-ELK-IP-ADDRESS:9200"]
+
+  # Protocol - either `http` (default) or `https`.
+  #protocol: "https"
+
+  # Authentication credentials - either API key or username/password.
+  #api_key: "id:api_key"
+->->->    username: "YOUR-ELK-USERNAME"
+->->->    password: "YOUR-ELK-PASSWORD"
+->->->    allow_older_versions : "true"
+
+```
+
+## Enable Mysql
+```
+sudo filebeat modules enable mysql
+sudo vi /etc/filebeat/modules.d/mysql.yml 
+	->->->    enabled: true
+```
+
+```
 sudo filebeat test output -e
+sudo filebeat setup -e
 sudo filebeat -e
 ```
 
@@ -659,12 +697,20 @@ https://www.elastic.co/fr/security-labs/detect-credential-access
 Install Ubuntu VM
 Install Filebeat 
 
+## Install Mysql 
 ```
 sudo apt-get install mysql-server
 ```
 
+## Change the bind address
+```
+vi /etc/mysql/mysql.conf.d/mysqld.cnf 
+```
+> [MODIFY] bind-address 127.0.0.1 -> bind-address 0.0.0.0
 
-
+```
+sudo service mysql restart
+```
 
 <!---
 *******************************************************************************
