@@ -666,7 +666,7 @@ output.elasticsearch:
   #api_key: "id:api_key"
 ->->->    username: "YOUR-ELK-USERNAME"
 ->->->    password: "YOUR-ELK-PASSWORD"
-->->->    allow_older_versions : "true"
+->->-> NO " around true   allow_older_versions : true
 
 ```
 
