@@ -1,5 +1,4 @@
 # Very helpful links!
-# Very helpful links!
 
 [https://github.com/deviantony/docker-elk] Thanks you so much!
 
@@ -581,7 +580,7 @@ Expected results are :
 
 > More to come...
 
-# BASICS TEST FOR DIFFRENTS PROTOCOLS
+# BASICS TEST FOR DIFFERENTS PROTOCOLS
 
 <!---
 *******************************************************************************
@@ -600,6 +599,25 @@ hydra -t 1 -V -f -I -l poly -P /usr/share/wordlists/rockyou.txt 192.168.6.128 FT
 ## MYSQL bruteforce
 ```
 hydra -t 1 -V -f -I -l poly -P /usr/share/wordlists/rockyou.txt 192.168.6.128 MYSQL
+```
+
+## MYSQL Request
+```
+->->->->->-> poly@poly-db:/var/log/mysql$ sudo mysql -u root
+
+	Welcome to the MySQL monitor.  Commands end with ; or \g.
+	Your MySQL connection id is 9
+	Server version: 8.0.33-0ubuntu0.22.04.1 (Ubuntu)
+
+	Copyright (c) 2000, 2023, Oracle and/or its affiliates.
+
+	Oracle is a registered trademark of Oracle Corporation and/or its
+	affiliates. Other names may be trademarks of their respective
+	owners.
+
+	Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+->->->->->-> mysql> use mysql; select * from user;
 ```
 
 
@@ -682,7 +700,9 @@ output.elasticsearch:
 ```
 sudo filebeat modules enable mysql
 sudo vi /etc/filebeat/modules.d/mysql.yml 
-	->->->    enabled: true
+
+ENABLE ONLY, don't specify path	->->->    enabled: true
+
 ```
 
 ```
@@ -715,7 +735,9 @@ sudo apt-get install mysql-server
 vi /etc/mysql/mysql.conf.d/mysqld.cnf 
 ```
 > [MODIFY] bind-address 127.0.0.1 -> bind-address 0.0.0.0
+++++++++++++++++++ MORE stuff 
 
+https://logstail.com/blog/how-to-analyze-mysql-logs-with-elk-stack-and-logstail-com/
 ```
 sudo service mysql restart
 ```
@@ -733,6 +755,22 @@ Query OK, 0 rows affected (0.04 sec)
 mysql> GRANT ALL PRIVILEGES ON database_name.* TO 'root'@'192.168.6.130';
 Query OK, 0 rows affected (0.00 sec)
 
+```
+
+## Log generation
+```
+sudo vi /etc/mysql/mysql.conf.d/mysqld.cnf 
+
+[mysqld]
+log-error = /var/log/mysql/error.log
+
+general_log = 1
+general_log_file = /var/log/mysql/mysql.log
+
+slow_query_log = 1
+slow_query_log_file = /var/log/mysql/mysql-slow.log
+long_query_time = 2
+log_queries_not_using_indexes = 1
 ```
 
 <!---
