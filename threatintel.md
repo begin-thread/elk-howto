@@ -9,10 +9,10 @@
 <!---
 *******************************************************************************
 -->
-# INSTALL UBUNTU to host ELK and Filebeat to send IOC to ELK
+# ELK DOCKER - INSTALL UBUNTU to host ELK and Filebeat to send IOC to ELK
 Download link here: [https://ubuntu.com/download/desktop]
 
-## INSTALL DOCKER ON UBUNTU
+## ELK DOCKER - INSTALL DOCKER ON UBUNTU
 
 Reference: [https://docs.docker.com/engine/install/ubuntu/]
 
@@ -44,7 +44,7 @@ sudo docker run hello-world
 sudo docker compose version
 ```
 
-## GET ELK STACK (DOCKER)
+## ELK DOCKER - GET ELK STACK (DOCKER)
 ```
 git clone https://github.com/deviantony/docker-elk.git
 cd docker-elk
@@ -60,7 +60,7 @@ sudo docker compose up
 # service ufw restart
 ```
 
-## LOGIN TO ELK
+## ELK DOCKER - LOGIN TO ELK
 Link here: [http://localhost:5601/app/home#/]
 
 > elastic / yourpassword
@@ -71,28 +71,28 @@ Link here: [http://localhost:5601/app/home#/]
 
 # KIBANA SECURITY PANEL
 
-## Error will occur
+## KIBANA - Error will occur
 API integration key required
 > A new encryption key is generated for saved objects each time you start Kibana. Without a persistent key, you cannot delete or modify rules after Kibana restarts. To set a persistent key, add the xpack.encryptedSavedObjects.encryptionKey setting with any text value of 32 or more characters to the kibana.yml file.
 
-## Edit 
+## KIBANA - Edit 
 ```
 vi docker-elk/kibana/config/kibana.yml
 ```
 
-## Add to the beginning of the file a generated key
+## KIBANA - Add to the beginning of the file a generated key
 ```
 xpack.encryptedSavedObjects:
   encryptionKey: "min-32-byte-long-strong-encryption-key"
 ```
 
-## Also add
+## KIBANA - Also add
 Reference: [https://www.elastic.co/guide/en/kibana/current/using-kibana-with-security.html#security-configure-settings]
 ```
 xpack.security.encryptionKey: "something_at_least_32_characters"
 ```
 
-## There are 2 goals with the current setup you are installing
+## KIBANA - There are 2 goals with the current setup you are installing
 > - Threat Matched Detected: This section is solely reserved for threat indicator matches identified by an indicator match rule. Threat indicator matches are produced whenever event data matches a threat indicator field value in your indicator index. If indicator threat matches are not discovered, the section displays a message that none are available.
 > - Enriched with Threat Intelligence: This section shows indicator matches that Elastic Security found when querying the alert for fields with threat intelligence. You can use the date time picker to modify the query time frame, which looks at the past 30 days by default. Click the Inspect button, located on the far right of the threat label, to view more information on the query. If threat matches are not discovered within the selected time frame, the section displays a message that none are available.
 
@@ -127,7 +127,7 @@ sudo auditbeat setup -e
 sudo auditbeat test output
 ```
 
-## Make it permanent
+## AUDITBEAT - Make it permanent
 ```
 # Enable at boot
 sudo systemctl enable auditbeat
@@ -143,12 +143,12 @@ sudo service auditbeat start
 
 # FILEBEAT THREATINTEL MODULE ACTIVATION (TO SEND IOC TO ELK)
 
-## Activate the threatintel module
+## FILEBEAT - THREATINTEL - Activate the threatintel module
 ```
 sudo filebeat modules enable threatintel
 ```
 
-## Activate your feeds
+## FILEBEAT - THREATINTEL - Activate your feeds
 ```
 sudo vi /etc/filebeat/modules.d/threatintel.yml 
 ```
@@ -158,21 +158,13 @@ Example :
 	  abuseurl:
 		enabled: true
 
-## For AlienVault, get your API key here and add it to threatintel.yml
+## FILEBEAT - THREATINTEL - For AlienVault, get your API key here and add it to threatintel.yml
 Link here: [https://otx.alienvault.com/api]
 
-## The authentication token used to contact the OTX API, can be found on the OTX UI.
+## FILEBEAT - THREATINTEL - The authentication token used to contact the OTX API, can be found on the OTX UI.
 ```
 var.api_token: put-your-key-here
 ```
-
-## Test and launch
-```
-sudo filebeat test output -e
-sudo filebeat -e
-```
-
-
 
 
 <!---
@@ -180,12 +172,12 @@ sudo filebeat -e
 -->
 # KIBANA INDICATORS
 
-## Add the threatintel integration
+## KIBANA INDICATORS - Add the threatintel integration
 ```
 # Not useful, works with the intel integration in Kibana? [http://localhost:5601/app/integrations/detail/ti_util-1.1.0/overview] (2023-02-08)
 ```
 
-## Validate the ingestion here
+## KIBANA INDICATORS - Validate the ingestion here
 ```
 [http://localhost:5601/app/security/threat_intelligence/indicators]
 
@@ -435,7 +427,7 @@ output.elasticsearch.allow_older_versions to true
 <!---
 *******************************************************************************
 -->
-# TEST A THREAT INTELLIGENCE IOC DETECTION BY A KIBANA RULE
+# IOC - TEST A THREAT INTELLIGENCE IOC DETECTION BY A KIBANA RULE
 
 ## IOC - Rule to activate, by default not all rules are activated
 ```
