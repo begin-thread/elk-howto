@@ -93,8 +93,8 @@ xpack.security.encryptionKey: "something_at_least_32_characters"
 ```
 
 ## KIBANA - There are 2 goals with the current setup you are installing
-> - Threat Matched Detected: This section is solely reserved for threat indicator matches identified by an indicator match rule. Threat indicator matches are produced whenever event data matches a threat indicator field value in your indicator index. If indicator threat matches are not discovered, the section displays a message that none are available.
-> - Enriched with Threat Intelligence: This section shows indicator matches that Elastic Security found when querying the alert for fields with threat intelligence. You can use the date time picker to modify the query time frame, which looks at the past 30 days by default. Click the Inspect button, located on the far right of the threat label, to view more information on the query. If threat matches are not discovered within the selected time frame, the section displays a message that none are available.
+- Threat Matched Detected: This section is solely reserved for threat indicator matches identified by an indicator match rule. Threat indicator matches are produced whenever event data matches a threat indicator field value in your indicator index. If indicator threat matches are not discovered, the section displays a message that none are available.
+- Enriched with Threat Intelligence: This section shows indicator matches that Elastic Security found when querying the alert for fields with threat intelligence. You can use the date time picker to modify the query time frame, which looks at the past 30 days by default. Click the Inspect button, located on the far right of the threat label, to view more information on the query. If threat matches are not discovered within the selected time frame, the section displays a message that none are available.
 
 
 <!---
@@ -249,7 +249,7 @@ sudo vi /etc/filebeat/modules.d/iptables.yml
 ```
 
 ## FILEBEAT - MYSQL module
-> Do not specify a path, Filebeat will discover them for you
+Do not specify a path, Filebeat will discover them for you
 ```
 sudo filebeat modules enable mysql
 sudo vi /etc/filebeat/modules.d/mysql.yml 
@@ -271,9 +271,11 @@ sudo filebeat -e
 ```
 
 ## FILEBEAT - ERROR - Verify for the "too old" error
-> Elasticsearch is too old. Please upgrade the instance. 
-> If you would like to connect to older instances set output.elasticsearch.allow_older_versions to true. ES=8.5.3, Beat=8.6.1","service.name":"filebeat","ecs.version":"1.6.0"}
-> The solution is to add allow_older_versions : "true" in the output.elasticsearch section
+
+Elasticsearch is too old. Please upgrade the instance. 
+If you would like to connect to older instances set output.elasticsearch.allow_older_versions to true. ES=8.5.3, Beat=8.6.1","service.name":"filebeat","ecs.version":"1.6.0"}
+The solution is to add allow_older_versions : "true" in the output.elasticsearch section
+
 ```
 output.elasticsearch:
   # Array of hosts to connect to.
@@ -293,7 +295,9 @@ output.elasticsearch:
 You need to activate some modules as specified in my threatintel.yml section up here
 
 ## FILEBEAT - ERROR - No logs, so I try 
-> kern.log instead of iptables.log
+
+kern.log instead of iptables.log
+
 ```
 sudo service ufw enable
 ```
@@ -414,10 +418,11 @@ winlogbeat.exe run -c winlogbeat.yml -e
 ```
 
 ## WINLOGBEAT - ERROR - If you have this error in winlogbeat output
-> {"log.level":"error","@timestamp":"2023-01-27T23:21:48.261-0500","log.logger":"publisher_pipeline_output","log.origin":
-> {"file.name":"pipeline/client_worker.go","file.line":150},"message":"Failed to connect to backoff(elasticsearch(http://192.168.206.131:9200)): 
-> Connection marked as failed because the onConnect callback failed: Elasticsearch is too old. Please upgrade the instance. 
-> If you would like to connect to older instances set output.elasticsearch.allow_older_versions to true. ES=8.5.3, Beat=8.6.1","service.name":"winlogbeat","ecs.version":"1.6.0"}
+
+{"log.level":"error","@timestamp":"2023-01-27T23:21:48.261-0500","log.logger":"publisher_pipeline_output","log.origin":
+{"file.name":"pipeline/client_worker.go","file.line":150},"message":"Failed to connect to backoff(elasticsearch(http://192.168.206.131:9200)): 
+Connection marked as failed because the onConnect callback failed: Elasticsearch is too old. Please upgrade the instance. 
+If you would like to connect to older instances set output.elasticsearch.allow_older_versions to true. ES=8.5.3, Beat=8.6.1","service.name":"winlogbeat","ecs.version":"1.6.0"}
 
 The solution is here
 ```
@@ -452,7 +457,7 @@ The dataset "event.dataset: ti_*" does not match the filebeat one
 
 ## IOC - Now we have a rule that match
 
-> IOC - For this rule : Threat Intel Filebeat Module (v8.x) Indicator Match
+IOC - For this rule : Threat Intel Filebeat Module (v8.x) Indicator Match
 
 
 ## IOC - Look at the rule, all the fields are matching (the one from the windows event, and the one from the IOC feed)
@@ -517,7 +522,7 @@ Expected results are :
 <!---
 *******************************************************************************
 -->
-# ATOMIC RED TEAM - T1037.001 - Boot or Logon Initialization Scripts: Logon Script
+## ATOMIC RED TEAM - T1037.001 - Boot or Logon Initialization Scripts: Logon Script
 'https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1037.001/T1037.001.md'
 
 ```
@@ -526,13 +531,13 @@ Invoke-AtomicTest T1037.001 -v
 
 Expected results are :
 
-> In progress...
+In progress...
 
 
 <!---
 *******************************************************************************
 -->
-# ATOMIC RED TEAM - T1071.001 - Application Layer Protocol: Web Protocols
+## ATOMIC RED TEAM - T1071.001 - Application Layer Protocol: Web Protocols
 'https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1071.001/T1071.001.md'
 
 *** Your need to start IE first so the test can call IE (yep)
@@ -559,11 +564,7 @@ Invoke-AtomicTest T1059.001 -v
 
 Expected results are :
 
-> KQL = message: (SharpHound or BloodHound)
-
-> More to come...
-
-
+> KQL = message: (SharpHound or BloodHound)  More to come...
 
 
 <!---
@@ -689,13 +690,13 @@ general_log_file = /var/log/mysql/mysql.log
 slow_query_log = 1
 slow_query_log_file = /var/log/mysql/mysql-slow.log
 
-# 0 will log every request
+# 0 will log every request - will be verbose
 long_query_time = 0
 log_queries_not_using_indexes = 1
 ```
 
 ## MYSQL - Create a weak user table based on public information...
-> https://sites.google.com/site/morinetkevin/competences-obligatoires/permettre-une-inscription-utilisateur-en-utilisant-mysql-php-html-et-css
+Reference [https://sites.google.com/site/morinetkevin/competences-obligatoires/permettre-une-inscription-utilisateur-en-utilisant-mysql-php-html-et-css]
 
 ```
 create database dbUtilisateur;
