@@ -224,8 +224,8 @@ output.elasticsearch:
 ## FILEBEAT - APACHE2 module
 To catch auth logs from apache
 ```
-sudo filebeat modules enable apache2
-sudo vi /etc/filebeat/update modules.d/apache2.yml
+sudo filebeat modules enable apache
+sudo vi /etc/filebeat/modules.d/apache.yml
 
 ->->->		enabled: true
 ```
