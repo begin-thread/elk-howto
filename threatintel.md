@@ -775,6 +775,31 @@ long_query_time = 0
 log_queries_not_using_indexes = 1
 ```
 
+## Create a weak user table
+> https://sites.google.com/site/morinetkevin/competences-obligatoires/permettre-une-inscription-utilisateur-en-utilisant-mysql-php-html-et-css
+
+```
+create database dbUtilisateur;
+
+use dbUtilisateur;
+
+drop table if exists utilisateurs;
+
+create table utilisateurs(
+ id int,
+ nom varchar(50),
+ prenom varchar(30),
+ email  varchar(50),
+ telephone varchar(10),
+ login varchar(30),
+ motDePasse varchar(50),
+PRIMARY KEY (id));
+
+insert into utilisateurs(id, nom, prenom, email, telephone, login, motDePasse) values (1, 'john', 'doe', 'myjohn@john.io', '5145555555', 'jdoe', '123456');
+insert into utilisateurs(id, nom, prenom, email, telephone, login, motDePasse) values (2, 'john', 'travolta', 'myjohn@notjohn.io', '5144877455', 'jt', 'rockit');
+ 
+```
+
 <!---
 *******************************************************************************
 -->
