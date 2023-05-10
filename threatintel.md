@@ -608,7 +608,13 @@ hydra -t 1 -V -f -I -l poly -P /usr/share/wordlists/rockyou.txt 192.168.6.128 MY
 ```
 
 ## GENERATE TRAFFIC - Web directory bruteforce
-dirbuster -u http://192.168.6.128:8443
+```
+dirbuster -u http://192.168.6.133
+nikto -h 192.168.6.133
+```
+
+## NEW RULES TO TEST!!!
+[https://github.com/elastic/detection-rules/tree/main/rules/linux]
 
 
 <!---
@@ -839,7 +845,7 @@ service ufw restart
 apt-get install gufw
 ```
 
-## UBUNTU - VMWARE
+## UBUNTU - VMWARE disk full
 
 'https://communities.vmware.com/t5/VMware-Workstation-Player/VMware-Player-has-paused-this-virtual-machine/td-p/1192117'
 
@@ -849,7 +855,10 @@ apt-get install gufw
 > André
 
 
+
 Ref.: 'https://packages.ubuntu.com/bionic/x-session-manager'
+
+## UBUNTU - x-session-manager
 
 ```
 sudo apt install gnome-session-flashback
