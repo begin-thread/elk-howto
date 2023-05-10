@@ -104,7 +104,7 @@ curl -L -O https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-8.6.1-
 sudo dpkg -i filebeat-8.6.1-amd64.deb
 ```
 
-## Uncomment HOST / USER / PASS for elasticsearch
+## Uncomment HOST / USER / PASS 
 ```
 sudo vi /etc/filebeat/filebeat.yml
 ```
@@ -154,7 +154,9 @@ sudo service filebeat start
 *******************************************************************************
 -->
 
-# AUDITBEAT (for Linux AuditD / Better than the auditd module of FILEBEAT)
+# FILEBEAT INSTALLATION ON UBUNTU 
+
+> For Linux AuditD / Better than the FILEBEAT's AuditD module
 
 ## Install
 
@@ -163,10 +165,11 @@ curl -L -O https://artifacts.elastic.co/downloads/beats/auditbeat/auditbeat-8.6.
 sudo dpkg -i auditbeat-8.6.2-amd64.deb
 ```
 
-## Uncomment HOST / USER / PASS for elasticsearch
+## Uncomment HOST / USER / PASS
 ```
 sudo vi /etc/auditbeat/auditbeat.yml
 ```
+
 ## Add parameters for compatibility
 allow_older_versions : "true"
 
@@ -628,7 +631,7 @@ dirbuster -u http://192.168.6.128:8443
 <!---
 *******************************************************************************
 -->
-# TARGET MACHINE 1 - Ubuntu setup with filebeat + FTP 
+# TARGET MACHINE 1 - Ubuntu setup with filebeat + vsFTPd + SSH
 
 Install Ubuntu VM
 Install Filebeat 
@@ -667,6 +670,8 @@ service ufw restart
 ## Filebeat setup + configuration
 
 Reference : https://www.elastic.co/guide/en/beats/filebeat/current/filebeat-installation-configuration.html
+
+### Install Filebeat
 ```
 sudo apt install curl
 
@@ -674,11 +679,10 @@ curl -L -O https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-8.7.1-
 sudo dpkg -i filebeat-8.7.1-amd64.deb
 ```
 
-
+### Connect Filebeat to ELK
 ```
 sudo vi /etc/filebeat/filebeat.yml 
 ```
-
 
 ```
 output.elasticsearch:
@@ -692,8 +696,7 @@ output.elasticsearch:
   #api_key: "id:api_key"
 ->->->    username: "YOUR-ELK-USERNAME"
 ->->->    password: "YOUR-ELK-PASSWORD"
-->->-> NO " around true   allow_older_versions : true
-
+->->->    allow_older_versions : true
 ```
 
 ## Enable Mysql
@@ -775,7 +778,7 @@ long_query_time = 0
 log_queries_not_using_indexes = 1
 ```
 
-## Create a weak user table
+## Create a weak user table based on public information...
 > https://sites.google.com/site/morinetkevin/competences-obligatoires/permettre-une-inscription-utilisateur-en-utilisant-mysql-php-html-et-css
 
 ```
