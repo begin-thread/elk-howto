@@ -136,19 +136,18 @@ sudo systemctl enable auditbeat
 sudo service auditbeat start
 ```
 
-
 <!---
 *******************************************************************************
 -->
 
-# FILEBEAT THREATINTEL MODULE ACTIVATION (TO SEND IOC TO ELK)
+# THREATINTEL - FILEBEAT  MODULE ACTIVATION (TO SEND IOC TO ELK)
 
-## FILEBEAT - THREATINTEL - Activate the threatintel module
+## THREATINTEL - FILEBEAT - Activate the threatintel module
 ```
 sudo filebeat modules enable threatintel
 ```
 
-## FILEBEAT - THREATINTEL - Activate your feeds
+## THREATINTEL - FILEBEAT - Activate your feeds
 ```
 sudo vi /etc/filebeat/modules.d/threatintel.yml 
 ```
@@ -158,26 +157,27 @@ Example :
 	  abuseurl:
 		enabled: true
 
-## FILEBEAT - THREATINTEL - For AlienVault, get your API key here and add it to threatintel.yml
+## THREATINTEL - FILEBEAT - For AlienVault, get your API key here and add it to threatintel.yml
 Link here: [https://otx.alienvault.com/api]
 
-## FILEBEAT - THREATINTEL - The authentication token used to contact the OTX API, can be found on the OTX UI.
+## THREATINTEL - FILEBEAT - The authentication token used to contact the OTX API, can be found on the OTX UI.
 ```
 var.api_token: put-your-key-here
 ```
 
 
+
 <!---
 *******************************************************************************
 -->
-# KIBANA INDICATORS
+# THREATINTEL - KIBANA INDICATORS
 
-## KIBANA INDICATORS - Add the threatintel integration
+## THREATINTEL - KIBANA INDICATORS - Add the threatintel integration
 ```
 # Not useful, works with the intel integration in Kibana? [http://localhost:5601/app/integrations/detail/ti_util-1.1.0/overview] (2023-02-08)
 ```
 
-## KIBANA INDICATORS - Validate the ingestion here
+## THREATINTEL - KIBANA INDICATORS - Validate the ingestion here
 ```
 [http://localhost:5601/app/security/threat_intelligence/indicators]
 
