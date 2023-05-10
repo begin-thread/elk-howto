@@ -680,7 +680,7 @@ sudo dpkg -i filebeat-8.7.1-amd64.deb
 ```
 
 ### Connect Filebeat to ELK
-```
+``` bash
 sudo vi /etc/filebeat/filebeat.yml 
 ```
 
