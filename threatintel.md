@@ -784,22 +784,19 @@ Wait a couple of minutes and go back to the main page, the feeds are loading
 <!---
 *******************************************************************************
 -->
-# 99 - Install Ubuntu-Desktop on Ubuntu 
+# UBUNTU
+
+## UBUNTU - Install Ubuntu-Desktop on Ubuntu 
 
 Less intensive on the graphical side. Good with old hardware.
+
+At login, choose "gnome session" as the display manager.???
 
 ```
 sudo apt install ubuntu-desktop
 ```
 
-At login, choose "gnome session" as the display manager.???
-
-
-
-<!---
-*******************************************************************************
--->
-# 99 - Install xfce4 on Ubuntu 
+## UBUNTU - Install xfce4 on Ubuntu 
 
 Less intensive on the graphical side. Good with old hardware.
 
@@ -809,13 +806,7 @@ sudo apt install xfce4
 
 At login, choose "Xfce session" as the display manager.
 
-
-
-<!---
-*******************************************************************************
--->
-
-# 99 - Install xRDP on Ubuntu
+## UBUNTU - Install xRDP on Ubuntu
 
 'https://linuxize.com/post/how-to-install-xrdp-on-ubuntu-20-04/'
 
@@ -830,10 +821,7 @@ sudo adduser xrdp ssl-cert
 sudo service xrdp restart
 ```
 
-<!---
-*******************************************************************************
--->
-# 99 UFW - Some useful commands 
+## UBUNTU - UFW - Some useful commands 
 
 > Beware that Docker will use iptables directly, so everything you do to close some ports will not work.
 
@@ -851,11 +839,7 @@ service ufw restart
 apt-get install gufw
 ```
 
-
-<!---
-*******************************************************************************
--->
-# 666 - RANDOM
+## UBUNTU - VMWARE
 
 'https://communities.vmware.com/t5/VMware-Workstation-Player/VMware-Player-has-paused-this-virtual-machine/td-p/1192117'
 
@@ -864,7 +848,6 @@ apt-get install gufw
 > Personally, I wouldn't take the risk and rather clean up the disk or move the VM to a larger disk.
 > André
 
-# 666 - RANDOM
 
 Ref.: 'https://packages.ubuntu.com/bionic/x-session-manager'
 
