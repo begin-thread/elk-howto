@@ -97,84 +97,31 @@ xpack.security.encryptionKey: "something_at_least_32_characters"
 > - Enriched with Threat Intelligence: This section shows indicator matches that Elastic Security found when querying the alert for fields with threat intelligence. You can use the date time picker to modify the query time frame, which looks at the past 30 days by default. Click the Inspect button, located on the far right of the threat label, to view more information on the query. If threat matches are not discovered within the selected time frame, the section displays a message that none are available.
 
 
-# FILEBEAT INSTALLATION ON UBUNTU
-Reference [https://www.elastic.co/fr/security-labs/ingesting-threat-data-with-the-threat-intel-filebeat-module]
-```
-curl -L -O https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-8.6.1-amd64.deb
-sudo dpkg -i filebeat-8.6.1-amd64.deb
-```
-
-## Uncomment HOST / USER / PASS 
-```
-sudo vi /etc/filebeat/filebeat.yml
-```
-
-If you want to send syslog, enable this module
-```
-sudo filebeat modules enable system
-```
-
-```
-sudo vi /etc/filebeat/modules.d/system.yml 
-```
-
-Enable the 2 modules ->->->
-
-```
-- module: system
-  # Syslog
-  syslog:
-->->->    enabled: true
-
-    # Set custom paths for the log files. If left empty,
-    # Filebeat will choose the paths depending on your OS.
-    #var.paths:
-
-  # Authorization logs
-  auth:
-->->->    enabled: false
-```
-
-## Enable the Filebeat Kibana dashboard
-```
-sudo filebeat setup -e
-sudo filebeat test output -e
-```
-
-## Make it permanent
-```
-# Enable at boot
-sudo systemctl enable filebeat
-
-# Make it permanent
-sudo service filebeat start
-```
-
 <!---
 *******************************************************************************
 -->
 
-# FILEBEAT INSTALLATION ON UBUNTU 
+# AUDITBEAT INSTALLATION ON UBUNTU 
 
-> For Linux AuditD / Better than the FILEBEAT's AuditD module
+> For Linux AuditD / Better than the FILEBEAT's AuditD module, but VERY verbose
 
-## Install
+## AUDITBEAT - Install
 
 ```
 curl -L -O https://artifacts.elastic.co/downloads/beats/auditbeat/auditbeat-8.6.2-amd64.deb
 sudo dpkg -i auditbeat-8.6.2-amd64.deb
 ```
 
-## Uncomment HOST / USER / PASS
+## AUDITBEAT - Uncomment HOST / USER / PASS
 ```
 sudo vi /etc/auditbeat/auditbeat.yml
 ```
 
-## Add parameters for compatibility
+## AUDITBEAT - Add parameters for compatibility
 allow_older_versions : "true"
 
 
-## Enable the auditbeat Kibana dashboard
+## AUDITBEAT - Enable the auditbeat Kibana dashboard
 ```
 sudo auditbeat setup -e
 sudo auditbeat test output
@@ -219,44 +166,14 @@ Link here: [https://otx.alienvault.com/api]
 var.api_token: put-your-key-here
 ```
 
-## Test to connectivity
+## Test and launch
 ```
-sudo filebeat test output
-```
-
-## Launch filebeat
-```
+sudo filebeat test output -e
 sudo filebeat -e
 ```
 
-## Validate if you have this error (not quite easy to see)
-```
-{"log.level":"error","@timestamp":"2023-01-26T20:48:07.041-0800","log.logger":"publisher_pipeline_output","log.origin":{"file.name":"pipeline/client_worker.go","file.line":150},"message":"Failed to connect to backoff
-(elasticsearch(http://192.168.2.41:9200)): Connection marked as failed because the onConnect callback failed: 
-```
 
-## Sanitized error is
-> Elasticsearch is too old. Please upgrade the instance. 
-> If you would like to connect to older instances set output.elasticsearch.allow_older_versions to true. ES=8.5.3, Beat=8.6.1","service.name":"filebeat","ecs.version":"1.6.0"}
 
-## The solution is to add allow_older_versions : "true" in the output.elasticsearch section
-```
-output.elasticsearch:
-  # Array of hosts to connect to.
-  hosts: ["localhost:9200"]
-
-  # Protocol - either `http` (default) or `https`.
-  #protocol: "https"
-
-  # Authentication credentials - either API key or username/password.
-  #api_key: "id:api_key"
-  username: "**********"
-  password: "**********"
-  allow_older_versions : "true"
-```
-
-## If you have this error "no enable fileset error"
-You need to activate some modules as specified in my threatintel.yml section up here
 
 <!---
 *******************************************************************************
@@ -279,57 +196,128 @@ Look at this dashboard too : [Filebeat Threat Intel] AlienVault OTX
 <!---
 *******************************************************************************
 -->
+# FILEBEAT SETUP + CONFIGURATION
 
-# FILEBEAT *** UBUNTU *** SYSLOG TO MAKE SOME RULES DETECTION
+Reference : https://www.elastic.co/guide/en/beats/filebeat/current/filebeat-installation-configuration.html
 
-## SYSTEM
+## FILEBEAT - Installation
+Reference [https://www.elastic.co/fr/security-labs/ingesting-threat-data-with-the-threat-intel-filebeat-module]
+```
+sudo apt install curl
+
+curl -L -O https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-8.7.1-amd64.deb
+sudo dpkg -i filebeat-8.7.1-amd64.deb
+```
+
+## FILEBEAT - Connectivity to ELK
+``` bash
+sudo vi /etc/filebeat/filebeat.yml 
+```
+
+```
+output.elasticsearch:
+  # Array of hosts to connect to.
+->->->  hosts: ["YOUR-ELK-IP-ADDRESS:9200"]
+
+  # Protocol - either `http` (default) or `https`.
+  #protocol: "https"
+
+  # Authentication credentials - either API key or username/password.
+  #api_key: "id:api_key"
+->->->    username: "YOUR-ELK-USERNAME"
+->->->    password: "YOUR-ELK-PASSWORD"
+->->->    allow_older_versions : true
+```
+
+## FILEBEAT - APACHE2 module
+To catch auth logs from apache
+```
+sudo filebeat modules enable apache2
+sudo vi /etc/filebeat/update modules.d/apache2.yml
+
+->->->		enabled: true
+```
+
+## FILEBEAT - SYSTEM module
+To catch auth logs from FTP or want to send syslog, enable this module
 ```
 sudo filebeat modules enable system
+sudo vi /etc/filebeat/modules.d/system.yml 
+
+->->->		enabled: true
 ```
 
-## Enable modules in the module.d/system.yml
-```
-enabled: true
-```
-
-## AUDITD - ENABLE AND ACTIVATE
-```
-sudo apt-get install auditd
-sudo filebeat modules enable auditd
-```
-## Enable modules in the module.d/auditd.yml
-```
-enabled: true
-```
-
-
-## IPTABLES - ENABLE AND ACTIVATE
+## FILEBEAT - IPTABLES module
+To catch network connection from FTP
 ```
 sudo filebeat modules enable iptables
+sudo vi /etc/filebeat/modules.d/iptables.yml 
+
+->->->		enabled: true
 ```
 
-
-## Activate
+## FILEBEAT - MYSQL module
+> Do not specify a path, Filebeat will discover them for you
 ```
+sudo filebeat modules enable mysql
+sudo vi /etc/filebeat/modules.d/mysql.yml 
+
+->->->    enabled: true
+```
+
+## FILEBEAT - Test, dashboard upload to kibana and activation
+```
+sudo filebeat test output -e
 sudo filebeat setup -e
+sudo filebeat -e
 ```
 
-## Activate the endpoint module
-Reference: [http://localhost:5601/app/integrations/detail/endpoint-8.2.0/overview]
-
-
-## Could make ip indicator works???
+## FILEBEAT - ERROR - Validate if you have this error (not quite easy to see)
 ```
-sudo filebeat modules enable iptables
-sudo gedit /etc/filebeat/modules.d/iptables.yml 
-		enabled: true
+{"log.level":"error","@timestamp":"2023-01-26T20:48:07.041-0800","log.logger":"publisher_pipeline_output","log.origin":{"file.name":"pipeline/client_worker.go","file.line":150},"message":"Failed to connect to backoff
+(elasticsearch(http://192.168.2.41:9200)): Connection marked as failed because the onConnect callback failed: 
 ```
 
-## No logs, so I try 
+## FILEBEAT - ERROR - Verify for the "too old" error
+> Elasticsearch is too old. Please upgrade the instance. 
+> If you would like to connect to older instances set output.elasticsearch.allow_older_versions to true. ES=8.5.3, Beat=8.6.1","service.name":"filebeat","ecs.version":"1.6.0"}
+> The solution is to add allow_older_versions : "true" in the output.elasticsearch section
+```
+output.elasticsearch:
+  # Array of hosts to connect to.
+  hosts: ["localhost:9200"]
+
+  # Protocol - either `http` (default) or `https`.
+  #protocol: "https"
+
+  # Authentication credentials - either API key or username/password.
+  #api_key: "id:api_key"
+  username: "**********"
+  password: "**********"
+  allow_older_versions : "true"
+```
+
+## FILEBEAT - ERROR - If you have this error "no enable fileset error"
+You need to activate some modules as specified in my threatintel.yml section up here
+
+## FILEBEAT - ERROR - No logs, so I try 
+> kern.log instead of iptables.log
 ```
 sudo service ufw enable
 ```
-kern.log instead of iptables.log
+
+## FILEBEAT - ERROR - Activate the endpoint module
+Reference: [http://localhost:5601/app/integrations/detail/endpoint-8.2.0/overview]
+
+
+## FILEBEAT - Make it permanent
+```
+# Enable at boot
+sudo systemctl enable filebeat
+
+# Make it permanent
+sudo service filebeat start
+```
 
 
 <!---
@@ -337,7 +325,7 @@ kern.log instead of iptables.log
 -->
 # WINLOGBEAT ON *** WINDOWS *** TO SEND EVENTS TO ELK
 
-## Setup Kibana in the winlogbeat config to allow the activation of Kibana dashboard
+## WINLOGBEAT - Setup Kibana in the winlogbeat config to allow the activation of Kibana dashboard
 Uncomment and the the kibana host for the winlogbeat setup
 ```
 setup.kibana:
@@ -349,7 +337,7 @@ setup.kibana:
   host: "192.168.206.131:5601"
 ```
 
-## New proposed winlogbeat config! (2023-02-18)
+## WINLOGBEAT - New proposed winlogbeat config! (2023-02-18)
 
 Other good reference :
 - 'https://github.com/jhochwald/Universal-Winlogbeat-configuration'
@@ -387,42 +375,42 @@ winlogbeat.event_logs:
     ignore_older: 30m
 ```
 
-## Download sysmon
+## WINLOGBEAT - Download sysmon
 Link here: [https://learn.microsoft.com/en-us/sysinternals/downloads/sysmon]
 
-## Activate sysmon network connection
+## WINLOGBEAT - Activate sysmon network connection
 By default, tcp disabled by default, we need to activate it to have indicator match
 
 ```
 The screenshot [-n] configures Sysmon to Log network connections as well. 
 ```
 
-## SYSMON - Use the SwiftOnSecurity sysmon configuration https://github.com/SwiftOnSecurity/sysmon-config (2023-02-18)
+## WINLOGBEAT - SYSMON - Use the SwiftOnSecurity sysmon configuration https://github.com/SwiftOnSecurity/sysmon-config (2023-02-18)
 ```
 sysmon.exe -accepteula -n -i sysmonconfig-export.xml
 ```
 
-## SYSMON - Use a simple version (2023-02-18)
+## WINLOGBEAT - SYSMON - Use a simple version (2023-02-18)
 ```
 sysmon -i -accepteula -h md5,sha256,imphash -l -n
 ```
 
-## Make sure to test the config  (2023-02-18)
+## WINLOGBEAT - Make sure to test the config  (2023-02-18)
 ```
 winlogbeat.exe test config -e
 ```
 
-## Setup
+## WINLOGBEAT - Setup
 ```
 winlogbeat.exe setup -e
 ```
 
-## Test
+## WINLOGBEAT - Test
 ```
 winlogbeat.exe test output -e
 ```
 
-## Run winlogbeat in a *** privileged *** cmd.exe windows (to allow registry access, sysmon is a good example)
+## WINLOGBEAT - Run winlogbeat in a *** privileged *** cmd.exe windows (to allow registry access, sysmon is a good example)
 
 Be careful to start winlogbeat with Admin right!!! 
 Otherwise a small error message will be hidden in the console saying that without admin rights, sysmon will not be ingested...
@@ -433,7 +421,7 @@ Thanks to kifarunix.com for the admin reminder! 'https://kifarunix.com/send-wind
 winlogbeat.exe run -c winlogbeat.yml -e
 ```
 
-## If you have this error in winlogbeat output
+## WINLOGBEAT - ERROR - If you have this error in winlogbeat output
 > {"log.level":"error","@timestamp":"2023-01-27T23:21:48.261-0500","log.logger":"publisher_pipeline_output","log.origin":
 > {"file.name":"pipeline/client_worker.go","file.line":150},"message":"Failed to connect to backoff(elasticsearch(http://192.168.206.131:9200)): 
 > Connection marked as failed because the onConnect callback failed: Elasticsearch is too old. Please upgrade the instance. 
@@ -449,16 +437,16 @@ output.elasticsearch.allow_older_versions to true
 -->
 # TEST A THREAT INTELLIGENCE IOC DETECTION BY A KIBANA RULE
 
-## Rule to activate, by default not all rules are activated
+## IOC - Rule to activate, by default not all rules are activated
 ```
 Rule = Threat Intel Filebeat Module (v8.x) Indicator Match
 ```
 
-## Way to test
+## IOC - Way to test
 Test the IOC with MSEDGE or TELNET on the port
 Ping or Tracert do no generate tcp/udp traffic (was a simple not working)
 
-## Filebeat config
+## IOC - Filebeat config
 ```
 Update the securitySolution:defaultThreatIndex advanced setting by adding the appropriate index pattern name after the default Fleet threat intelligence index pattern (logs-ti*):
 ```
@@ -470,18 +458,18 @@ For this rule : Threat Intel Indicator Match
 The dataset "event.dataset: ti_*" does not match the filebeat one
 ```
 
-## Now we have a rule that match
+## IOC - Now we have a rule that match
 
-> For this rule : Threat Intel Filebeat Module (v8.x) Indicator Match
+> IOC - For this rule : Threat Intel Filebeat Module (v8.x) Indicator Match
 
 
-## Look at the rule, all the fields are matching (the one from the windows event, and the one from the IOC feed)
+## IOC - Look at the rule, all the fields are matching (the one from the windows event, and the one from the IOC feed)
 ```
 (destination.ip MATCHES threat.indicator.ip)
 threat.indicator.ip: * -> come from abuse.ch, not alienvault
 ```
 
-## Test one IOC
+## IOC - Test one IOC
 Use Powershell to simulate a c2 connection (for fun)
 
 > x.x.x.x = pick one from alienvault, but be careful...
@@ -500,7 +488,7 @@ Expected results are :
 -->
 # ATOMIC RED TEAM TO TEST MITRE ATTACK WITH ELK
 
-## Installation
+## ATOMIC RED TEAM - Installation
 It needs to be done everytime you start powershell
 ```
 IEX (IWR 'https://raw.githubusercontent.com/redcanaryco/invoke-atomicredteam/master/install-atomicredteam.ps1' -UseBasicParsing); Install-AtomicRedTeam -getAtomics -Force
@@ -508,7 +496,7 @@ IEX (IWR 'https://raw.githubusercontent.com/redcanaryco/invoke-atomicredteam/mas
 Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope CurrentUser -Force
 ```
 
-## Launch a test
+## ATOMIC RED TEAM - Launch a test
 The list of available tests are documented here 
 
 'https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/Indexes/Indexes-Markdown/index.md'
@@ -519,7 +507,7 @@ The list of available tests are documented here
 <!---
 *******************************************************************************
 -->
-## TEST T1055.012 - Process Injection: Process Hollowing
+## ATOMIC RED TEAM - T1055.012 - Process Injection: Process Hollowing
 'https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1055.012/T1055.012.md'
 
 ```
@@ -537,7 +525,7 @@ Expected results are :
 <!---
 *******************************************************************************
 -->
-# TEST T1037.001 - Boot or Logon Initialization Scripts: Logon Script
+# ATOMIC RED TEAM - T1037.001 - Boot or Logon Initialization Scripts: Logon Script
 'https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1037.001/T1037.001.md'
 
 ```
@@ -552,7 +540,7 @@ Expected results are :
 <!---
 *******************************************************************************
 -->
-# TEST T1071.001 - Application Layer Protocol: Web Protocols
+# ATOMIC RED TEAM - T1071.001 - Application Layer Protocol: Web Protocols
 'https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1071.001/T1071.001.md'
 
 *** Your need to start IE first so the test can call IE (yep)
@@ -568,7 +556,7 @@ Expected results are :
 <!---
 *******************************************************************************
 -->
-## TEST T1059.001 - Command and Scripting Interpreter: PowerShell
+## ATOMIC RED TEAM - T1059.001 - Command and Scripting Interpreter: PowerShell
 'https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1059.001/T1059.001.md'
 
 Thanks to 'https://systemweakness.com/atomic-red-team-3-detecting-bloodhound-using-the-download-cradle-in-elk-siem-bc6960cb4066'
@@ -583,28 +571,31 @@ Expected results are :
 
 > More to come...
 
-# BASICS TEST FOR DIFFERENTS PROTOCOLS
+
+
 
 <!---
 *******************************************************************************
 -->
-## SSH bruteforce
+# GENERATE TRAFFIC FOR DIFFERENTS PROTOCOLS
+
+## GENERATE TRAFFIC - SSH bruteforce
 ```
 nmap -p 22 --script ssh-brute x.x.x.x
 hydra -t 1 -V -f -I -l poly -P /usr/share/wordlists/rockyou.txt 192.168.6.128 SSH
 ```
 
-## FTP bruteforce
+## GENERATE TRAFFIC - FTP bruteforce
 ```
 hydra -t 1 -V -f -I -l poly -P /usr/share/wordlists/rockyou.txt 192.168.6.128 FTP
 ```
 
-## MYSQL bruteforce
+## GENERATE TRAFFIC - MYSQL bruteforce
 ```
 hydra -t 1 -V -f -I -l poly -P /usr/share/wordlists/rockyou.txt 192.168.6.128 MYSQL
 ```
 
-## MYSQL Request
+## GENERATE TRAFFIC - MYSQL Request
 ```
 ->->->->->-> poly@poly-db:/var/log/mysql$ sudo mysql -u root
 
@@ -623,8 +614,7 @@ hydra -t 1 -V -f -I -l poly -P /usr/share/wordlists/rockyou.txt 192.168.6.128 MY
 ->->->->->-> mysql> use mysql; select * from user;
 ```
 
-
-## Web directory bruteforce
+## GENERATE TRAFFIC - Web directory bruteforce
 dirbuster -u http://192.168.6.128:8443
 
 
@@ -633,27 +623,8 @@ dirbuster -u http://192.168.6.128:8443
 -->
 # TARGET MACHINE 1 - Ubuntu setup with filebeat + vsFTPd + SSH
 
-Install Ubuntu VM
-Install Filebeat 
-
-## To catch auth logs from apache
-```
-sudo filebeat modules enable apache2
-```
-
-## To catch auth logs from FTP
-```
-sudo filebeat modules enable system
-```
-
-## To catch network connection from FTP
-```
-sudo filebeat modules enable iptables
-sudo vi /etc/filebeat/modules.d/iptables.yml 
-		enabled: true
-```
-
-update modules.d/apache2.yml
+> Install Ubuntu VM
+> Install Filebeat 
 
 ## Install some services
 ```
@@ -667,58 +638,11 @@ ufw allow 20 21 22
 service ufw restart
 ```
 
-## Filebeat setup + configuration
-
-Reference : https://www.elastic.co/guide/en/beats/filebeat/current/filebeat-installation-configuration.html
-
-### Install Filebeat
-```
-sudo apt install curl
-
-curl -L -O https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-8.7.1-amd64.deb
-sudo dpkg -i filebeat-8.7.1-amd64.deb
-```
-
-### Connect Filebeat to ELK
-``` bash
-sudo vi /etc/filebeat/filebeat.yml 
-```
-
-```
-output.elasticsearch:
-  # Array of hosts to connect to.
-->->->  hosts: ["YOUR-ELK-IP-ADDRESS:9200"]
-
-  # Protocol - either `http` (default) or `https`.
-  #protocol: "https"
-
-  # Authentication credentials - either API key or username/password.
-  #api_key: "id:api_key"
-->->->    username: "YOUR-ELK-USERNAME"
-->->->    password: "YOUR-ELK-PASSWORD"
-->->->    allow_older_versions : true
-```
-
-## Enable Mysql
-```
-sudo filebeat modules enable mysql
-sudo vi /etc/filebeat/modules.d/mysql.yml 
-
-ENABLE ONLY, don't specify path	->->->    enabled: true
-
-```
-
-```
-sudo filebeat test output -e
-sudo filebeat setup -e
-sudo filebeat -e
-```
-
-
 ## Brute force rule
 https://discuss.elastic.co/t/network-scan/322835
 https://www.elastic.co/fr/security-labs/detect-credential-access
 +++ https://discuss.elastic.co/t/what-is-the-point-of-using-eql-to-correlate-log/294542/2
+
 
 <!---
 *******************************************************************************
@@ -728,12 +652,12 @@ https://www.elastic.co/fr/security-labs/detect-credential-access
 Install Ubuntu VM
 Install Filebeat 
 
-## Install Mysql 
+## MYSQL - Install Mysql 
 ```
 sudo apt-get install mysql-server
 ```
 
-## Change the bind address
+## MYSQL - Change the bind address
 ```
 vi /etc/mysql/mysql.conf.d/mysqld.cnf 
 ```
@@ -745,7 +669,7 @@ https://logstail.com/blog/how-to-analyze-mysql-logs-with-elk-stack-and-logstail-
 sudo service mysql restart
 ```
 
-## Permissions
+## MYSQL - Permissions
 ```
 sudo mysql -u root
 
@@ -760,7 +684,7 @@ Query OK, 0 rows affected (0.00 sec)
 
 ```
 
-## Log generation
+## MYSQL - Log generation
 ```
 sudo vi /etc/mysql/mysql.conf.d/mysqld.cnf 
 
@@ -778,7 +702,7 @@ long_query_time = 0
 log_queries_not_using_indexes = 1
 ```
 
-## Create a weak user table based on public information...
+## MYSQL - Create a weak user table based on public information...
 > https://sites.google.com/site/morinetkevin/competences-obligatoires/permettre-une-inscription-utilisateur-en-utilisant-mysql-php-html-et-css
 
 ```
@@ -808,7 +732,7 @@ insert into utilisateurs(id, nom, prenom, email, telephone, login, motDePasse) v
 -->
 # MISP Threat Intelligence Platform (TIP)
 
-## Installation
+## MISP - Installation
 Here is the installation command. Please note that it will take a while to install...
 
 ```
@@ -819,7 +743,7 @@ cd misp-docker
 cp template.env .env 
 ```
 
-## Change the base URL for your MISP IP
+## MISP - Change the base URL for your MISP IP
 
 In the .env file 
 
@@ -828,7 +752,7 @@ In the .env file
 MISP_BASEURL=https://192.168.206.131/
 ```
 
-## Change the timezone. To find yours, type this command
+## MISP - Change the timezone. To find yours, type this command
 
 ```
 timedatectl
@@ -843,12 +767,12 @@ Replace with your timezone in the .env file
 TIMEZONE=America/Toronto
 ```
 
-## Start Docker
+## MISP - Start Docker
 ```
 sudo docker compose up
 ```
 
-## Activate feeds
+## MISP - Activate feeds
 
 'https://localhost/feeds/index'
 
@@ -858,7 +782,7 @@ sudo docker compose up
 
 > "Fetch and store all feed data"
 
-## Refresh and wait
+## MISP - Refresh and wait
 
 'https://localhost/'
 
