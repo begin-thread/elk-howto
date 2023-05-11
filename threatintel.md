@@ -202,8 +202,10 @@ sudo dpkg -i filebeat-8.7.1-amd64.deb
 ```
 
 ## FILEBEAT - Connectivity to ELK
-``` bash
+```
 sudo vi /etc/filebeat/filebeat.yml 
+
+->->->		enabled: true
 ```
 
 ```
@@ -255,6 +257,17 @@ sudo filebeat modules enable mysql
 sudo vi /etc/filebeat/modules.d/mysql.yml 
 
 ->->->    enabled: true
+```
+
+## FILEBEAT - No FTP module present
+> Add the logs directly to filebeat input stream (TODO need to test)
+Reference: [https://discuss.elastic.co/t/ftp-logs-filebeat/273430/2]
+
+The ftp log should be taken care by the default config 
+
+```
+sudo vi /etc/filebeat/filebeat.yml
+   - /var/log/vsftpd.log
 ```
 
 ## FILEBEAT - Test, dashboard upload to kibana and activation
@@ -616,6 +629,8 @@ nikto -h 192.168.6.133
 ## NEW RULES TO TEST!!!
 [https://github.com/elastic/detection-rules/tree/main/rules/linux]
 
+## NEW RULES TO TEST!!!
+sudo rm -f /var/log/apache2/error.log 
 
 <!---
 *******************************************************************************
