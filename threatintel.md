@@ -122,6 +122,7 @@ allow_older_versions : "true"
 
 
 ## AUDITBEAT - Enable the auditbeat Kibana dashboard
+> Be very careful with the stdout output, some errors could be there
 ```
 sudo auditbeat setup -e
 sudo auditbeat test output
@@ -271,6 +272,8 @@ sudo vi /etc/filebeat/filebeat.yml
 ```
 
 ## FILEBEAT - Test, dashboard upload to kibana and activation
+> Be very careful with the stdout output, some errors could be there
+
 ```
 sudo filebeat test output -e
 sudo filebeat setup -e
@@ -635,16 +638,43 @@ sudo rm -f /var/log/apache2/error.log
 <!---
 *******************************************************************************
 -->
-# TARGET MACHINE 1 - Ubuntu setup with filebeat + vsFTPd + SSH
+# TARGET MACHINE 1 - Ubuntu setup with filebeat + vsFTPd + SSH + Apache2
 
 > Install Ubuntu VM
 > Install Filebeat 
+> Install Auditbeat
 
 ## Install some services
 ```
 sudo apt-get install vsFTPd
 sudo apt-get install SSH
+sudo apt-get install Apache2
 ```
+
+## .htaccess for apache
+Reference : [https://tecadmin.net/enable-htaccess-apache-web-server/#:~:text=To%20enable%20.htaccess%20in%20Apache%2C%20follow%20these%20steps%3A,Apache%20web%20server%20to%20apply%20the%20changes.%20]
+```
+sudo vi /etc/apache2/apache2.conf 
+
+	<Directory /var/www/>
+			Options Indexes FollowSymLinks
+			#POLY AllowOverride None
+	->->->      AllowOverride All
+			Require all granted
+	</Directory>
+
+sudo service apache2 restart
+```
+
+```
+sudo mkdir /var/www/html/backups
+sudo vi /var/www/html/backups/.htaccess
+
+Order deny,allow
+Deny from all
+```
+
+It should
 
 ## Allow some ports on the firewall
 ```
