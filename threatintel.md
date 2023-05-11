@@ -124,8 +124,9 @@ allow_older_versions : "true"
 ## AUDITBEAT - Enable the auditbeat Kibana dashboard
 > Be very careful with the stdout output, some errors could be there
 ```
+sudo auditbeat test output -e
 sudo auditbeat setup -e
-sudo auditbeat test output
+sudo auditbeat -e
 ```
 
 ## AUDITBEAT - Make it permanent
@@ -621,6 +622,7 @@ hydra -t 1 -V -f -I -l poly -P /usr/share/wordlists/rockyou.txt 192.168.6.128 MY
 	Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
 
 ->->->->->-> mysql> use mysql; select * from user;
+->->->->->-> mysql> use mysql; select * from user;
 ```
 
 ## GENERATE TRAFFIC - Web directory bruteforce
@@ -628,6 +630,15 @@ hydra -t 1 -V -f -I -l poly -P /usr/share/wordlists/rockyou.txt 192.168.6.128 MY
 dirbuster -u http://192.168.6.133
 nikto -h 192.168.6.133
 ```
+
+## GENERATE TRAFFIC - Credential harvesting automation
+Reference : [https://github.com/AlessandroZ/LaZagne]
+
+```
+sudo python3 laZagne.py all -v
+```
+
+
 
 ## NEW RULES TO TEST!!!
 [https://github.com/elastic/detection-rules/tree/main/rules/linux]
