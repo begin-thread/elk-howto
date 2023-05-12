@@ -622,7 +622,7 @@ hydra -t 1 -V -f -I -l poly -P /usr/share/wordlists/rockyou.txt 192.168.6.128 MY
 	Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
 
 ->->->->->-> mysql> use mysql; select * from user;
-->->->->->-> mysql> use mysql; select * from user;
+->->->->->-> mysql> use dbUtilisateurs; select * from utilisateurs;
 ```
 
 ## GENERATE TRAFFIC - Web directory bruteforce
@@ -657,12 +657,12 @@ sudo rm -f /var/log/apache2/error.log
 
 ## Install some services
 ```
-sudo apt-get install vsFTPd
-sudo apt-get install SSH
-sudo apt-get install Apache2
+sudo apt-get install vsftpd
+sudo apt-get install ssh
+sudo apt-get install apache2
 ```
 
-## .htaccess for apache
+## .htaccess for Apache
 Reference : [https://tecadmin.net/enable-htaccess-apache-web-server/#:~:text=To%20enable%20.htaccess%20in%20Apache%2C%20follow%20these%20steps%3A,Apache%20web%20server%20to%20apply%20the%20changes.%20]
 
 > Allow .htaccess in folders
@@ -729,21 +729,17 @@ sudo service mysql restart
 ```
 
 ## MYSQL - Permissions
+Reference : [https://www.techrepublic.com/article/how-to-set-change-and-recover-a-mysql-root-password/]
 ```
 sudo mysql -u root
 
-flush privileges;
-ALTER USER 'root'@'localhost' IDENTIFIED BY 'new_password';
+# Create a new user
+CREATE USER 'mysqladmin'@'localhost' IDENTIFIED BY 'princess';
+GRANT ALL ON *.* TO 'mysqladmin'@'localhost';
 
-mysql> CREATE USER 'root'@'192.168.6.130' IDENTIFIED BY 'princess';
-Query OK, 0 rows affected (0.04 sec)
+#mysql> CREATE USER 'root'@'192.168.6.130' IDENTIFIED BY 'princess';
+#mysql> GRANT ALL PRIVILEGES ON database_name.* TO 'root'@'192.168.6.130';
 
-mysql> GRANT ALL PRIVILEGES ON database_name.* TO 'root'@'192.168.6.130';
-Query OK, 0 rows affected (0.00 sec)
-
-```
-
-## MYSQL - Log generation
 ```
 sudo vi /etc/mysql/mysql.conf.d/mysqld.cnf 
 
@@ -759,6 +755,11 @@ slow_query_log_file = /var/log/mysql/mysql-slow.log
 # 0 will log every request - will be verbose
 long_query_time = 0
 log_queries_not_using_indexes = 1
+```
+## MYSQL - Login with new user
+
+```
+sudo mysql -u mysqladmin -p
 ```
 
 ## MYSQL - Create a weak user table based on public information...
