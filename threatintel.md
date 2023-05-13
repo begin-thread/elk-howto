@@ -662,6 +662,14 @@ Reference : [https://github.com/AlessandroZ/LaZagne]
 ```
 sudo python3 laZagne.py all -v
 ```
+## GENERATE TRAFFIC - LinEnum execution
+Reference : [https://github.com/rebootuser/LinEnum/blob/master/LinEnum.sh]
+
+```
+wget https://raw.githubusercontent.com/rebootuser/LinEnum/master/LinEnum.sh
+chmod +x LinEnum.sh
+./LinEnum.sh > linenum.txt
+```
 
 
 
@@ -670,6 +678,13 @@ sudo python3 laZagne.py all -v
 
 ## NEW RULES TO TEST!!!
 sudo rm -f /var/log/apache2/error.log 
+
+<!---
+*******************************************************************************
+-->
+# ELK RULE CREATION
+Reference [https://www.elastic.co/guide/en/security/current/rules-ui-create.html]
+
 
 <!---
 *******************************************************************************
@@ -910,6 +925,7 @@ sudo adduser xrdp ssl-cert
 
 #20230314 sudo systemctl restart xrdp
 
+```
 sudo service xrdp restart
 ```
 
