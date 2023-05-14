@@ -1,20 +1,20 @@
 # Very helpful links!
 
-[https://github.com/deviantony/docker-elk] Thanks you so much!
+<https://github.com/deviantony/docker-elk> Thanks you so much!
 
-[https://www.elastic.co/fr/blog/establish-robust-threat-intelligence-with-elastic-security]
+<https://www.elastic.co/fr/blog/establish-robust-threat-intelligence-with-elastic-security>
 
-[https://www.elastic.co/guide/en/beats/winlogbeat/current/configuration-winlogbeat-options.html]
+<https://www.elastic.co/guide/en/beats/winlogbeat/current/configuration-winlogbeat-options.html>
 
 <!---
 *******************************************************************************
 -->
 # ELK DOCKER - INSTALL UBUNTU to host ELK and Filebeat to send IOC to ELK
-Download link here: [https://ubuntu.com/download/desktop]
+Download link here: <https://ubuntu.com/download/desktop>
 
 ## ELK DOCKER - INSTALL DOCKER ON UBUNTU
 
-Reference: [https://docs.docker.com/engine/install/ubuntu/]
+Reference: <https://docs.docker.com/engine/install/ubuntu/>
 
 ```
 sudo apt-get remove docker docker-engine docker.io containerd runc
@@ -90,7 +90,7 @@ xpack.encryptedSavedObjects.encryptionKey: "8736b99e9d54e494f72078f719334b23"
 ```
 
 ## KIBANA - Also add
-Reference: [https://www.elastic.co/guide/en/kibana/current/using-kibana-with-security.html#security-configure-settings]
+Reference: <https://www.elastic.co/guide/en/kibana/current/using-kibana-with-security.html#security-configure-settings>
 
 ## POSSIBLE ERROR 1 - API integration key required
 A new encryption key is generated for saved objects each time you start Kibana. Without a persistent key, you cannot delete or modify rules after Kibana restarts. 
@@ -100,7 +100,8 @@ To set a persistent key, add the xpack.encryptedSavedObjects.encryptionKey setti
 > Error : docker-elk-elasticsearch-1  | {"@timestamp":"2023-05-14T02:28:04.350Z", "log.level": "WARN", "message":"Transport SSL must be enabled if security is enabled. Please set [xpack.security.transport.ssl.enabled] to [true] or disable security by setting [xpack.security.enabled] to [false]", "ecs.version": "1.2.0","service.name":"ES_ECS","event.dataset":"elasticsearch.server","process.thread.name":"main","log.logger":"org.elasticsearch.bootstrap.BootstrapChecks","elasticsearch.node.name":"elasticsearch","elasticsearch.cluster.name":"docker-cluster"}
 
 ### POSSIBLE ERROR 3 - vm.max_map_count
-https://www.elastic.co/guide/en/elasticsearch/reference/current/vm-max-map-count.html
+Reference: <https://www.elastic.co/guide/en/elasticsearch/reference/current/vm-max-map-count.html>
+
 >  Error : docker-elk-elasticsearch-1  | {"@timestamp":"2023-05-14T02:58:59.358Z", "log.level": "WARN", "message":"max virtual memory areas vm.max_map_count [65530] is too low, increase to at least [262144]", "ecs.version": "1.2.0","service.name":"ES_ECS","event.dataset":"elasticsearch.server","process.thread.name":"main","log.logger":"org.elasticsearch.bootstrap.BootstrapChecks","elasticsearch.node.name":"elasticsearch","elasticsearch.cluster.name":"docker-cluster"}
 ```
 sysctl -w vm.max_map_count=262144
@@ -114,7 +115,7 @@ vm.max_map_count=262144
 - Enriched with Threat Intelligence: This section shows indicator matches that Elastic Security found when querying the alert for fields with threat intelligence. You can use the date time picker to modify the query time frame, which looks at the past 30 days by default. Click the Inspect button, located on the far right of the threat label, to view more information on the query. If threat matches are not discovered within the selected time frame, the section displays a message that none are available.
 
 ## ELK DOCKER - LOGIN TO ELK
-Link here: [http://localhost:5601/app/home#/]
+Link here: <http://localhost:5601/app/home#/>
 
 elastic / yourpassword
 
@@ -165,10 +166,11 @@ sudo service auditbeat start
 -->
 # FILEBEAT SETUP + CONFIGURATION
 
-Reference : https://www.elastic.co/guide/en/beats/filebeat/current/filebeat-installation-configuration.html
+Reference: <https://www.elastic.co/guide/en/beats/filebeat/current/filebeat-installation-configuration.html>
 
 ## FILEBEAT - Installation
-Reference [https://www.elastic.co/fr/security-labs/ingesting-threat-data-with-the-threat-intel-filebeat-module]
+Reference: <https://www.elastic.co/fr/security-labs/ingesting-threat-data-with-the-threat-intel-filebeat-module>
+
 ```
 sudo apt install curl
 
@@ -236,7 +238,8 @@ sudo vi /etc/filebeat/modules.d/mysql.yml
 
 ## FILEBEAT - No FTP module present
 > Add the logs directly to filebeat input stream (TODO need to test)
-Reference: [https://discuss.elastic.co/t/ftp-logs-filebeat/273430/2]
+
+Reference: <https://discuss.elastic.co/t/ftp-logs-filebeat/273430/2>
 
 The ftp log should be taken care by the default config 
 
@@ -293,7 +296,7 @@ sudo service ufw enable
 ```
 
 ## FILEBEAT - ERROR - Activate the endpoint module
-Reference: 'http://localhost:5601/app/integrations/detail/endpoint-8.2.0/overview'
+Reference: <http://localhost:5601/app/integrations/detail/endpoint-8.2.0/overview>'
 
 
 ## FILEBEAT - Make it permanent
@@ -326,8 +329,8 @@ setup.kibana:
 ## WINLOGBEAT - New proposed winlogbeat config! (2023-02-18)
 
 Other good reference :
-- 'https://github.com/jhochwald/Universal-Winlogbeat-configuration'
-- 'https://github.com/jhochwald/Universal-Winlogbeat-configuration/issues/4'
+- <https://github.com/jhochwald/Universal-Winlogbeat-configuration>
+- <https://github.com/jhochwald/Universal-Winlogbeat-configuration/issues/4>
 
 
 My personal version is based on 'https://github.com/Cyb3rWard0g/HELK/blob/master/configs/winlogbeat/winlogbeat.yml'
@@ -362,7 +365,7 @@ winlogbeat.event_logs:
 ```
 
 ## WINLOGBEAT - Download sysmon
-Link here: [https://learn.microsoft.com/en-us/sysinternals/downloads/sysmon]
+Link here: <https://learn.microsoft.com/en-us/sysinternals/downloads/sysmon>
 
 ## WINLOGBEAT - Activate sysmon network connection
 By default, tcp disabled by default, we need to activate it to have indicator match
@@ -441,7 +444,7 @@ Example :
 		enabled: true
 
 ## THREATINTEL - FILEBEAT - For AlienVault, get your API key here and add it to threatintel.yml
-Link here: [https://otx.alienvault.com/api]
+Link here: <https://otx.alienvault.com/api>
 
 ## THREATINTEL - FILEBEAT - The authentication token used to contact the OTX API, can be found on the OTX UI.
 ```
@@ -536,16 +539,15 @@ Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope CurrentUser -Force
 ## ATOMIC RED TEAM - Launch a test
 The list of available tests are documented here 
 
-'https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/Indexes/Indexes-Markdown/index.md'
-
-'https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1055.012/T1055.012.md'
+<https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/Indexes/Indexes-Markdown/index.md>
+<https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1055.012/T1055.012.md>
 
 
 <!---
 *******************************************************************************
 -->
 ## ATOMIC RED TEAM - T1055.012 - Process Injection: Process Hollowing
-'https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1055.012/T1055.012.md'
+<https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1055.012/T1055.012.md>
 
 ```
 Invoke-AtomicTest T1055.012 -ShowDetailsBrief​ -v
@@ -563,7 +565,7 @@ Expected results are :
 *******************************************************************************
 -->
 ## ATOMIC RED TEAM - T1037.001 - Boot or Logon Initialization Scripts: Logon Script
-'https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1037.001/T1037.001.md'
+<https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1037.001/T1037.001.md>
 
 ```
 Invoke-AtomicTest T1037.001 -v
@@ -578,7 +580,7 @@ In progress...
 *******************************************************************************
 -->
 ## ATOMIC RED TEAM - T1071.001 - Application Layer Protocol: Web Protocols
-'https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1071.001/T1071.001.md'
+<https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1071.001/T1071.001.md>
 
 *** Your need to start IE first so the test can call IE (yep)
 
@@ -594,9 +596,9 @@ Expected results are :
 *******************************************************************************
 -->
 ## ATOMIC RED TEAM - T1059.001 - Command and Scripting Interpreter: PowerShell
-'https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1059.001/T1059.001.md'
+<https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1059.001/T1059.001.md>
 
-Thanks to 'https://systemweakness.com/atomic-red-team-3-detecting-bloodhound-using-the-download-cradle-in-elk-siem-bc6960cb4066'
+Thanks to <https://systemweakness.com/atomic-red-team-3-detecting-bloodhound-using-the-download-cradle-in-elk-siem-bc6960cb4066>
 
 ```
 Invoke-AtomicTest T1059.001 -v
@@ -612,7 +614,7 @@ Expected results are :
 <!---
 *******************************************************************************
 -->
-Reference : https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md#netcat-openbsd
+Reference : <https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md#netcat-openbsd>
 
 # REVERSE SHELL FOR EXFILTRATION AND PERSISTENCE
 | Always try to use a web port to hide ine the usual traffic
@@ -704,13 +706,15 @@ chmod +x LinEnum.sh
 'https://github.com/elastic/detection-rules/tree/main/rules/linux'
 
 ## NEW RULES TO TEST!!!
+```
 sudo rm -f /var/log/apache2/error.log 
+```
 
 <!---
 *******************************************************************************
 -->
 # ELK RULE CREATION
-Reference 'https://www.elastic.co/guide/en/security/current/rules-ui-create.html'
+Reference <https://www.elastic.co/guide/en/security/current/rules-ui-create.html>
 
 
 <!---
@@ -730,7 +734,7 @@ sudo apt-get install apache2
 ```
 
 ## .htaccess for Apache
-Reference : 'https://tecadmin.net/enable-htaccess-apache-web-server/#:~:text=To%20enable%20.htaccess%20in%20Apache%2C%20follow%20these%20steps%3A,Apache%20web%20server%20to%20apply%20the%20changes.%20'
+Reference : <https://tecadmin.net/enable-htaccess-apache-web-server/#:~:text=To%20enable%20.htaccess%20in%20Apache%2C%20follow%20these%20steps%3A,Apache%20web%20server%20to%20apply%20the%20changes.%20>
 
 > Allow .htaccess in folders
 
@@ -765,10 +769,9 @@ service ufw restart
 ```
 
 ## Brute force rule
-https://discuss.elastic.co/t/network-scan/322835
-https://www.elastic.co/fr/security-labs/detect-credential-access
-+++ https://discuss.elastic.co/t/what-is-the-point-of-using-eql-to-correlate-log/294542/2
-
+<https://discuss.elastic.co/t/network-scan/322835>
+<https://www.elastic.co/fr/security-labs/detect-credential-access>
+<https://discuss.elastic.co/t/what-is-the-point-of-using-eql-to-correlate-log/294542/2>
 
 <!---
 *******************************************************************************
@@ -796,7 +799,7 @@ sudo service mysql restart
 ```
 
 ## MYSQL - Permissions
-Reference : 'https://www.techrepublic.com/article/how-to-set-change-and-recover-a-mysql-root-password/'
+Reference: <https://www.techrepublic.com/article/how-to-set-change-and-recover-a-mysql-root-password/>
 ```
 sudo mysql -u root
 
@@ -827,7 +830,7 @@ log_queries_not_using_indexes = 1
 ```
 
 ## MYSQL - Create a weak user table based on public information...
-Reference 'https://sites.google.com/site/morinetkevin/competences-obligatoires/permettre-une-inscription-utilisateur-en-utilisant-mysql-php-html-et-css'
+Reference <https://sites.google.com/site/morinetkevin/competences-obligatoires/permettre-une-inscription-utilisateur-en-utilisant-mysql-php-html-et-css>
 
 ```
 sudo mysql -u mysqladmin -p
@@ -903,7 +906,7 @@ sudo docker compose up
 
 ## MISP - Activate feeds
 
-[https://localhost/feeds/index]
+<https://localhost/feeds/index>
 
 > "Enable selected"
 
@@ -913,7 +916,7 @@ sudo docker compose up
 
 ## MISP - Refresh and wait
 
-'https://localhost/'
+<'https://localhost/>
 
 Wait a couple of minutes and go back to the main page, the feeds are loading
 
@@ -944,7 +947,7 @@ At login, choose "Xfce session" as the display manager.
 
 ## UBUNTU - Install xRDP on Ubuntu
 
-'https://linuxize.com/post/how-to-install-xrdp-on-ubuntu-20-04/'
+<https://linuxize.com/post/how-to-install-xrdp-on-ubuntu-20-04/>
 
 ```
 sudo apt install xrdp 
@@ -976,7 +979,7 @@ sudo apt install gufw
 ```
 
 ## UBUNTU - VMWARE Install
-Reference : 'https://linux.how2shout.com/installing-vmware-workstation-17-player-on-ubuntu-22-04-lts/'
+Reference: <https://linux.how2shout.com/installing-vmware-workstation-17-player-on-ubuntu-22-04-lts/>
 
 
 Download Vmware Workstation Player
@@ -989,11 +992,11 @@ sudo vmware-modconfig --console --install-all
 vmware
 ```
 
-PS: Known bug I got = 'https://www.linuxquestions.org/questions/slackware-14/vmware-player-on-14-2-xfce-failed-to-execute-command-%40%40binary%40%40-u-4175607129/'
+PS: Known bug I got = <https://www.linuxquestions.org/questions/slackware-14/vmware-player-on-14-2-xfce-failed-to-execute-command-%40%40binary%40%40-u-4175607129/>
 
 ## UBUNTU - VMWARE disk full
 
-'https://communities.vmware.com/t5/VMware-Workstation-Player/VMware-Player-has-paused-this-virtual-machine/td-p/1192117'
+<https://communities.vmware.com/t5/VMware-Workstation-Player/VMware-Player-has-paused-this-virtual-machine/td-p/1192117>
 
 
 > For security reasons, VMware doesn't allow VM's to start/run if there is not enough free disk space available. This is a percentage of the partition size.
@@ -1003,7 +1006,7 @@ PS: Known bug I got = 'https://www.linuxquestions.org/questions/slackware-14/vmw
 
 
 
-Ref.: 'https://packages.ubuntu.com/bionic/x-session-manager'
+Ref.: <https://packages.ubuntu.com/bionic/x-session-manager>
 
 ## UBUNTU - x-session-manager
 
@@ -1031,7 +1034,7 @@ sudo service xrdp restart
 sudo reboot
 ```
 
-Back to default ( 'https://ubuntuhandbook.org/index.php/2020/07/change-default-display-manager-ubuntu-20-04/' )
+Back to default ( <https://ubuntuhandbook.org/index.php/2020/07/change-default-display-manager-ubuntu-20-04/> )
 
 ```
 sudo dpkg-reconfigure gdm3 
