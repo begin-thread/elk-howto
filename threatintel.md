@@ -93,15 +93,15 @@ xpack.encryptedSavedObjects.encryptionKey: "8736b99e9d54e494f72078f719334b23"
 Reference: [https://www.elastic.co/guide/en/kibana/current/using-kibana-with-security.html#security-configure-settings]
 
 ## POSSIBLE ERROR 1 - API integration key required
-> A new encryption key is generated for saved objects each time you start Kibana. Without a persistent key, you cannot delete or modify rules after Kibana restarts. 
-> To set a persistent key, add the xpack.encryptedSavedObjects.encryptionKey setting with any text value of 32 or more characters to the kibana.yml file.
+A new encryption key is generated for saved objects each time you start Kibana. Without a persistent key, you cannot delete or modify rules after Kibana restarts. 
+To set a persistent key, add the xpack.encryptedSavedObjects.encryptionKey setting with any text value of 32 or more characters to the kibana.yml file.
 
 ### POSSIBLE ERROR 2 - xpack.security.transport.ssl.enabled
-Error : docker-elk-elasticsearch-1  | {"@timestamp":"2023-05-14T02:28:04.350Z", "log.level": "WARN", "message":"Transport SSL must be enabled if security is enabled. Please set [xpack.security.transport.ssl.enabled] to [true] or disable security by setting [xpack.security.enabled] to [false]", "ecs.version": "1.2.0","service.name":"ES_ECS","event.dataset":"elasticsearch.server","process.thread.name":"main","log.logger":"org.elasticsearch.bootstrap.BootstrapChecks","elasticsearch.node.name":"elasticsearch","elasticsearch.cluster.name":"docker-cluster"}
+> Error : docker-elk-elasticsearch-1  | {"@timestamp":"2023-05-14T02:28:04.350Z", "log.level": "WARN", "message":"Transport SSL must be enabled if security is enabled. Please set [xpack.security.transport.ssl.enabled] to [true] or disable security by setting [xpack.security.enabled] to [false]", "ecs.version": "1.2.0","service.name":"ES_ECS","event.dataset":"elasticsearch.server","process.thread.name":"main","log.logger":"org.elasticsearch.bootstrap.BootstrapChecks","elasticsearch.node.name":"elasticsearch","elasticsearch.cluster.name":"docker-cluster"}
 
 ### POSSIBLE ERROR 3 - vm.max_map_count
 https://www.elastic.co/guide/en/elasticsearch/reference/current/vm-max-map-count.html
-Error : docker-elk-elasticsearch-1  | {"@timestamp":"2023-05-14T02:58:59.358Z", "log.level": "WARN", "message":"max virtual memory areas vm.max_map_count [65530] is too low, increase to at least [262144]", "ecs.version": "1.2.0","service.name":"ES_ECS","event.dataset":"elasticsearch.server","process.thread.name":"main","log.logger":"org.elasticsearch.bootstrap.BootstrapChecks","elasticsearch.node.name":"elasticsearch","elasticsearch.cluster.name":"docker-cluster"}
+>  Error : docker-elk-elasticsearch-1  | {"@timestamp":"2023-05-14T02:58:59.358Z", "log.level": "WARN", "message":"max virtual memory areas vm.max_map_count [65530] is too low, increase to at least [262144]", "ecs.version": "1.2.0","service.name":"ES_ECS","event.dataset":"elasticsearch.server","process.thread.name":"main","log.logger":"org.elasticsearch.bootstrap.BootstrapChecks","elasticsearch.node.name":"elasticsearch","elasticsearch.cluster.name":"docker-cluster"}
 ```
 sysctl -w vm.max_map_count=262144
 sudo vi /etc/sysctl.conf
@@ -116,7 +116,7 @@ vm.max_map_count=262144
 ## ELK DOCKER - LOGIN TO ELK
 Link here: [http://localhost:5601/app/home#/]
 
-> elastic / yourpassword
+elastic / yourpassword
 
 
 <!---
@@ -125,7 +125,7 @@ Link here: [http://localhost:5601/app/home#/]
 
 # AUDITBEAT INSTALLATION ON UBUNTU 
 
-> For Linux AuditD / Better than the FILEBEAT's AuditD module, but VERY verbose
+For Linux AuditD / Better than the FILEBEAT's AuditD module, but VERY verbose
 
 ## AUDITBEAT - Install
 
@@ -144,7 +144,7 @@ allow_older_versions : "true"
 
 
 ## AUDITBEAT - Enable the auditbeat Kibana dashboard
-> Be very careful with the stdout output, some errors could be there
+Be very careful with the stdout output, some errors could be there
 ```
 sudo auditbeat test output -e
 sudo auditbeat setup -e
