@@ -932,6 +932,7 @@ sudo adduser xrdp ssl-cert
 
 #20230314 sudo systemctl restart xrdp
 
+```
 sudo service xrdp restart
 ```
 
