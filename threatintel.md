@@ -246,7 +246,7 @@ sudo vi /etc/filebeat/filebeat.yml
 ```
 
 ## FILEBEAT - Test, dashboard upload to kibana and activation
-> Be very careful with the stdout output, some errors could be there
+Be very careful with the stdout output, some errors could be there
 
 ```
 sudo filebeat test output -e
@@ -262,9 +262,9 @@ sudo filebeat -e
 
 ## FILEBEAT - ERROR - Verify for the "too old" error
 
-Elasticsearch is too old. Please upgrade the instance. 
-If you would like to connect to older instances set output.elasticsearch.allow_older_versions to true. ES=8.5.3, Beat=8.6.1","service.name":"filebeat","ecs.version":"1.6.0"}
-The solution is to add allow_older_versions : "true" in the output.elasticsearch section
+> Elasticsearch is too old. Please upgrade the instance. 
+> If you would like to connect to older instances set output.elasticsearch.allow_older_versions to true. ES=8.5.3, Beat=8.6.1","service.name":"filebeat","ecs.version":"1.6.0"}
+> The solution is to add allow_older_versions : "true" in the output.elasticsearch section
 
 ```
 output.elasticsearch:
