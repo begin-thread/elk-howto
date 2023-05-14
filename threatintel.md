@@ -54,11 +54,8 @@ cd docker-elk
 # v1 = docker-compose
 # v2 = docker compose
 
-sudo docker compose up
-
-# ufw deny 5601
-# service ufw restart
 ```
+
 
 <!---
 *******************************************************************************
@@ -79,15 +76,27 @@ poly@poly:~/docker-elk$ openssl rand -hex 16
 
 Edit the file
 ```
-sudo vi docker-elk/kibana/config/kibana.yml
+sudo vi kibana/config/kibana.yml
+
+# Mandatory for the Security panel in ELK
+xpack.encryptedSavedObjects.encryptionKey: "8736b99e9d54e494f72078f719334b23" 
+
+#xpack.reporting.kibanaServer.hostname: localhost
+#xpack.security.encryptionKey: "8736b99e9d54e494f72078f719334b23" 
 ```
 
-Add the following in the xpack section
+Edit the file
 ```
-xpack.security.transport.ssl.enabled: true
-xpack.security.encryptionKey: "8736b99e9d54e494f72078f719334b23" 
-xpack.encryptedSavedObjects.encryptionKey: "8736b99e9d54e494f72078f719334b23" 
+sudo vi elasticsearch/config/elasticsearch.yml
+xpack.security.enabled: false
 ```
+
+
+***********************************************************
+sudo docker-compose up setup
+sudo docker-compose up
+!!!!!!!!!!!!!!!!!!!!!Please set [xpack.security.transport.ssl.enabled] to [true] or disable security by setting [xpack.security.enabled] to [false] in elasticsearch.yml
+***********************************************************
 
 ## KIBANA - Also add
 Reference: <https://www.elastic.co/guide/en/kibana/current/using-kibana-with-security.html#security-configure-settings>
@@ -104,20 +113,28 @@ Reference: <https://www.elastic.co/guide/en/elasticsearch/reference/current/vm-m
 
 >  Error : docker-elk-elasticsearch-1  | {"@timestamp":"2023-05-14T02:58:59.358Z", "log.level": "WARN", "message":"max virtual memory areas vm.max_map_count [65530] is too low, increase to at least [262144]", "ecs.version": "1.2.0","service.name":"ES_ECS","event.dataset":"elasticsearch.server","process.thread.name":"main","log.logger":"org.elasticsearch.bootstrap.BootstrapChecks","elasticsearch.node.name":"elasticsearch","elasticsearch.cluster.name":"docker-cluster"}
 ```
-sysctl -w vm.max_map_count=262144
+sudo sysctl -w vm.max_map_count=262144
 sudo vi /etc/sysctl.conf
 vm.max_map_count=262144
 ```
 
-
-## KIBANA - There are 2 CTI goals with the current setup you are installing
-- Threat Matched Detected: This section is solely reserved for threat indicator matches identified by an indicator match rule. Threat indicator matches are produced whenever event data matches a threat indicator field value in your indicator index. If indicator threat matches are not discovered, the section displays a message that none are available.
-- Enriched with Threat Intelligence: This section shows indicator matches that Elastic Security found when querying the alert for fields with threat intelligence. You can use the date time picker to modify the query time frame, which looks at the past 30 days by default. Click the Inspect button, located on the far right of the threat label, to view more information on the query. If threat matches are not discovered within the selected time frame, the section displays a message that none are available.
+## ELK DOCKER - START ELK
+```
+sudo docker compose setup
+sudo docker compose up
+# ufw deny 5601
+# service ufw restart
+```
 
 ## ELK DOCKER - LOGIN TO ELK
 Link here: <http://localhost:5601/app/home#/>
 
 elastic / yourpassword
+
+
+## KIBANA - There are 2 CTI goals with the current setup you are installing
+- Threat Matched Detected: This section is solely reserved for threat indicator matches identified by an indicator match rule. Threat indicator matches are produced whenever event data matches a threat indicator field value in your indicator index. If indicator threat matches are not discovered, the section displays a message that none are available.
+- Enriched with Threat Intelligence: This section shows indicator matches that Elastic Security found when querying the alert for fields with threat intelligence. You can use the date time picker to modify the query time frame, which looks at the past 30 days by default. Click the Inspect button, located on the far right of the threat label, to view more information on the query. If threat matches are not discovered within the selected time frame, the section displays a message that none are available.
 
 
 <!---
