@@ -60,41 +60,63 @@ sudo docker compose up
 # service ufw restart
 ```
 
-## ELK DOCKER - LOGIN TO ELK
-Link here: [http://localhost:5601/app/home#/]
-
-> elastic / yourpassword
-
 <!---
 *******************************************************************************
 -->
 
 # KIBANA SECURITY PANEL
 
-## KIBANA - Error will occur
-API integration key required
-> A new encryption key is generated for saved objects each time you start Kibana. Without a persistent key, you cannot delete or modify rules after Kibana restarts. To set a persistent key, add the xpack.encryptedSavedObjects.encryptionKey setting with any text value of 32 or more characters to the kibana.yml file.
+Errors will occur, read carefully the logs when starting your instance.
+I tried with Ubuntu Server but went back to Ubuntu Desktop (no xfce)
 
 ## KIBANA - Edit 
+
+Generate a key with this command
 ```
-vi docker-elk/kibana/config/kibana.yml
+poly@poly:~/docker-elk$ openssl rand -hex 16
+8736b99e9d54e494f72078f719334b23
 ```
 
-## KIBANA - Add to the beginning of the file a generated key
+Edit the file
 ```
-xpack.encryptedSavedObjects:
-  encryptionKey: "min-32-byte-long-strong-encryption-key"
+sudo vi docker-elk/kibana/config/kibana.yml
+```
+
+Add the following in the xpack section
+```
+xpack.security.transport.ssl.enabled: true
+xpack.security.encryptionKey: "8736b99e9d54e494f72078f719334b23" 
+xpack.encryptedSavedObjects.encryptionKey: "8736b99e9d54e494f72078f719334b23" 
 ```
 
 ## KIBANA - Also add
 Reference: [https://www.elastic.co/guide/en/kibana/current/using-kibana-with-security.html#security-configure-settings]
+
+## POSSIBLE ERROR 1 - API integration key required
+> A new encryption key is generated for saved objects each time you start Kibana. Without a persistent key, you cannot delete or modify rules after Kibana restarts. 
+> To set a persistent key, add the xpack.encryptedSavedObjects.encryptionKey setting with any text value of 32 or more characters to the kibana.yml file.
+
+### POSSIBLE ERROR 2 - xpack.security.transport.ssl.enabled
+Error : docker-elk-elasticsearch-1  | {"@timestamp":"2023-05-14T02:28:04.350Z", "log.level": "WARN", "message":"Transport SSL must be enabled if security is enabled. Please set [xpack.security.transport.ssl.enabled] to [true] or disable security by setting [xpack.security.enabled] to [false]", "ecs.version": "1.2.0","service.name":"ES_ECS","event.dataset":"elasticsearch.server","process.thread.name":"main","log.logger":"org.elasticsearch.bootstrap.BootstrapChecks","elasticsearch.node.name":"elasticsearch","elasticsearch.cluster.name":"docker-cluster"}
+
+### POSSIBLE ERROR 3 - vm.max_map_count
+https://www.elastic.co/guide/en/elasticsearch/reference/current/vm-max-map-count.html
+Error : docker-elk-elasticsearch-1  | {"@timestamp":"2023-05-14T02:58:59.358Z", "log.level": "WARN", "message":"max virtual memory areas vm.max_map_count [65530] is too low, increase to at least [262144]", "ecs.version": "1.2.0","service.name":"ES_ECS","event.dataset":"elasticsearch.server","process.thread.name":"main","log.logger":"org.elasticsearch.bootstrap.BootstrapChecks","elasticsearch.node.name":"elasticsearch","elasticsearch.cluster.name":"docker-cluster"}
 ```
-xpack.security.encryptionKey: "something_at_least_32_characters"
+sysctl -w vm.max_map_count=262144
+sudo vi /etc/sysctl.conf
+vm.max_map_count=262144
 ```
 
-## KIBANA - There are 2 goals with the current setup you are installing
+
+## KIBANA - There are 2 CTI goals with the current setup you are installing
 - Threat Matched Detected: This section is solely reserved for threat indicator matches identified by an indicator match rule. Threat indicator matches are produced whenever event data matches a threat indicator field value in your indicator index. If indicator threat matches are not discovered, the section displays a message that none are available.
 - Enriched with Threat Intelligence: This section shows indicator matches that Elastic Security found when querying the alert for fields with threat intelligence. You can use the date time picker to modify the query time frame, which looks at the past 30 days by default. Click the Inspect button, located on the far right of the threat label, to view more information on the query. If threat matches are not discovered within the selected time frame, the section displays a message that none are available.
+
+## ELK DOCKER - LOGIN TO ELK
+Link here: [http://localhost:5601/app/home#/]
+
+> elastic / yourpassword
 
 
 <!---
@@ -932,7 +954,6 @@ sudo adduser xrdp ssl-cert
 
 #20230314 sudo systemctl restart xrdp
 
-```
 sudo service xrdp restart
 ```
 
@@ -955,17 +976,20 @@ sudo apt install gufw
 ```
 
 ## UBUNTU - VMWARE Install
-> Before installation you must install this package
+Reference : [https://linux.how2shout.com/installing-vmware-workstation-17-player-on-ubuntu-22-04-lts/]
+
+
+Download Vmware Workstation Player
 
 ```
 sudo apt install gcc build-essential
+cd Downloads
+sudo bash VMware-Player-Full-*.x86_64.bundle
+sudo vmware-modconfig --console --install-all
+vmware
 ```
 
-But I switch to VirtualBox as I got the error @@BINARY@@
-
-```
-sudo apt-get install virtualbox
-```
+PS: Known bug I got = [https://www.linuxquestions.org/questions/slackware-14/vmware-player-on-14-2-xfce-failed-to-execute-command-%40%40binary%40%40-u-4175607129/]
 
 ## UBUNTU - VMWARE disk full
 
