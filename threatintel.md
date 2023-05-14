@@ -293,7 +293,7 @@ sudo service ufw enable
 ```
 
 ## FILEBEAT - ERROR - Activate the endpoint module
-Reference: [http://localhost:5601/app/integrations/detail/endpoint-8.2.0/overview]
+Reference: 'http://localhost:5601/app/integrations/detail/endpoint-8.2.0/overview'
 
 
 ## FILEBEAT - Make it permanent
@@ -684,13 +684,13 @@ nikto -h 192.168.6.133
 ```
 
 ## GENERATE TRAFFIC - Credential harvesting automation
-Reference : [https://github.com/AlessandroZ/LaZagne]
+Reference : 'https://github.com/AlessandroZ/LaZagne'
 
 ```
 sudo python3 laZagne.py all -v
 ```
 ## GENERATE TRAFFIC - LinEnum execution
-Reference : [https://github.com/rebootuser/LinEnum/blob/master/LinEnum.sh]
+Reference : 'https://github.com/rebootuser/LinEnum/blob/master/LinEnum.sh'
 
 ```
 wget https://raw.githubusercontent.com/rebootuser/LinEnum/master/LinEnum.sh
@@ -701,7 +701,7 @@ chmod +x LinEnum.sh
 
 
 ## NEW RULES TO TEST!!!
-[https://github.com/elastic/detection-rules/tree/main/rules/linux]
+'https://github.com/elastic/detection-rules/tree/main/rules/linux'
 
 ## NEW RULES TO TEST!!!
 sudo rm -f /var/log/apache2/error.log 
@@ -710,7 +710,7 @@ sudo rm -f /var/log/apache2/error.log
 *******************************************************************************
 -->
 # ELK RULE CREATION
-Reference [https://www.elastic.co/guide/en/security/current/rules-ui-create.html]
+Reference 'https://www.elastic.co/guide/en/security/current/rules-ui-create.html'
 
 
 <!---
@@ -730,7 +730,7 @@ sudo apt-get install apache2
 ```
 
 ## .htaccess for Apache
-Reference : [https://tecadmin.net/enable-htaccess-apache-web-server/#:~:text=To%20enable%20.htaccess%20in%20Apache%2C%20follow%20these%20steps%3A,Apache%20web%20server%20to%20apply%20the%20changes.%20]
+Reference : 'https://tecadmin.net/enable-htaccess-apache-web-server/#:~:text=To%20enable%20.htaccess%20in%20Apache%2C%20follow%20these%20steps%3A,Apache%20web%20server%20to%20apply%20the%20changes.%20'
 
 > Allow .htaccess in folders
 
@@ -790,13 +790,13 @@ vi /etc/mysql/mysql.conf.d/mysqld.cnf
 > [MODIFY] bind-address 127.0.0.1 -> bind-address 0.0.0.0
 ++++++++++++++++++ MORE stuff 
 
-https://logstail.com/blog/how-to-analyze-mysql-logs-with-elk-stack-and-logstail-com/
+'https://logstail.com/blog/how-to-analyze-mysql-logs-with-elk-stack-and-logstail-com/'
 ```
 sudo service mysql restart
 ```
 
 ## MYSQL - Permissions
-Reference : [https://www.techrepublic.com/article/how-to-set-change-and-recover-a-mysql-root-password/]
+Reference : 'https://www.techrepublic.com/article/how-to-set-change-and-recover-a-mysql-root-password/'
 ```
 sudo mysql -u root
 
@@ -827,7 +827,7 @@ log_queries_not_using_indexes = 1
 ```
 
 ## MYSQL - Create a weak user table based on public information...
-Reference [https://sites.google.com/site/morinetkevin/competences-obligatoires/permettre-une-inscription-utilisateur-en-utilisant-mysql-php-html-et-css]
+Reference 'https://sites.google.com/site/morinetkevin/competences-obligatoires/permettre-une-inscription-utilisateur-en-utilisant-mysql-php-html-et-css'
 
 ```
 sudo mysql -u mysqladmin -p
@@ -976,7 +976,7 @@ sudo apt install gufw
 ```
 
 ## UBUNTU - VMWARE Install
-Reference : [https://linux.how2shout.com/installing-vmware-workstation-17-player-on-ubuntu-22-04-lts/]
+Reference : 'https://linux.how2shout.com/installing-vmware-workstation-17-player-on-ubuntu-22-04-lts/'
 
 
 Download Vmware Workstation Player
@@ -989,11 +989,11 @@ sudo vmware-modconfig --console --install-all
 vmware
 ```
 
-PS: Known bug I got = [https://www.linuxquestions.org/questions/slackware-14/vmware-player-on-14-2-xfce-failed-to-execute-command-%40%40binary%40%40-u-4175607129/]
+PS: Known bug I got = 'https://www.linuxquestions.org/questions/slackware-14/vmware-player-on-14-2-xfce-failed-to-execute-command-%40%40binary%40%40-u-4175607129/'
 
 ## UBUNTU - VMWARE disk full
 
-[https://communities.vmware.com/t5/VMware-Workstation-Player/VMware-Player-has-paused-this-virtual-machine/td-p/1192117']
+'https://communities.vmware.com/t5/VMware-Workstation-Player/VMware-Player-has-paused-this-virtual-machine/td-p/1192117'
 
 
 > For security reasons, VMware doesn't allow VM's to start/run if there is not enough free disk space available. This is a percentage of the partition size.
