@@ -640,6 +640,8 @@ Reference : <https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Met
 | The first step is to start a listener on the attacker box, so the victim will connect (reverse = from the victim to the attacker outside your network)
 | No need to specify the ip adress as it will bind to 0.0.0.0
 ```
+#ufw allow 8080
+#service ufw restart
 nc -nlvp 8080
 ```
 
@@ -1057,3 +1059,9 @@ Back to default ( <https://ubuntuhandbook.org/index.php/2020/07/change-default-d
 sudo dpkg-reconfigure gdm3 
 sudo reboot
 ```
+
+## KQL search for hunting
+KQL bad = "session opened for user" - for ssh login success 
+KQL = event.action: "ssh_login" AND  event.outcome:"success" - will not do a rule for that but it is a good hunting query
+KQL = event.action: "ssh_login" AND  event.outcome:"success" AND source.ip: 192.168.6.133 and host.hostname:"poly-db" 
+https://github.com/elastic/detection-rules
