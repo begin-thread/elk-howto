@@ -342,6 +342,11 @@ setup.kibana:
   # IPv6 addresses should always be defined as: https://[2001:db8::1]:5601
   host: "192.168.206.131:5601"
 ```
+## Windows Path to winlogbeat binary
+
+```
+C:\ProgramData\Elastic\Beats\winlogbeat
+```
 
 ## WINLOGBEAT - New proposed winlogbeat config! (2023-02-18)
 
