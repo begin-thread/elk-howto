@@ -56,12 +56,21 @@ cd docker-elk
 
 ```
 
+## ELK DOCKER - START ELK
+```
+sudo docker-compose up setup
+sudo docker-compose up
+
+# ufw deny 5601
+# service ufw restart
+```
+
 
 <!---
 *******************************************************************************
 -->
 
-# KIBANA SECURITY PANEL
+# KIBANA ERROR ON STARTUP
 
 Errors will occur, read carefully the logs when starting your instance.
 I tried with Ubuntu Server but went back to Ubuntu Desktop (no xfce)
@@ -91,12 +100,8 @@ sudo vi elasticsearch/config/elasticsearch.yml
 xpack.security.enabled: false
 ```
 
+Set [xpack.security.transport.ssl.enabled] to [true] or disable security by setting [xpack.security.enabled] to [false] in elasticsearch.yml
 
-***********************************************************
-sudo docker-compose up setup
-sudo docker-compose up
-!!!!!!!!!!!!!!!!!!!!!Please set [xpack.security.transport.ssl.enabled] to [true] or disable security by setting [xpack.security.enabled] to [false] in elasticsearch.yml
-***********************************************************
 
 ## KIBANA - Also add
 Reference: <https://www.elastic.co/guide/en/kibana/current/using-kibana-with-security.html#security-configure-settings>
@@ -118,13 +123,7 @@ sudo vi /etc/sysctl.conf
 vm.max_map_count=262144
 ```
 
-## ELK DOCKER - START ELK
-```
-sudo docker compose setup
-sudo docker compose up
-# ufw deny 5601
-# service ufw restart
-```
+
 
 ## ELK DOCKER - LOGIN TO ELK
 Link here: <http://localhost:5601/app/home#/>
@@ -705,8 +704,8 @@ select * from utilisateurs where admin = 1;
 
 ## GENERATE TRAFFIC - Web directory bruteforce
 ```
-dirbuster -u http://192.168.6.133
-nikto -h 192.168.6.133
+dirbuster -u http://poly-apache
+nikto -h poly-apache
 ```
 
 ## GENERATE TRAFFIC - Credential harvesting automation
@@ -1068,5 +1067,5 @@ sudo reboot
 ## KQL search for hunting
 KQL bad = "session opened for user" - for ssh login success 
 KQL = event.action: "ssh_login" AND  event.outcome:"success" - will not do a rule for that but it is a good hunting query
-KQL = event.action: "ssh_login" AND  event.outcome:"success" AND source.ip: 192.168.6.133 and host.hostname:"poly-db" 
+KQL = event.action: "ssh_login" AND  event.outcome:"success" AND source.ip: poly-apache and host.hostname:"poly-db" 
 https://github.com/elastic/detection-rules
