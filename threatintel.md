@@ -4,7 +4,8 @@ The goal of this page is to go trought all sets
 - Configure theat intel modules to interac with IOCs
 - Create custom rules
 - Triggers the rules with specifics commands in Kali
-
+- Install an apache server called POLY-APACHE
+- Install a mysql server called POLY-DB
 
 
 # Very helpful links!
@@ -752,7 +753,7 @@ Reference <https://www.elastic.co/guide/en/security/current/rules-ui-create.html
 <!---
 *******************************************************************************
 -->
-# TARGET MACHINE 1 - Ubuntu setup with filebeat + vsFTPd + SSH + Apache2
+# POLY-APACHE - Ubuntu setup with filebeat + vsFTPd + SSH + Apache2
 
 > Install Ubuntu VM
 > Install Filebeat 
@@ -808,7 +809,7 @@ service ufw restart
 <!---
 *******************************************************************************
 -->
-# TARGET MACHINE 2 - Ubuntu setup with filebeat + MySql
+# POLY-DB - Ubuntu setup with filebeat + MySql
 
 Install Ubuntu VM
 Install Filebeat 
@@ -955,7 +956,7 @@ Wait a couple of minutes and go back to the main page, the feeds are loading
 <!---
 *******************************************************************************
 -->
-# UBUNTU
+# UBUNTU GENERAL COMMANDS
 
 ## UBUNTU - Install Ubuntu-Desktop on Ubuntu 
 
