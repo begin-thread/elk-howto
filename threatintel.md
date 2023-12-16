@@ -1,3 +1,12 @@
+# INTRODUCTION
+The goal of this page is to go trought all sets 
+- Install ELK Stack with DOCKER
+- Configure theat intel modules to interac with IOCs
+- Create custom rules
+- Triggers the rules with specifics commands in Kali
+
+
+
 # Very helpful links!
 
 <https://github.com/deviantony/docker-elk> Thanks you so much!
