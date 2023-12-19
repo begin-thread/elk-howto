@@ -352,6 +352,13 @@ setup.kibana:
   # IPv6 addresses should always be defined as: https://[2001:db8::1]:5601
   host: "192.168.206.131:5601"
 ```
+
+Do not forget the uncomment the user/pass lines
+```
+  username: "elastic"
+  password: "changeme"
+```
+
 ## Windows Path to winlogbeat binary
 
 ```
@@ -647,6 +654,12 @@ Expected results are :
 *******************************************************************************
 -->
 Reference : <https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md#netcat-openbsd>
+
+# CAN WE CONNECT TO Internet
+```
+nc google.com 80
+GET /
+```
 
 # REVERSE SHELL FOR EXFILTRATION AND PERSISTENCE
 | Always try to use a web port to hide ine the usual traffic
