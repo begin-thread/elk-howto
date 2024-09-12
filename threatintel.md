@@ -135,6 +135,39 @@ vm.max_map_count=262144
 ```
 
 <!---
+*******************************************************************************
+-->
+
+# ADD AN S3 BUCKET REPOSITORY FOR SNAMPSHOT RESTORE
+
+You need to execute these command, that will be pushed to the docker runtime running ELK
+
+```
+sudo docker-compose exec elasticsearch /usr/share/elasticsearch/bin/elasticsearch-keystore add s3.client.default.access_key
+```
+Enter the S3 ACCESS Key
+
+```
+sudo docker-compose exec elasticsearch /usr/share/elasticsearch/bin/elasticsearch-keystore add s3.client.default.secret_key
+```
+Enter the S3 SECRET Key
+
+Restart docker
+
+Add the bucket to ELK
+
+http://poly-elk-2024:5601/app/management/data/snapshot_restore/add_repository
+
+"The name of the AWS S3 bucket to use for snapshots" -> Get it from S3
+
+On the next panel, check if the connection is working -> Verification status
+
+Go back to Snapshots
+http://poly-elk-2024:5601/app/management/data/snapshot_restore/snapshots
+
+Click restore on the right
+
+
 
 
 ## ELK DOCKER - LOGIN TO ELK
