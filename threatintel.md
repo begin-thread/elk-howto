@@ -1,3 +1,6 @@
+<!---
+*******************************************************************************
+-->
 # INTRODUCTION
 The goal of this page is to go trought all sets 
 - Install ELK Stack with DOCKER
