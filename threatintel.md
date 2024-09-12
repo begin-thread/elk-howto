@@ -83,7 +83,6 @@ sudo docker-compose up
 <!---
 *******************************************************************************
 -->
-
 # KIBANA ERROR ON STARTUP
 
 Errors will occur, read carefully the logs when starting your instance.
@@ -142,7 +141,6 @@ vm.max_map_count=262144
 <!---
 *******************************************************************************
 -->
-
 # ADD AN S3 BUCKET REPOSITORY FOR SNAMPSHOT RESTORE
 
 You need to execute these command, that will be pushed to the docker runtime running ELK
@@ -206,7 +204,6 @@ Revert it to BASIC, so no surprise in the future.
 <!---
 *******************************************************************************
 -->
-
 # AUDITBEAT INSTALLATION ON UBUNTU 
 
 For Linux AuditD / Better than the FILEBEAT's AuditD module, but VERY verbose
@@ -520,7 +517,6 @@ output.elasticsearch.allow_older_versions to true
 <!---
 *******************************************************************************
 -->
-
 # THREATINTEL - FILEBEAT  MODULE ACTIVATION (TO SEND IOC TO ELK)
 
 ## THREATINTEL - FILEBEAT - Activate the threatintel module
