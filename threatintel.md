@@ -170,10 +170,27 @@ Click restore on the right
 
 
 
+<!---
+*******************************************************************************
+-->
+
 ## ELK DOCKER - LOGIN TO ELK
 Link here: <http://localhost:5601/app/home#/>
 
 elastic / yourpassword
+
+## ELK DOCKER - LOGIN TO ELK (2024-01-06)
+Do not forget to add the rules to ELK...
+<http://localhost:5601/api/security/rules>
+
+And also to activatesd them all.
+
+## ELK DOCKER - REVERT LICENSE TYPE (2024-01-06)
+By default, a trial will be activated.
+
+Revert it to BASIC, so no surprise in the future.
+
+<http://home-elk:5601/app/management/stack/license_management>
 
 
 ## KIBANA - There are 2 CTI goals with the current setup you are installing
@@ -1129,3 +1146,26 @@ KQL bad = "session opened for user" - for ssh login success
 KQL = event.action: "ssh_login" AND  event.outcome:"success" - will not do a rule for that but it is a good hunting query
 KQL = event.action: "ssh_login" AND  event.outcome:"success" AND source.ip: poly-apache and host.hostname:"poly-db" 
 https://github.com/elastic/detection-rules
+<https://github.com/elastic/detection-rules>
+
+
+# FLEETSERVER
+
+https://medium.com/@jeremuh/how-to-setup-elk-elastic-agents-sysmon-for-cybersecurity-95bec7d1a65a
+
+I was running the agent locally, so here is an upgrade to use a Fleet Server to make the agent deployment easier
+
+<http://home-elk:5601/app/integrations/detail/endpoint-8.11.1/policies>
+
+```
+curl -L -O https://artifacts.elastic.co/downloads/beats/elastic-agent/elastic-agent-8.11.3-amd64.deb
+sudo dpkg -i elastic-agent-8.11.3-amd64.deb
+sudo elastic-agent enroll \
+  --fleet-server-es=http://elasticsearch:9200 \
+  --fleet-server-service-token=AAEAAWVsYXN0aWMvZmxlZXQtc2VydmVyL3Rva2VuLTE3MDQ1OTYxNTY0NDA6QzJUdTZ1VHpTRHFJTVdpa2p3RFpBUQ \
+  --fleet-server-policy=fleet-server-policy \
+  --fleet-server-port=8220
+sudo systemctl enable elastic-agent
+sudo systemctl start elastic-agent
+```
+
