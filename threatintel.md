@@ -134,6 +134,7 @@ sudo vi /etc/sysctl.conf
 vm.max_map_count=262144
 ```
 
+<!---
 
 
 ## ELK DOCKER - LOGIN TO ELK
