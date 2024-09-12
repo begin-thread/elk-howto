@@ -106,6 +106,8 @@ xpack.encryptedSavedObjects.encryptionKey: "8736b99e9d54e494f72078f719334b23"
 ```
 
 Edit the file
+2024-05-04 - not required anymore, default value is ok in the last version
+
 ```
 sudo vi elasticsearch/config/elasticsearch.yml
 xpack.security.enabled: false
