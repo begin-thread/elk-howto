@@ -1170,3 +1170,15 @@ sudo systemctl enable elastic-agent
 sudo systemctl start elastic-agent
 ```
 
+# 2024-10-07 - USING ELASTIC AGENT INSTEAD OF *BEAT
+Management -> Integration
+Add the Elastic Defend Integration (was Elastic Agent in version 7.x)
+Add an Integration Policy
+I personnaly remove Malware protections, Register as antivirus
+In that policy you need to add the "Windows" Integration (so ELK can parse the Windows events and the alerts will Run)
+Go back to the Elastic Defend Integration, and follow the "Add Agent steps"
+
+I had problems with the API_KEY integration in the elastic-agent.yml, when I move back to user and password it worked.
+
+
+
