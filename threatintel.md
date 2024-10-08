@@ -1178,6 +1178,21 @@ I personnaly remove Malware protections, Register as antivirus
 In that policy you need to add the "Windows" Integration (so ELK can parse the Windows events and the alerts will Run)
 Go back to the Elastic Defend Integration, and follow the "Add Agent steps"
 
+NOTE : I was able to copy the install between machines but now we need to reinstall
+
+```
+$ProgressPreference = 'SilentlyContinue'
+Invoke-WebRequest -Uri https://artifacts.elastic.co/downloads/beats/elastic-agent/elastic-agent-8.15.2-windows-x86_64.zip -OutFile elastic-agent-8.15.2-windows-x86_64.zip
+Expand-Archive ./elastic-agent-8.15.2-windows-x86_64.zip -DestinationPath .
+cd elastic-agent-8.15.2-windows-x86_64
+```
+
+Download the .yml in the "Add Agent" menu and copy it to the folder
+
+```
+.\elastic-agent.exe install
+```
+
 I had problems with the API_KEY integration in the elastic-agent.yml, when I move back to user and password it worked.
 
 
