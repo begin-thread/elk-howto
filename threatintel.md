@@ -1146,10 +1146,7 @@ sudo reboot
 KQL bad = "session opened for user" - for ssh login success 
 KQL = event.action: "ssh_login" AND  event.outcome:"success" - will not do a rule for that but it is a good hunting query
 KQL = event.action: "ssh_login" AND  event.outcome:"success" AND source.ip: poly-apache and host.hostname:"poly-db" 
-<<<<<<< HEAD
-=======
 https://github.com/elastic/detection-rules
->>>>>>> fc89fad53558c6c038e673125d8528620d853b46
 <https://github.com/elastic/detection-rules>
 
 
@@ -1173,8 +1170,6 @@ sudo systemctl enable elastic-agent
 sudo systemctl start elastic-agent
 ```
 
-<<<<<<< HEAD
-=======
 # 2024-10-07 - USING ELASTIC AGENT INSTEAD OF *BEAT
 Management -> Integration
 Add the Elastic Defend Integration (was Elastic Agent in version 7.x)
@@ -1202,4 +1197,3 @@ I had problems with the API_KEY integration in the elastic-agent.yml, when I mov
 
 
 
->>>>>>> fc89fad53558c6c038e673125d8528620d853b46
