@@ -135,6 +135,14 @@ vm.max_map_count=262144
 ```
 
 
+Click restore on the right
+
+
+
+
+<!---
+*******************************************************************************
+-->
 
 ## ELK DOCKER - LOGIN TO ELK
 Link here: <http://localhost:5601/app/home#/>
@@ -163,7 +171,6 @@ Revert it to BASIC, so no surprise in the future.
 <!---
 *******************************************************************************
 -->
-
 # AUDITBEAT INSTALLATION ON UBUNTU 
 
 For Linux AuditD / Better than the FILEBEAT's AuditD module, but VERY verbose
@@ -477,7 +484,6 @@ output.elasticsearch.allow_older_versions to true
 <!---
 *******************************************************************************
 -->
-
 # THREATINTEL - FILEBEAT  MODULE ACTIVATION (TO SEND IOC TO ELK)
 
 ## THREATINTEL - FILEBEAT - Activate the threatintel module
@@ -1107,6 +1113,10 @@ sudo reboot
 KQL bad = "session opened for user" - for ssh login success 
 KQL = event.action: "ssh_login" AND  event.outcome:"success" - will not do a rule for that but it is a good hunting query
 KQL = event.action: "ssh_login" AND  event.outcome:"success" AND source.ip: poly-apache and host.hostname:"poly-db" 
+<<<<<<< HEAD
+=======
+https://github.com/elastic/detection-rules
+>>>>>>> fc89fad53558c6c038e673125d8528620d853b46
 <https://github.com/elastic/detection-rules>
 
 
@@ -1130,3 +1140,33 @@ sudo systemctl enable elastic-agent
 sudo systemctl start elastic-agent
 ```
 
+<<<<<<< HEAD
+=======
+# 2024-10-07 - USING ELASTIC AGENT INSTEAD OF *BEAT
+Management -> Integration
+Add the Elastic Defend Integration (was Elastic Agent in version 7.x)
+Add an Integration Policy
+I personnaly remove Malware protections, Register as antivirus
+In that policy you need to add the "Windows" Integration (so ELK can parse the Windows events and the alerts will Run)
+Go back to the Elastic Defend Integration, and follow the "Add Agent steps"
+
+NOTE : I was able to copy the install between machines but now we need to reinstall
+
+```
+$ProgressPreference = 'SilentlyContinue'
+Invoke-WebRequest -Uri https://artifacts.elastic.co/downloads/beats/elastic-agent/elastic-agent-8.15.2-windows-x86_64.zip -OutFile elastic-agent-8.15.2-windows-x86_64.zip
+Expand-Archive ./elastic-agent-8.15.2-windows-x86_64.zip -DestinationPath .
+cd elastic-agent-8.15.2-windows-x86_64
+```
+
+Download the .yml in the "Add Agent" menu and copy it to the folder
+
+```
+.\elastic-agent.exe install
+```
+
+I had problems with the API_KEY integration in the elastic-agent.yml, when I move back to user and password it worked.
+
+
+
+>>>>>>> fc89fad53558c6c038e673125d8528620d853b46
