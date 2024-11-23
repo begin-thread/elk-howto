@@ -1,3 +1,6 @@
+<!---
+*******************************************************************************
+-->
 # INTRODUCTION
 The goal of this page is to go trought all sets 
 - Install ELK Stack with DOCKER
@@ -80,7 +83,6 @@ sudo docker-compose up
 <!---
 *******************************************************************************
 -->
-
 # KIBANA ERROR ON STARTUP
 
 Errors will occur, read carefully the logs when starting your instance.
@@ -106,6 +108,8 @@ xpack.encryptedSavedObjects.encryptionKey: "8736b99e9d54e494f72078f719334b23"
 ```
 
 Edit the file
+2024-05-04 - not required anymore, default value is ok in the last version
+
 ```
 sudo vi elasticsearch/config/elasticsearch.yml
 xpack.security.enabled: false
@@ -134,6 +138,35 @@ sudo vi /etc/sysctl.conf
 vm.max_map_count=262144
 ```
 
+<!---
+*******************************************************************************
+-->
+# ADD AN S3 BUCKET REPOSITORY FOR SNAMPSHOT RESTORE
+
+You need to execute these command, that will be pushed to the docker runtime running ELK
+
+```
+sudo docker-compose exec elasticsearch /usr/share/elasticsearch/bin/elasticsearch-keystore add s3.client.default.access_key
+```
+Enter the S3 ACCESS Key
+
+```
+sudo docker-compose exec elasticsearch /usr/share/elasticsearch/bin/elasticsearch-keystore add s3.client.default.secret_key
+```
+Enter the S3 SECRET Key
+
+Restart docker
+
+Add the bucket to ELK
+
+http://poly-elk-2024:5601/app/management/data/snapshot_restore/add_repository
+
+"The name of the AWS S3 bucket to use for snapshots" -> Get it from S3
+
+On the next panel, check if the connection is working -> Verification status
+
+Go back to Snapshots
+http://poly-elk-2024:5601/app/management/data/snapshot_restore/snapshots
 
 Click restore on the right
 
