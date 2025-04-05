@@ -1029,12 +1029,19 @@ Wait a couple of minutes and go back to the main page, the feeds are loading
 
 ## UBUNTU - Install Ubuntu-Desktop on Ubuntu 
 
-Less intensive on the graphical side. Good with old hardware.
-
 At login, choose "gnome session" as the display manager.???
 
+Reference <'https://superuser.com/questions/1537383/stuck-in-command-line-upon-reboot-in-ubuntu-18-04-4-cant-access-ubuntu-gui'>
 ```
+sudo apt remove --purge evolution-*
 sudo apt install ubuntu-desktop
+```
+
+Choose LightDM instead of GDM3 (lighter UI)
+
+```
+sudo apt install xinit
+sudo reboot
 ```
 
 ## UBUNTU - Install xfce4 on Ubuntu 
@@ -1043,6 +1050,7 @@ Less intensive on the graphical side. Good with old hardware.
 
 ```
 sudo apt install xfce4
+sudo reboot
 ```
 
 At login, choose "Xfce session" as the display manager.
